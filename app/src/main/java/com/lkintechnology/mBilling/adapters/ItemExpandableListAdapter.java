@@ -20,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -27,12 +28,17 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
+    private HashMap<Integer, String[]> mChildCheckStates;
+    public static Map mMapPosItem;
+    private int comingFromPOS;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData) {
+                                     HashMap<String, List<String>> listChildData,int comingFromPOS) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        mChildCheckStates = new HashMap<Integer, String[]>();
+        this.comingFromPOS = comingFromPOS;
     }
 
     @Override
@@ -47,10 +53,13 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     String childName;
+    int mInteger = 0;
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-
+        final int mGroupPosition = groupPosition;
+        final int mChildPosition = childPosition;
+        mInteger = 0;
         final String childText = (String) getChild(groupPosition, childPosition);
         String arr[]=childText.split(",");
         String name =arr[0];
@@ -60,29 +69,100 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_item_for_item, null);
         }
+        LinearLayout old_layout = (LinearLayout) convertView.findViewById(R.id.old_layout);
+        LinearLayout new_layout = (LinearLayout) convertView.findViewById(R.id.new_layout);
+        LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
+        if (comingFromPOS==6){
+            old_layout.setVisibility(View.GONE);
+            new_layout.setVisibility(View.VISIBLE);
+            TextView txtListChild = (TextView) convertView.findViewById(R.id.posListItem);
+            TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
+            LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
+            LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
+            txtListChild.setText(name+" (qty: "+quantity+")");
+            if (mChildCheckStates.containsKey(mGroupPosition)) {
+                String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                mQuantity.setText(getChecked[mChildPosition]);
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-
-        txtListChild.setText(name+" (qty: "+quantity+")");
-        LinearLayout delete=(LinearLayout) convertView.findViewById(R.id.delete_icon);
-        LinearLayout edit=(LinearLayout) convertView.findViewById(R.id.edit_icon);
-        LinearLayout mainLayout=(LinearLayout) convertView.findViewById(R.id.main_layout);
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventDeleteItem(id));
+            } else {
+                String getChecked[] = new String[getChildrenCount(mGroupPosition)];
+                // getChecked[childPosition]="0";
+                mChildCheckStates.put(mGroupPosition, getChecked);
+                mQuantity.setText("0");
             }
-        });
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventEditItem(id));
 
-            }
-        });
+
+            decrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String pos = groupPosition+","+childPosition;
+                    // String pos = listDataChildId.get(mGroupPosition).get(childPosition);
+                    try {
+                        mInteger = Integer.parseInt(mQuantity.getText().toString());
+                    } catch (Exception e) {
+                        mInteger = 0;
+                    }
+                    mInteger = mInteger - 1;
+                    mQuantity.setText("" + mInteger);
+                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = mQuantity.getText().toString();
+                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(mMapPosItem.toString());
+                    }
+                }
+            });
+            increase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String pos = groupPosition+","+childPosition;
+                    //  String pos = listDataChildId.get(mGroupPosition).get(childPosition);
+                    try {
+                        mInteger = Integer.parseInt(mQuantity.getText().toString());
+                    } catch (Exception e) {
+                        mInteger = 0;
+                    }
+                    mInteger = mInteger + 1;
+                    mQuantity.setText("" + mInteger);
+                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = mQuantity.getText().toString();
+                    mChildCheckStates.put(mGroupPosition, getChecked);
+
+
+                    if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(mMapPosItem.toString());
+                    }
+                }
+            });
+        }else {
+            old_layout.setVisibility(View.VISIBLE);
+            new_layout.setVisibility(View.GONE);
+
+            TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+            txtListChild.setText(name + " (qty: " + quantity + ")");
+            LinearLayout delete = (LinearLayout) convertView.findViewById(R.id.delete_icon);
+            LinearLayout edit = (LinearLayout) convertView.findViewById(R.id.edit_icon);
+
+            // For POS
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String id = groupPosition + "," + childPosition;
+                    EventBus.getDefault().post(new EventDeleteItem(id));
+                }
+            });
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String id = groupPosition + "," + childPosition;
+                    EventBus.getDefault().post(new EventEditItem(id));
+
+                }
+            });
+        }
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +170,11 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 EventBus.getDefault().post(new EventSaleAddItem(id));
             }
         });
+
+
+
+
+
         return convertView;
     }
 

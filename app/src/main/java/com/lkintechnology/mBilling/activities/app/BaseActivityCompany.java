@@ -22,18 +22,22 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.CompanyAboutActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.reports.ReportsActivity;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.pos.CreatePosSaleActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosExpandableItemListActivity;
+import com.lkintechnology.mBilling.adapters.ItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lkintechnology.mBilling.utils.Preferences;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class BaseActivityCompany extends AppCompatActivity {
@@ -178,28 +182,13 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     public void pos(View v){
         drawerLayout.closeDrawers();
-        CreatePosSaleActivity.isForEdit = false;
-        appUser.serial_arr.clear();
-        Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
-        Preferences.getInstance(getApplicationContext()).setVoucher_date("");
-        Preferences.getInstance(getApplicationContext()).setVoucher_number("");
-        //Preferences.getInstance(context).setStore("");
-        Preferences.getInstance(getApplicationContext()).setParty_name("");
-        Preferences.getInstance(getApplicationContext()).setShipped_to("");
-        Preferences.getInstance(getApplicationContext()).setShipped_to_id("");
-        Preferences.getInstance(getApplicationContext()).setMobile("");
-        Preferences.getInstance(getApplicationContext()).setNarration("");
-        Preferences.getInstance(getApplicationContext()).setAttachment("");
-        Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
-        //Preferences.getInstance(context).setSale_type_name("");
-        Preferences.getInstance(getApplicationContext()).setCash_credit("");
-        //final CharSequence[] items = {"Add", "Modify"};
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        Intent intent = new Intent(getApplicationContext(), CreatePosSaleActivity.class);
-        intent.putExtra("fromsalelist", false);
-        intent.putExtra("fromdashboard", true);
+        ExpandableItemListActivity.comingFrom = 6;
+        ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
+        ExpandableItemListActivity.isDirectForItem = false;
+        Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
         startActivity(intent);
         finish();
     }

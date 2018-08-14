@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -164,6 +165,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
         floatingActionButton.bringToFront();
+        if (ExpandableItemListActivity.comingFrom==6){
+            floatingActionButton.setVisibility(View.GONE);
+        }
         appUser.item_name = "";
         appUser.item_code = "";
         appUser.item_hsn_number = "";
@@ -541,7 +545,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild);
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,ExpandableItemListActivity.comingFrom);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -1064,6 +1068,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 5) {
                 finish();
+            } else if (ExpandableItemListActivity.comingFrom == 6) {
+                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             } else {
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -1114,6 +1123,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 5) {
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 6) {
+                        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     } else {
                         Intent intent = new Intent(this, MasterDashboardActivity.class);

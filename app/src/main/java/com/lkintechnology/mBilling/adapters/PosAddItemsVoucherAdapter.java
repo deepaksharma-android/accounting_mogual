@@ -27,6 +27,8 @@ public class PosAddItemsVoucherAdapter extends BaseAdapter {
 
     Context context;
     List<Map> mListMap;
+    int mInteger = 0;
+    //ViewHolder holder;
 
     public PosAddItemsVoucherAdapter(Context context, List<Map> mListMap) {
         this.context = context;
@@ -51,39 +53,45 @@ public class PosAddItemsVoucherAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        ViewHolder holder = null;
+        mInteger = 0;
+       // holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_for_pos, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_item_for_pos, null);
         }
-        Map map=mListMap.get(position);
-        String item_id= (String) map.get("item_id");
-        String itemName= (String) map.get("item_name");
-        String quantity= (String) map.get("quantity");
-        String total= (String) map.get("total");
+        TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
+        TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
+        LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
+        LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
+        Map map = mListMap.get(position);
+        String item_id = (String) map.get("item_id");
+        String itemName = (String) map.get("item_name");
+        String quantity = (String) map.get("quantity");
+        String total = (String) map.get("total").toString();
+        mItemName.setText(itemName);
+        mQuantity.setText(quantity);
 
-        holder.mItemName.setText(itemName);
-        holder.mQuantity.setText(quantity);
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInteger = Integer.parseInt(mQuantity.getText().toString());
+                mInteger = mInteger + 1;
+                mQuantity.setText("" + mInteger);
+            }
+        });
+
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInteger = Integer.parseInt(mQuantity.getText().toString());
+                if (mInteger > 0) {
+                    mInteger = mInteger - 1;
+                    mQuantity.setText("" + mInteger);
+                }
+            }
+        });
+
+
         return convertView;
-    }
-
-    static class ViewHolder {
-        @Bind(R.id.lblListItem)
-        TextView mItemName;
-        @Bind(R.id.quantity)
-        TextView mQuantity;
-        @Bind(R.id.increase)
-        LinearLayout increase;
-        @Bind(R.id.decrease)
-        LinearLayout decrease;
-
-
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
     }
 }

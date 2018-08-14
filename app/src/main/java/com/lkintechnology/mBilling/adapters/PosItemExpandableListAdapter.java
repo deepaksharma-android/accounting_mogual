@@ -122,7 +122,6 @@ public class PosItemExpandableListAdapter extends BaseExpandableListAdapter {
                     mMapPosItem.put(pos, mQuantity.getText().toString());
                     System.out.println(mMapPosItem.toString());
                 }
-
             }
         });
         increase.setOnClickListener(new View.OnClickListener() {

@@ -109,7 +109,7 @@
             android:layout_gravity="center"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:text="Total : 42354235"
+            android:text="Total : "
             android:textColor="@color/white" />
     </LinearLayout>
 

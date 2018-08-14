@@ -69,7 +69,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
     @Bind(R.id.layout_stock_transfer)
     LinearLayout stockTransfer;
     public static Bitmap bitmapPhoto = null;
-
+    public static Boolean comingFromPOS = false;
     Context context;
     AppUser appUser;
 
@@ -115,7 +115,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_transaction);
         ButterKnife.bind(this);
-
+        comingFromPOS = false;
         context = TransactionDashboardActivity.this;
         SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
         PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;

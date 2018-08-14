@@ -52,7 +52,6 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/dp_3" />
 
-
         </LinearLayout>
 
         <include layout="@layout/layout_error_message" />
@@ -116,4 +115,23 @@
                 android:layout_marginRight="@dimen/dp_10"/>
         </RelativeLayout>
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000">
+
+        <com.lkintechnology.mBilling.utils.BuzzTextView
+            android:id="@+id/total"
+            style="@style/Gotham_Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Total : xsdjndcjdn "
+            android:textColor="@color/white" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -301,7 +301,7 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                     String childid = arr[1];
                     String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
 
-                    Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                    //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                     String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                     String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                     String arr1[] = itemName.split(",");
@@ -313,8 +313,6 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                     mMap.put("item_name",itemName);
                     mMap.put("total",total);
                     mMap.put("quantity",quantity);
-
-
                     appUser.mListMapForItemSale.add(mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }

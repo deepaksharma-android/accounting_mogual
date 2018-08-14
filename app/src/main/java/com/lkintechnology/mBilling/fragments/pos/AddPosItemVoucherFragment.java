@@ -19,11 +19,13 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.pos.PosExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;
 import com.lkintechnology.mBilling.adapters.AddItemsVoucherAdapter;
+import com.lkintechnology.mBilling.adapters.PosAddItemsVoucherAdapter;
 import com.lkintechnology.mBilling.adapters.PosItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.ListHeight;
@@ -66,14 +68,13 @@ public class AddPosItemVoucherFragment extends Fragment {
     Double absolute_amount=0.0;
     Double cgst_sgst_amount=0.0;
     ArrayList<String> billsuncal;
-    public static AddPosItemVoucherFragment context;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_pos_item_voucher, container, false);
         ButterKnife.bind(this, view);
-        context= AddPosItemVoucherFragment.this;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(getActivity());
@@ -113,16 +114,17 @@ public class AddPosItemVoucherFragment extends Fragment {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
+                if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 0;
+                    TransactionDashboardActivity.comingFromPOS = true;
                     BillSundryListActivity.isDirectForBill = false;
                     startActivity(new Intent(getContext(), BillSundryListActivity.class));
                     getActivity().finish();
                 }
                 else{
                     alertdialog();
-                }*/
+                }
             }
         });
        // amountCalculation();
@@ -245,7 +247,7 @@ public class AddPosItemVoucherFragment extends Fragment {
             for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
 
                 Map map = appUser.mListMapForItemSale.get(i);
-                String total = (String) map.get("total");
+                String total =  map.get("total").toString();
 
                 if (total.equals("")) {
                     total = "0.0";
@@ -780,7 +782,7 @@ public class AddPosItemVoucherFragment extends Fragment {
             billsundrymamounttotal = 0.0;
         }
 
-        listViewItems.setAdapter(new AddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
+        listViewItems.setAdapter(new PosAddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 
