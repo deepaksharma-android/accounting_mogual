@@ -278,16 +278,24 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
     }
 
     public void add(View v) {
+        appUser.mListMapForItemSale.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.blink_on_click);
         v.startAnimation(animFadeIn);
-        Map map;
-        for (int i=0;i<PosItemExpandableListAdapter.mMapPosItem.size();i++){
-            for (int j=0;j<PosItemExpandableListAdapter.mMapPosItem.size();j++){
+        Map mMap;
+        for (int i=0;i<listDataHeader.size();i++){
+            Double total = 0.0;
+            for (int j=0;j<listDataChild.get(listDataHeader.get(0)).size();j++){
                 String pos = i + "," +j;
                 //String id = pos.getPosition();
-                if (PosItemExpandableListAdapter.mMapPosItem.get(pos).equals(pos)){
-                    map = new HashMap();
+                String key="";
+                if ((PosItemExpandableListAdapter.mMapPosItem.get(pos)!=null)){
+                     key=pos;
+                }
+
+                if ( key.equals(pos)){
+                    mMap = new HashMap();
                     String[] arr = pos.split(",");
                     String groupid = arr[0];
                     String childid = arr[1];
@@ -298,14 +306,18 @@ public class PosExpandableItemListActivity extends AppCompatActivity {
                     String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                     String arr1[] = itemName.split(",");
                     itemName = arr1[0];
-                    String sales_price_main = listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                    map.put("item_name",itemName);
-                    map.put("total",itemName);
-                    map.put("item_id",itemId);
+                    Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                    String quantity = PosItemExpandableListAdapter.mMapPosItem.get(pos).toString();
+                    total = sales_price_main * Double.valueOf(quantity);
+                    mMap.put("item_id",itemId);
+                    mMap.put("item_name",itemName);
+                    mMap.put("total",total);
+                    mMap.put("quantity",quantity);
 
+
+                    appUser.mListMapForItemSale.add(mMap);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-
-
             }
         }
 

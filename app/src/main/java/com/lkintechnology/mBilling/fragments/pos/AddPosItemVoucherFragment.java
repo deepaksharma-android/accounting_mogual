@@ -228,6 +228,7 @@ public class AddPosItemVoucherFragment extends Fragment {
     @Override
     public void onResume() {
         System.out.println("");
+        amountCalculation();
         super.onResume();
     }
 
