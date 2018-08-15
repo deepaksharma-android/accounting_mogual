@@ -58,6 +58,7 @@ import com.lkintechnology.mBilling.utils.TypefaceCache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextView;
     @Bind(R.id.top_layout)
     RelativeLayout mOverlayLayout;
+    public static TextView mTotal;
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
     ItemExpandableListAdapter listAdapter;
@@ -157,6 +159,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
         initActionbar();
+        mTotal= (TextView) findViewById(R.id.total);
+
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
@@ -318,7 +322,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public void getItem(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
+            ExpandableItemListActivity.mTotal.setText("Total : 0.0");
             nameList = new ArrayList();
             idList = new ArrayList();
             nameList = new ArrayList();
@@ -381,7 +385,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 default_unit.clear();
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
-                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()));
+                            + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()
+                            + "," + response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()));
 
                     nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
                     idList.add(String.valueOf(i) + "," + String.valueOf(j));

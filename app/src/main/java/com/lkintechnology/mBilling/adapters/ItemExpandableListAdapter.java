@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.utils.EventDeleteItem;
 import com.lkintechnology.mBilling.utils.EventEditItem;
 import com.lkintechnology.mBilling.utils.EventSaleAddItem;
@@ -31,6 +32,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<Integer, String[]> mChildCheckStates;
     public static Map mMapPosItem;
     private int comingFromPOS;
+    Double total = 0.0;
+    Double sale_price_main = 0.0;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
                                      HashMap<String, List<String>> listChildData,int comingFromPOS) {
@@ -64,6 +67,13 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         String arr[]=childText.split(",");
         String name =arr[0];
         String quantity =arr[1];
+        sale_price_main = 0.0;
+        total = 0.0;
+        if (arr[2]!=null && !arr[2].equals("")){
+            sale_price_main = Double.valueOf(arr[2]);
+        }else {
+            sale_price_main = 0.0;
+        }
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,7 +82,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         LinearLayout old_layout = (LinearLayout) convertView.findViewById(R.id.old_layout);
         LinearLayout new_layout = (LinearLayout) convertView.findViewById(R.id.new_layout);
         LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
-        if (comingFromPOS==6){
+        if (comingFromPOS==6 &&  !ExpandableItemListActivity.isDirectForItem){
             old_layout.setVisibility(View.GONE);
             new_layout.setVisibility(View.VISIBLE);
             TextView txtListChild = (TextView) convertView.findViewById(R.id.posListItem);
@@ -102,8 +112,17 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     } catch (Exception e) {
                         mInteger = 0;
                     }
-                    mInteger = mInteger - 1;
-                    mQuantity.setText("" + mInteger);
+                    if (mInteger>0){
+                        total = sale_price_main * mInteger;
+                        setTotal(String.valueOf(total),true);
+
+                        mInteger = mInteger - 1;
+                        mQuantity.setText("" + mInteger);
+
+                        total = sale_price_main * mInteger;
+                        setTotal(String.valueOf(total),false);
+                    }
+
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
@@ -117,14 +136,23 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View view) {
                     String pos = groupPosition+","+childPosition;
-                    //  String pos = listDataChildId.get(mGroupPosition).get(childPosition);
+
                     try {
                         mInteger = Integer.parseInt(mQuantity.getText().toString());
                     } catch (Exception e) {
                         mInteger = 0;
                     }
+
+                    total = sale_price_main * mInteger;
+                    setTotal(String.valueOf(total),false);
+
                     mInteger = mInteger + 1;
                     mQuantity.setText("" + mInteger);
+                   // Double a = getTotal() - (sale_price_main * (mInteger-1));
+
+                    total = sale_price_main * mInteger;
+                    setTotal(String.valueOf(total),true);
+
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
@@ -170,9 +198,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 EventBus.getDefault().post(new EventSaleAddItem(id));
             }
         });
-
-
-
 
 
         return convertView;
@@ -232,5 +257,22 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void setTotal(String amount, Boolean mBool){
+        Double total = 0.0;
+        if (mBool){
+            total =  getTotal() + Double.valueOf(amount);
+        }else {
+            total = getTotal() - Double.valueOf(amount);
+        }
+        ExpandableItemListActivity.mTotal.setText("Total : "+total);
+    }
+
+    public Double getTotal(){
+        String total = ExpandableItemListActivity.mTotal.getText().toString();
+        String[] arr = total.split(":");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
     }
 }
