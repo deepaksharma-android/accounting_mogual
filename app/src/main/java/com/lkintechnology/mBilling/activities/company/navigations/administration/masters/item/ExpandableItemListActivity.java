@@ -33,6 +33,7 @@ import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.activities.company.pos.PosSettingActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
@@ -215,6 +216,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                startActivity(intent);
             }
         });
 
