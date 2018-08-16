@@ -1,6 +1,5 @@
 package com.lkintechnology.mBilling.fragments.pos;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,13 +18,9 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
-import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.pos.PosExpandableItemListActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
-import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.adapters.AddBillsVoucherAdapter;
-import com.lkintechnology.mBilling.adapters.AddItemsVoucherAdapter;
-import com.lkintechnology.mBilling.adapters.PosAddItemsVoucherAdapter;
+import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.adapters.PosItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.ListHeight;
@@ -782,7 +777,7 @@ public class AddPosItemVoucherFragment extends Fragment {
             billsundrymamounttotal = 0.0;
         }
 
-        listViewItems.setAdapter(new PosAddItemsVoucherAdapter(getContext(), appUser.mListMapForItemSale));
+        listViewItems.setAdapter(new PosAddItemsAdapter(getContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
 

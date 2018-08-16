@@ -10,27 +10,22 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 
-import net.sourceforge.zbar.Image;
-
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by BerylSystems on 11/25/2017.
  */
 
-public class PosAddItemsVoucherAdapter extends BaseAdapter {
+public class PosAddItemsAdapter extends BaseAdapter {
 
     Context context;
     List<Map> mListMap;
     int mInteger = 0;
     //ViewHolder holder;
 
-    public PosAddItemsVoucherAdapter(Context context, List<Map> mListMap) {
+    public PosAddItemsAdapter(Context context, List<Map> mListMap) {
         this.context = context;
         this.mListMap = mListMap;
 
@@ -54,11 +49,9 @@ public class PosAddItemsVoucherAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         mInteger = 0;
-       // holder = null;
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item_for_pos, null);
-        }
+        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = infalInflater.inflate(R.layout.list_item_for_pos, null);
+
         TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
         TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
         LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
@@ -90,8 +83,6 @@ public class PosAddItemsVoucherAdapter extends BaseAdapter {
                 }
             }
         });
-
-
         return convertView;
     }
 }

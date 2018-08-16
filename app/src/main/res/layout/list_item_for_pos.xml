@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="50dp"
@@ -24,7 +25,7 @@
                 android:textSize="14sp"
                 android:textColor="#333333"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="0.6" />
 
             <LinearLayout
@@ -42,18 +43,18 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="0.2">
+                android:layout_weight="0.2"
+                android:layout_gravity="center">
 
-               <TextView
+                <com.lkintechnology.mBilling.utils.BuzzTextView
                    android:id="@+id/quantity"
+                    style="@style/Gotham_Medium"
                    android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:text="0"
-                   android:textSize="@dimen/dp_16sp"
-                   android:gravity="center"/>
+                   android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#333333" />
 
             </LinearLayout>
 
@@ -71,7 +72,10 @@
                     android:src="@drawable/plus_icon"/>
             </LinearLayout>
         </LinearLayout>
-
-
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height=".1dp"
+            android:background="@color/view_color"/>
     </LinearLayout>
+
 </LinearLayout>

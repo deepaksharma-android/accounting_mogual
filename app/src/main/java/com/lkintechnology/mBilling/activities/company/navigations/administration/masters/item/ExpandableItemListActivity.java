@@ -216,8 +216,49 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
+                appUser.mListMapForItemSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.blink_on_click);
+                v.startAnimation(animFadeIn);
+                Map mMap;
+                for (int i=0;i<listDataHeader.size();i++){
+                    Double total = 0.0;
+                    for (int j=0;j<listDataChild.get(listDataHeader.get(0)).size();j++){
+                        String pos = i + "," +j;
+                        //String id = pos.getPosition();
+                        String key="";
+                        if ((ItemExpandableListAdapter.mMapPosItem.get(pos)!=null)){
+                            key=pos;
+                        }
+
+                        if ( key.equals(pos)){
+                            mMap = new HashMap();
+                            String[] arr = pos.split(",");
+                            String groupid = arr[0];
+                            String childid = arr[1];
+                            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+
+                            //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                            String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                            String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                            String arr1[] = itemName.split(",");
+                            itemName = arr1[0];
+                            Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                            String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
+                            total = sales_price_main * Double.valueOf(quantity);
+                            mMap.put("item_id",itemId);
+                            mMap.put("item_name",itemName);
+                            mMap.put("total",total);
+                            mMap.put("quantity",quantity);
+                            appUser.mListMapForItemSale.add(mMap);
+                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        }
+                    }
+                }
                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

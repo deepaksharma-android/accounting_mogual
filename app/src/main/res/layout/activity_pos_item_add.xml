@@ -16,31 +16,35 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="w"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
                 android:weightSum="1">
 
                 <com.lkintechnology.mBilling.utils.BuzzTextView
+                    android:id="@+id/party_name"
                     style="@style/Gotham_Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
                     android:layout_weight="0.7"
                     android:gravity="start"
+                    android:layout_marginLeft="5dp"
                     android:hint="Party Name"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:id="@+id/change"
+                    android:id="@+id/change_layout"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.3"
                     android:gravity="center">
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/change"
+                        style="@style/Gotham_Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -51,18 +55,37 @@
             </LinearLayout>
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#fff"/>
+                android:layout_height=".1dp"
+                android:background="@color/view_color"/>
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#000"
+                android:textSize="14dp"
+                android:layout_marginLeft="5dp"
+                android:text="Your Item"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height=".1dp"
+                android:background="@color/view_color"/>
 
             <ListView
                 android:id="@+id/listViewItems"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:divider="@null"></ListView>
+                android:divider="@null">
+            </ListView>
+
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -79,12 +102,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight=".7"
-                android:text="Total :"
+                android:text="Subtotal"
                 android:textColor="#000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/total"
@@ -96,15 +118,14 @@
                 android:gravity="right"
                 android:text="0.0"
                 android:textColor="#000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:weightSum="1">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -112,11 +133,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight=".7"
                 android:text="Taxes"
                 android:textColor="@color/textColorDefault"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/tax"
@@ -128,13 +149,45 @@
                 android:gravity="right"
                 android:text="0.0"
                 android:textColor="@color/textColorDefault"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#fff"/>
+            android:layout_height=".1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/view_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight=".7"
+                android:text="Grand Total"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/grand_total"
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".3"
+                android:gravity="right"
+                android:text="0.0"
+                android:textColor="#000"
+                android:textSize="16sp" />
+        </LinearLayout>
 
 
 
