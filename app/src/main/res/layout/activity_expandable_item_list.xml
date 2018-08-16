@@ -23,23 +23,42 @@
             android:src="@drawable/icon_add" />
 
         <LinearLayout
+            android:id="@+id/submit_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@color/colorPrimaryDark">
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 android:id="@+id/total"
                 style="@style/Gotham_Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="left"
                 android:layout_marginLeft="2dp"
                 android:text="Total : 0.0"
                 android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_weight=".3"
+                android:textStyle="bold" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/submit"
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Submit"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".7"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -61,15 +80,16 @@
                 android:hint="Search here"/>
 
         <LinearLayout
-            android:id="@+id/setting_layout"
+            android:id="@+id/pos_setting_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:visibility="gone"
+             android:visibility="gone"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/pos_setting"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_10"
                 android:layout_marginLeft="@dimen/dp_1"

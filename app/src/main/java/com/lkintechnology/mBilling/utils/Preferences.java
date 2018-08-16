@@ -174,6 +174,14 @@ public class Preferences {
     private static final String end_date="end_date";
     private static final String voucher_name="voucher_name";
     private static final String voucher_id="voucher_id";
+    private static final String pos_date="pos_date";
+    private static final String pos_sale_type="pos_sale_type";
+    private static final String pos_sale_type_id="pos_sale_type_id";
+    private static final String pos_store="pos_store";
+    private static final String pos_store_id="pos_store_id";
+    private static final String pos_party_name="pos_party_name";
+    private static final String pos_party_id="pos_party_id";
+    private static final String pos_mobile="pos_mobile";
 
     private Preferences(Context context) {
         this._context = context;
@@ -1481,5 +1489,77 @@ public class Preferences {
     }
     public String getReason() {
         return pref.getString(REASON, "");
+    }
+
+    public void setPos_date(String posDate) {
+        editor.putString(pos_date, posDate);
+        editor.commit();
+    }
+
+    public String getPos_date() {
+        return pref.getString(pos_date, "");
+    }
+
+    public void setPos_sale_type(String posSaleType) {
+        editor.putString(pos_sale_type, posSaleType);
+        editor.commit();
+    }
+
+    public String getPos_sale_type() {
+        return pref.getString(pos_sale_type, "");
+    }
+
+    public void setPos_sale_type_id(String posSaleId) {
+        editor.putString(pos_sale_type_id, posSaleId);
+        editor.commit();
+    }
+
+    public String getPos_sale_type_id() {
+        return pref.getString(pos_sale_type_id, "");
+    }
+
+    public void setPos_store(String posStore) {
+        editor.putString(pos_store, posStore);
+        editor.commit();
+    }
+
+    public String getPos_store() {
+        return pref.getString(pos_store, "");
+    }
+
+    public void setPos_store_id(String posStoreId) {
+        editor.putString(pos_store_id, posStoreId);
+        editor.commit();
+    }
+
+    public String getPos_store_id() {
+        return pref.getString(pos_store_id, "");
+    }
+
+    public void setPos_party_name(String posPartyName) {
+        editor.putString(pos_party_name, posPartyName);
+        editor.commit();
+    }
+
+    public String getPos_party_name() {
+        return pref.getString(pos_party_name, "");
+    }
+
+    public void setPos_party_id(String posPartyId) {
+        editor.putString(pos_party_id, posPartyId);
+        editor.commit();
+    }
+
+    public String getPos_party_id() {
+        return pref.getString(pos_party_id, "");
+    }
+
+    public void setPos_mobile(String posMobile) {
+        editor.putString(pos_mobile, posMobile);
+        editor.commit();
+    }
+
+    public String getPos_mobile() {
+        return pref.getString(pos_mobile, "");
     }
 }

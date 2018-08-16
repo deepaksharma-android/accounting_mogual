@@ -53,6 +53,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     AppUser appUser;
+    public static Boolean posSetting = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         setAppBarTitleCompany(1, appUser.company_name);
         ButterKnife.bind(this);
         //initActionbar();
-
+        posSetting = false;
     }
 
     private void initActionbar() {

@@ -27,11 +27,13 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosSettingActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -90,8 +92,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static TextView mTotal;
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
-    @Bind(R.id.setting_layout)
-    LinearLayout setting_layout;
+    @Bind(R.id.pos_setting_layout)
+    LinearLayout pos_setting_layout;
+    @Bind(R.id.pos_setting)
+    TextView pos_setting;
+    @Bind(R.id.submit)
+    TextView mSubmit;
+    @Bind(R.id.submit_layout)
+    LinearLayout submit_layout;
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -152,7 +160,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private SimpleDateFormat dateFormatter;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,12 +181,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         floatingActionButton.bringToFront();
         if (ExpandableItemListActivity.comingFrom==6){
             floatingActionButton.setVisibility(View.GONE);
-            setting_layout.setVisibility(View.VISIBLE);
+            pos_setting_layout.setVisibility(View.VISIBLE);
             autoCompleteTextView.setVisibility(View.GONE);
+            submit_layout.setVisibility(View.VISIBLE);
         }else {
             floatingActionButton.setVisibility(View.VISIBLE);
-            setting_layout.setVisibility(View.GONE);
+            pos_setting_layout.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
+            submit_layout.setVisibility(View.GONE);
         }
         appUser.item_name = "";
         appUser.item_code = "";
@@ -194,6 +203,20 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         Preferences.getInstance(getApplicationContext()).setStockSerial("");
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
+        pos_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PosSettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -256,28 +279,30 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
        /* if(isDirectForItem==true){*/
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
+       if (!FirstPageActivity.posSetting){
+           if (isConnected) {
+               mProgressDialog = new ProgressDialog(this);
+               mProgressDialog.setMessage("Info...");
+               mProgressDialog.setIndeterminate(false);
+               mProgressDialog.setCancelable(true);
+               mProgressDialog.show();
+               LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+               ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+           } else {
+               snackbar = Snackbar
+                       .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                       .setAction("RETRY", new View.OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+                               Boolean isConnected = ConnectivityReceiver.isConnected();
+                               if (isConnected) {
+                                   snackbar.dismiss();
+                               }
+                           }
+                       });
+               snackbar.show();
+           }
+       }
  /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);

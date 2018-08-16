@@ -190,7 +190,6 @@ public class BaseActivityCompany extends AppCompatActivity {
         ExpandableItemListActivity.isDirectForItem = false;
         Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void help(View v){

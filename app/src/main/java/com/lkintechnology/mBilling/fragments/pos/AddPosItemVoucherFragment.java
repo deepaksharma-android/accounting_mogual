@@ -117,7 +117,7 @@ public class AddPosItemVoucherFragment extends Fragment {
                 if(!Preferences.getInstance(getContext()).getSale_type_name().equals("")) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 0;
-                    TransactionDashboardActivity.comingFromPOS = true;
+                   // TransactionDashboardActivity.comingFromPOS = true;
                     BillSundryListActivity.isDirectForBill = false;
                     startActivity(new Intent(getContext(), BillSundryListActivity.class));
                     getActivity().finish();

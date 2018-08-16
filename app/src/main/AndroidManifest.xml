@@ -772,12 +772,19 @@
             android:name=".activities.company.pos.PosExpandableItemListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.CompanyInvoiceFormatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.company.pos.PosSettingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.CompanyInvoiceFormatActivity" />
-        <activity android:name=".activities.company.pos.PosSettingActivity"></activity>
+        <activity android:name=".activities.company.pos.PosItemAddActivity"></activity>
     </application>
 
 </manifest>
