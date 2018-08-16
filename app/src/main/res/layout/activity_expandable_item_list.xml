@@ -59,6 +59,28 @@
                 android:drawableLeft="@drawable/ic_magnify_grey600_24dp"
                 android:drawablePadding="@dimen/dp_5"
                 android:hint="Search here"/>
+
+        <LinearLayout
+            android:id="@+id/setting_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_1"
+                android:layout_marginRight="@dimen/dp_1"
+                android:drawablePadding="@dimen/dp_5"
+                android:text="Setting"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="right"
+                android:textSize="@dimen/dp_18"/>
+
+        </LinearLayout>
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"

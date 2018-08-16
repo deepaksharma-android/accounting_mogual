@@ -113,14 +113,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         mInteger = 0;
                     }
                     if (mInteger>0){
-                        total = sale_price_main * mInteger;
-                        setTotal(String.valueOf(total),true);
+                       /* total = sale_price_main * mInteger;
+                        setTotal(String.valueOf(total),true);*/
 
                         mInteger = mInteger - 1;
                         mQuantity.setText("" + mInteger);
-
-                        total = sale_price_main * mInteger;
-                        setTotal(String.valueOf(total),false);
+                        setTotal(String.valueOf(sale_price_main),false);
                     }
 
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
@@ -143,15 +141,11 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         mInteger = 0;
                     }
 
-                    total = sale_price_main * mInteger;
-                    setTotal(String.valueOf(total),false);
-
                     mInteger = mInteger + 1;
                     mQuantity.setText("" + mInteger);
-                   // Double a = getTotal() - (sale_price_main * (mInteger-1));
 
                     total = sale_price_main * mInteger;
-                    setTotal(String.valueOf(total),true);
+                    setTotal(String.valueOf(sale_price_main),true);
 
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();

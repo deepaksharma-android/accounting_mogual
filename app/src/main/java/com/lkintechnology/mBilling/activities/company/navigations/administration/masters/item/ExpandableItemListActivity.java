@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddItemActivity;
@@ -89,6 +90,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static TextView mTotal;
     @Bind(R.id.error_layout)
     LinearLayout error_layout;
+    @Bind(R.id.setting_layout)
+    LinearLayout setting_layout;
     ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -171,6 +174,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         floatingActionButton.bringToFront();
         if (ExpandableItemListActivity.comingFrom==6){
             floatingActionButton.setVisibility(View.GONE);
+            setting_layout.setVisibility(View.VISIBLE);
+            autoCompleteTextView.setVisibility(View.GONE);
+        }else {
+            floatingActionButton.setVisibility(View.VISIBLE);
+            setting_layout.setVisibility(View.GONE);
+            autoCompleteTextView.setVisibility(View.VISIBLE);
         }
         appUser.item_name = "";
         appUser.item_code = "";
@@ -1074,7 +1083,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             } else if (ExpandableItemListActivity.comingFrom == 5) {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 6) {
-                Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                Intent intent = new Intent(this, FirstPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
@@ -1130,7 +1139,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     } else if (ExpandableItemListActivity.comingFrom == 5) {
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 6) {
-                        Intent intent = new Intent(this, TransactionDashboardActivity.class);
+                        Intent intent = new Intent(this, FirstPageActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();

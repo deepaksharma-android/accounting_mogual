@@ -776,7 +776,8 @@
         <!-- ************************************ADD YOUR FILE ABOVE THIS******************************************************** -->
         <service android:name=".networks.ApiCallsService" />
 
-        <activity android:name=".activities.company.CompanyInvoiceFormatActivity"></activity>
+        <activity android:name=".activities.company.CompanyInvoiceFormatActivity" />
+        <activity android:name=".activities.company.pos.PosSettingActivity"></activity>
     </application>
 
 </manifest>
