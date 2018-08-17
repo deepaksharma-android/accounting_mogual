@@ -527,6 +527,46 @@
                         android:background="#e2e2e2" />
 
                     <LinearLayout
+                        android:id="@+id/buy_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:onClick="buy"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/buying_on_smartphone" />
+
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Book"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.9"
+                            android:clickable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="buy"
+                            android:text="Buy m-Billing"
+                            android:textColor="#cc000000"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#e2e2e2" />
+
+
+                    <LinearLayout
                         android:id="@+id/exit_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"

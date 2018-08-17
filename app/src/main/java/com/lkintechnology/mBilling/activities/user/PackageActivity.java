@@ -48,6 +48,7 @@ public class PackageActivity extends RegisterAbstractActivity {
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
     ArrayList<String> mSpinnerPackageList;
+    ArrayList<String> mSpinnerPackageListAmount;
     ArrayList<String> mSpinnerPackageListId;
     ArrayList<String> arrPackagePrice;
     ArrayList<String> arrItemsMessage;
@@ -55,10 +56,13 @@ public class PackageActivity extends RegisterAbstractActivity {
     ArrayList<ArrayList<String>> arrTotalItemsName;
     ArrayList<ArrayList<String>> arrTotalItemsMessage;
     ArrayAdapter<String> spinnerAdapter;
+    ArrayAdapter<String> spinnerAdapterAmount;
     @Bind(R.id.layout_popular)
     LinearLayout mPopularLayout;
     @Bind(R.id.spinner_package)
     Spinner mSpinnerPackage;
+    @Bind(R.id.spinner_amount)
+    Spinner mSpinnerAmount;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     Snackbar snackbar;
@@ -67,6 +71,8 @@ public class PackageActivity extends RegisterAbstractActivity {
     ListView mItemList;
     @Bind(R.id.packageAmount)
     TextView mPackageAmount;
+    int position;
+    GetPackageResponse response;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +106,7 @@ public class PackageActivity extends RegisterAbstractActivity {
 
     }
 
-    public void submit(View v){
+    public void submit(View v) {
         Dialog dialogbal = new Dialog(PackageActivity.this);
         dialogbal.setContentView(R.layout.dialog_package_serial_number);
         dialogbal.setCancelable(true);
@@ -173,8 +179,15 @@ public class PackageActivity extends RegisterAbstractActivity {
 
     @Subscribe
     public void getpackage(GetPackageResponse response) {
+        this.response=response;
         mProgressDialog.dismiss();
         mSpinnerPackageList = new ArrayList<String>();
+        mSpinnerPackageListAmount = new ArrayList<String>();
+        mSpinnerPackageListAmount.add("yearly_price");
+        mSpinnerPackageListAmount.add("monthly_price");
+        mSpinnerPackageListAmount.add("six_month_price");
+        mSpinnerPackageListAmount.add("five_year_price");
+
         mSpinnerPackageListId = new ArrayList<String>();
         arrPackagePrice = new ArrayList<>();
         arrTotalItemsName = new ArrayList<>();
@@ -183,7 +196,7 @@ public class PackageActivity extends RegisterAbstractActivity {
             for (int i = 0; i < response.getPlan().getData().size(); i++) {
                 mSpinnerPackageListId.add(response.getPlan().getData().get(i).getId());
                 mSpinnerPackageList.add(response.getPlan().getData().get(i).getAttributes().getName());
-                arrPackagePrice.add(String.valueOf(response.getPlan().getData().get(i).getAttributes().getAmount()));
+                arrPackagePrice.add(String.valueOf(response.getPlan().getData().get(i).getAttributes().getYearly_price()));
                 arrItemsName = new ArrayList<>();
                 arrItemsMessage = new ArrayList<>();
                 for (int j = 0; j < response.getPlan().getData().get(i).getAttributes().getFeatures().size(); j++) {
@@ -193,8 +206,6 @@ public class PackageActivity extends RegisterAbstractActivity {
                 }
                 arrTotalItemsName.add(arrItemsName);
                 arrTotalItemsMessage.add(arrItemsMessage);
-
-
             }
 
 
@@ -203,17 +214,27 @@ public class PackageActivity extends RegisterAbstractActivity {
             spinnerAdapter.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
             mSpinnerPackage.setAdapter(spinnerAdapter);
 
+
+            spinnerAdapterAmount = new ArrayAdapter<String>(this,
+                    R.layout.layout_trademark_type_spinner_dropdown_item, mSpinnerPackageListAmount);
+            spinnerAdapterAmount.setDropDownViewResource(R.layout.layout_trademark_type_spinner_dropdown_item);
+            mSpinnerAmount.setAdapter(spinnerAdapterAmount);
+
             mSpinnerPackage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    appUser.package_id=mSpinnerPackageListId.get(i);
-                    appUser.package_amount=arrPackagePrice.get(i);
-                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                    mPackageAmount.setText(arrPackagePrice.get(i));
-                    mAdapter = new PackagesItemAdapter(PackageActivity.this, response.getPlan().getData().get(i).getAttributes().getFeatures());
-                    mItemList.setAdapter(mAdapter);
+                    try {
+                        position=i;
+                        mSpinnerAmount.setSelection(0);
+                        appUser.package_id = mSpinnerPackageListId.get(i);
+                        appUser.package_amount = arrPackagePrice.get(i);
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        mPackageAmount.setText(arrPackagePrice.get(i));
+                        mAdapter = new PackagesItemAdapter(PackageActivity.this, response.getPlan().getData().get(i).getAttributes().getFeatures());
+                        mItemList.setAdapter(mAdapter);
+                    } catch (Exception e) {
 
-
+                    }
                 }
 
                 @Override
@@ -221,22 +242,44 @@ public class PackageActivity extends RegisterAbstractActivity {
 
                 }
             });
-        }else {
-            Helpers.dialogMessage(this,response.getMessage());
+
+
+            mSpinnerAmount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (i==0) {
+                        mPackageAmount.setText(String.valueOf(response.getPlan().getData().get(position).getAttributes().getYearly_price()));
+                    }else  if (i==1) {
+                        mPackageAmount.setText(String.valueOf(response.getPlan().getData().get(position).getAttributes().getMonthly_price()));
+                    }else  if (i==2) {
+                        mPackageAmount.setText(String.valueOf(response.getPlan().getData().get(position).getAttributes().getSix_month_price()));
+                    }else  if (i==3) {
+                        mPackageAmount.setText(String.valueOf(response.getPlan().getData().get(position).getAttributes().getFive_year_price()));
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        } else {
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
     @Subscribe
-    public void plans(PlanResponse response){
+    public void plans(PlanResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
             Preferences.getInstance(getApplicationContext()).setLogin(true);
             Intent intent = new Intent(getApplicationContext(), CompanyListActivity.class);
             startActivity(intent);
-        }else {
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
+
     @Subscribe
     public void timout(String msg) {
         snackbar = Snackbar
