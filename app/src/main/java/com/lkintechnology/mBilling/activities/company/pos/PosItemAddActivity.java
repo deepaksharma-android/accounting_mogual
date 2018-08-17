@@ -47,8 +47,13 @@ public class PosItemAddActivity extends AppCompatActivity {
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
 
-        party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
-                +", "+Preferences.getInstance(getApplicationContext()).getPos_mobile());
+        if(!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")){
+            party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
+                    +", "+Preferences.getInstance(getApplicationContext()).getPos_mobile());
+        }else {
+            party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
+        }
+
 
         change_layout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,6 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:weightSum="1">
 
                 <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -29,7 +31,6 @@
                     android:layout_gravity="center"
                     android:layout_weight="0.7"
                     android:gravity="start"
-                    android:layout_marginLeft="5dp"
                     android:hint="Party Name"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -56,23 +57,29 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height=".1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/view_color"/>
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="#000"
                 android:textSize="14dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="Your Item"/>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height=".1dp"
-                android:background="@color/view_color"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/view_color"
+                android:layout_marginBottom="5dp"/>
 
             <ListView
                 android:id="@+id/listViewItems"
@@ -85,9 +92,11 @@
     </ScrollView>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
 
@@ -102,7 +111,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
                 android:layout_weight=".7"
                 android:text="Subtotal"
                 android:textColor="#000"
@@ -113,7 +121,6 @@
                 style="@style/Gotham_Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:layout_weight=".3"
                 android:gravity="right"
                 android:text="0.0"
@@ -133,7 +140,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
                 android:layout_weight=".7"
                 android:text="Taxes"
                 android:textColor="@color/textColorDefault"
@@ -144,7 +150,6 @@
                 style="@style/Gotham_Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:layout_weight=".3"
                 android:gravity="right"
                 android:text="0.0"
@@ -156,6 +161,8 @@
             android:layout_width="fill_parent"
             android:layout_height=".1dp"
             android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/view_color"/>
 
         <LinearLayout
@@ -170,7 +177,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
                 android:layout_weight=".7"
                 android:text="Grand Total"
                 android:textColor="#000"
@@ -181,7 +187,6 @@
                 style="@style/Gotham_Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:layout_weight=".3"
                 android:gravity="right"
                 android:text="0.0"

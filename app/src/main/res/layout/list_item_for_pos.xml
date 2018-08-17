@@ -1,81 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/main_layout"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:weightSum="1"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
-            <com.lkintechnology.mBilling.utils.BuzzTextView
-                android:id="@+id/lblListItem"
-                android:layout_width="0dp"
-                style="@style/Gotham_Medium"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#333333"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="0.6" />
-
-            <LinearLayout
-                android:id="@+id/decrease"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/minus_icon"/>
-            </LinearLayout>
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:layout_gravity="center">
+                android:layout_weight=".7"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".025"
+                        android:text="+"
+                        android:textColor="@color/colorPrimary" />
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/lblListItem"
+                        style="@style/Gotham_Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight=".5"
+                        android:text="PC Patidar"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
 
                 <com.lkintechnology.mBilling.utils.BuzzTextView
-                   android:id="@+id/quantity"
-                    style="@style/Gotham_Medium"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:textColor="#333333" />
+                    android:id="@+id/item_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/increase"
                 android:layout_width="0dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="0.1">
+                android:layout_weight=".3"
+                android:gravity="right"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/plus_icon"/>
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/plus_minus_button"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/decrease"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            android:id="@+id/quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/increase"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary">
+
+                        <com.lkintechnology.mBilling.utils.BuzzTextView
+                            style="@style/Gotham_Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/item_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="right"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height=".1dp"
-            android:background="@color/view_color"/>
     </LinearLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height=".1dp"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@color/view_color" />
 </LinearLayout>

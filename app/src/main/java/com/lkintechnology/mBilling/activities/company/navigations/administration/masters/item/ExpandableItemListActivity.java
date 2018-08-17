@@ -251,6 +251,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             mMap.put("item_name",itemName);
                             mMap.put("total",total);
                             mMap.put("quantity",quantity);
+                            mMap.put("sales_price_main",sales_price_main);
                             appUser.mListMapForItemSale.add(mMap);
                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         }

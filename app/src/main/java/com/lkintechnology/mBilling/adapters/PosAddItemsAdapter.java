@@ -54,15 +54,20 @@ public class PosAddItemsAdapter extends BaseAdapter {
 
         TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
         TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
+        TextView mItemAmount = (TextView) convertView.findViewById(R.id.item_amount);
+        TextView mItemTotal = (TextView) convertView.findViewById(R.id.item_total);
         LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
         LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
         Map map = mListMap.get(position);
         String item_id = (String) map.get("item_id");
         String itemName = (String) map.get("item_name");
         String quantity = (String) map.get("quantity");
-        String total = (String) map.get("total").toString();
+        String item_amount = map.get("sales_price_main").toString();
+        String item_total = (String) map.get("total").toString();
         mItemName.setText(itemName);
         mQuantity.setText(quantity);
+        mItemAmount.setText("₹ " + item_amount);
+        mItemTotal.setText("₹ " + item_total);
 
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +75,13 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 mInteger = Integer.parseInt(mQuantity.getText().toString());
                 mInteger = mInteger + 1;
                 mQuantity.setText("" + mInteger);
+
+                String arr = mItemTotal.getText().toString();
+                String[] arr1 = arr.split(" ");
+                Double total = Double.valueOf(arr1[1]);
+                Double item_amount = Double.valueOf(mItemAmount.getText().toString());
+                String s = String.valueOf(total + item_amount);
+                mItemTotal.setText(s);
             }
         });
 
@@ -77,9 +89,16 @@ public class PosAddItemsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 mInteger = Integer.parseInt(mQuantity.getText().toString());
-                if (mInteger > 0) {
+                if (mInteger >1) {
                     mInteger = mInteger - 1;
                     mQuantity.setText("" + mInteger);
+
+                    String arr = mItemTotal.getText().toString();
+                    String[] arr1 = arr.split(" ");
+                    Double total = Double.valueOf(arr1[0]);
+                    Double item_amount = Double.valueOf(mItemAmount.getText().toString());
+                    String s = String.valueOf(total-item_amount);
+                    mItemTotal.setText(s);
                 }
             }
         });
