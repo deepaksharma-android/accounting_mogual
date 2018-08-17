@@ -77,11 +77,11 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 mQuantity.setText("" + mInteger);
 
                 String arr = mItemTotal.getText().toString();
-                String[] arr1 = arr.split(" ");
+                String[] arr1 = arr.split("₹ ");
                 Double total = Double.valueOf(arr1[1]);
-                Double item_amount = Double.valueOf(mItemAmount.getText().toString());
-                String s = String.valueOf(total + item_amount);
-                mItemTotal.setText(s);
+                Double amount = Double.valueOf(item_amount);
+                String s = String.valueOf(total + amount);
+                mItemTotal.setText("₹ " + s);
             }
         });
 
@@ -94,11 +94,11 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     mQuantity.setText("" + mInteger);
 
                     String arr = mItemTotal.getText().toString();
-                    String[] arr1 = arr.split(" ");
-                    Double total = Double.valueOf(arr1[0]);
-                    Double item_amount = Double.valueOf(mItemAmount.getText().toString());
-                    String s = String.valueOf(total-item_amount);
-                    mItemTotal.setText(s);
+                    String[] arr1 = arr.split("₹ ");
+                    Double total = Double.valueOf(arr1[1]);
+                    Double amount = Double.valueOf(item_amount);
+                    String s = String.valueOf(total - amount);
+                    mItemTotal.setText("₹ " + s);
                 }
             }
         });
