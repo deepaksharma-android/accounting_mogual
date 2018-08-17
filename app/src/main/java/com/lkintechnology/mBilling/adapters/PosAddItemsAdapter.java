@@ -102,6 +102,8 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 }
             }
         });
+
+
         return convertView;
     }
 }

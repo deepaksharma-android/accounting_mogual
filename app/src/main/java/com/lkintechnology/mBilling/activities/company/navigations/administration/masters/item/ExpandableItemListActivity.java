@@ -82,8 +82,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static Integer checkForStartActivityResult = 0;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.lvExp)
-    ExpandableListView expListView;
+    public static ExpandableListView expListView;
     @Bind(R.id.floating_button)
     FloatingActionButton floatingActionButton;
     @Bind(R.id.autoCompleteTextView)
@@ -171,6 +170,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         }*/
         initActionbar();
         mTotal= (TextView) findViewById(R.id.total);
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -180,6 +180,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
         floatingActionButton.bringToFront();
+        submit_layout.bringToFront();
         if (ExpandableItemListActivity.comingFrom==6){
             floatingActionButton.setVisibility(View.GONE);
             pos_setting_layout.setVisibility(View.VISIBLE);
@@ -222,6 +223,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         R.anim.blink_on_click);
                 v.startAnimation(animFadeIn);
                 Map mMap;
+                Double subtotal = 0.0;
                 for (int i=0;i<listDataHeader.size();i++){
                     Double total = 0.0;
                     for (int j=0;j<listDataChild.get(listDataHeader.get(0)).size();j++){
@@ -247,6 +249,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
                             String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
                             total = sales_price_main * Double.valueOf(quantity);
+                            subtotal = subtotal+total;
                             mMap.put("item_id",itemId);
                             mMap.put("item_name",itemName);
                             mMap.put("total",total);
@@ -258,6 +261,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     }
                 }
                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                intent.putExtra("subtotal",subtotal);
                 startActivity(intent);
                 finish();
             }
@@ -633,10 +637,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-
-          /*  for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-                expListView.expandGroup(i);
-            }*/
+            if (ExpandableItemListActivity.comingFrom==6){
+                for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+                    expListView.expandGroup(i);
+                }
+            }
 
             autoCompleteTextView();
 

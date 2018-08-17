@@ -32,6 +32,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     ListView listViewItems;
     @Bind(R.id.party_name)
     TextView party_name;
+    @Bind(R.id.subtotal)
+    TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
 
@@ -46,6 +48,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+        Intent intent = getIntent();
+        Double subtotal = intent.getDoubleExtra("subtotal",0.0);
 
         if(!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")){
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
@@ -53,6 +57,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         }else {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
+        mSubtotal.setText(""+subtotal);
+
 
 
         change_layout.setOnClickListener(new View.OnClickListener() {
