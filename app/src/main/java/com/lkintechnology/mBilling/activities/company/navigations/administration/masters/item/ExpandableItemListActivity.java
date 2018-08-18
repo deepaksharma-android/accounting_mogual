@@ -246,6 +246,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
                             String arr1[] = itemName.split(",");
                             itemName = arr1[0];
+                            String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                             Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
                             String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
                             total = sales_price_main * Double.valueOf(quantity);
@@ -256,6 +257,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                 mMap.put("total",total);
                                 mMap.put("quantity",quantity);
                                 mMap.put("sales_price_main",sales_price_main);
+                                mMap.put("tax",tax);
                                 appUser.mListMapForItemSale.add(mMap);
                                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                             }
@@ -634,7 +636,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,ExpandableItemListActivity.comingFrom);
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,listDataTax,ExpandableItemListActivity.comingFrom);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);

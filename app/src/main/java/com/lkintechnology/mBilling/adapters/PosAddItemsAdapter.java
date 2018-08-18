@@ -87,7 +87,7 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 String s = String.valueOf(total + item_amount);
                 mItemTotal.setText("₹ " + s);
 
-                setTotal(String.valueOf(item_amount),true);
+                setTotal(String.valueOf(item_amount), true);
             }
         });
 
@@ -95,7 +95,7 @@ public class PosAddItemsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 mInteger = Integer.parseInt(mQuantity.getText().toString());
-                if (mInteger >1) {
+                if (mInteger > 1) {
                     mInteger = mInteger - 1;
                     mQuantity.setText("" + mInteger);
 
@@ -108,7 +108,7 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     String s = String.valueOf(total - item_amount);
                     mItemTotal.setText("₹ " + s);
 
-                    setTotal(String.valueOf(item_amount),false);
+                    setTotal(String.valueOf(item_amount), false);
                 }
             }
         });
@@ -117,64 +117,66 @@ public class PosAddItemsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setTotal(String amount, Boolean mBool){
+    public void setTotal(String amount, Boolean mBool) {
         Double total = 0.0;
-        if (mBool){
-            total =  getTotal() + Double.valueOf(amount);
-        }else {
+        if (mBool) {
+            total = getTotal() + Double.valueOf(amount);
+        } else {
             total = getTotal() - Double.valueOf(amount);
         }
-        setTaxChange(context,total);
-        PosItemAddActivity.mSubtotal.setText("₹ "+total);
+        setTaxChange(context, total);
+        PosItemAddActivity.mSubtotal.setText("₹ " + total);
     }
 
-    public Double getTotal(){
+    public Double getTotal() {
         String total = PosItemAddActivity.mSubtotal.getText().toString();
         String[] arr = total.split("₹ ");
         Double a = Double.valueOf(arr[1].trim());
         return a;
     }
 
-    public static void setTaxChange(Context context,Double subtotal){
+    public static void setTaxChange(Context context, Double subtotal) {
         Double tax = 0.0;
-        if (Preferences.getInstance(context).getPos_sale_type()!=null && !Preferences.getInstance(context).getPos_sale_type().equals("")){
+        if (Preferences.getInstance(context).getPos_sale_type() != null && !Preferences.getInstance(context).getPos_sale_type().equals("")) {
             String taxString = Preferences.getInstance(context).getPos_sale_type();
             String taxName = "";
             String taxValue = "";
-            if (taxString.startsWith("I") && taxString.endsWith("%")){
+            String arrTaxString[] = taxString.split("-");
+            taxName = arrTaxString[0].trim();
+            taxValue = arrTaxString[1].trim();
+            if (taxString.startsWith("I") && taxString.endsWith("%")) {
                 PosItemAddActivity.igst_layout.setVisibility(View.VISIBLE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
-                String arrTaxString[] = taxString.split("-");
-                taxName = arrTaxString[0].trim();
-                String[] arr = arrTaxString[1].trim().split("%");
-                taxValue = arr[0];
-                if (!taxValue.equals("")){
-                    tax = (subtotal * Double.valueOf(taxValue))/100;
-                    PosItemAddActivity.igst.setText("₹ "+tax);
+                String[] arr = taxValue.split("%");
+                String s = arr[0];
+                if (!s.equals("")) {
+                    tax = (subtotal * Double.valueOf(s)) / 100;
+                    PosItemAddActivity.igst.setText("₹ " + tax);
                 }
-            }else  if (taxString.startsWith("L") && taxString.endsWith("%")){
+            } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.VISIBLE);
-                String arrTaxString[] = taxString.split("-");
-                taxName = arrTaxString[0].trim();
-                String[] arr = arrTaxString[1].trim().split("%");
-                taxValue = arr[0];
-                if (!taxValue.equals("")){
-                    tax = (subtotal * Double.valueOf(taxValue))/100;
-                    PosItemAddActivity.sgst.setText("₹ "+tax/2);
-                    PosItemAddActivity.cgst.setText("₹ "+tax/2);
+                String[] arr = taxValue.split("%");
+                String s = arr[0];
+                if (!s.equals("")) {
+                    tax = (subtotal * Double.valueOf(s)) / 100;
+                    PosItemAddActivity.sgst.setText("₹ " + tax / 2);
+                    PosItemAddActivity.cgst.setText("₹ " + tax / 2);
                 }
             }else {
+                //For Exempt
+                //For Export(ZeroRated)
+                //Tax Include
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
             }
         }
 
-        granTotal(subtotal,tax);
+        granTotal(subtotal, tax);
     }
 
-    public static void granTotal(Double subtotal,Double tax){
-        Double grandTotal = subtotal+tax;
-        PosItemAddActivity.grand_total.setText("₹ "+grandTotal);
+    public static void granTotal(Double subtotal, Double tax) {
+        Double grandTotal = subtotal + tax;
+        PosItemAddActivity.grand_total.setText("₹ " + grandTotal);
     }
 }

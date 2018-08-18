@@ -569,8 +569,6 @@ public class AddItemVoucherFragment extends Fragment {
                                         subtot = subtot + (itemprice / (100 + taxpercentagevalue)) * ((amt * per_val) / 100);
 
                                     }
-
-
                                 }
 
                                 if (billsundryname.equals("IGST") && taxstring.startsWith("I") && !taxvalue.equals("MultiRate") && !taxvalue.equals("TaxIncl")) {
