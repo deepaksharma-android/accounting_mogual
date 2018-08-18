@@ -34,21 +34,19 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
     private HashMap<Integer, String[]> mChildCheckStates;
     private HashMap<Integer, List<String>> listDataChildSalePriceMain;
-    private HashMap<Integer, List<String>> listDataTax;
     public static Map mMapPosItem;
     private int comingFromPOS;
     Double total = 0.0;
     Double sale_price_main = 0.0;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData,HashMap<Integer, List<String>> listDataChildSalePriceMain, HashMap<Integer, List<String>> listDataTax,int comingFromPOS) {
+                                     HashMap<String, List<String>> listChildData,HashMap<Integer, List<String>> listDataChildSalePriceMain,int comingFromPOS) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         mChildCheckStates = new HashMap<Integer, String[]>();
         this.listDataChildSalePriceMain = listDataChildSalePriceMain;
         this.comingFromPOS = comingFromPOS;
-        this.listDataTax = listDataTax;
     }
 
     @Override

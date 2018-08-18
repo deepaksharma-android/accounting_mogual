@@ -73,11 +73,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
         mSubtotal.setText("₹ "+subtotal);
-        String total = mSubtotal.getText().toString();
-        String[] arr = total.split("₹ ");
-        Double a = Double.valueOf(arr[1].trim());
-        PosAddItemsAdapter.setTaxChange(getApplicationContext(),a);
-
+        PosAddItemsAdapter.setTaxChange(getApplicationContext(),subtotal);
 
         change_layout.setOnClickListener(new View.OnClickListener() {
             @Override

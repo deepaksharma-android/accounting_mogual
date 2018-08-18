@@ -64,12 +64,13 @@ public class PosAddItemsAdapter extends BaseAdapter {
         String item_id = (String) map.get("item_id");
         String itemName = (String) map.get("item_name");
         String quantity = (String) map.get("quantity");
-        String item_amount = map.get("sales_price_main").toString();
-        String item_total = (String) map.get("total").toString();
+        Double item_amount = (Double) map.get("sales_price_main");
+        Double total = (Double) map.get("total");
+        String tax = (String) map.get("tax").toString();
         mItemName.setText(itemName);
         mQuantity.setText(quantity);
-        mItemAmount.setText("₹ " + item_amount);
-        mItemTotal.setText("₹ " + item_total);
+        mItemAmount.setText("₹ " + String.format("%.2f",item_amount));
+        mItemTotal.setText("₹ " + String.format("%.2f",total));
 
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +85,20 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 String arr2 = mItemAmount.getText().toString();
                 String[] arr3 = arr2.split("₹ ");
                 Double item_amount = Double.valueOf(arr3[1]);
-                String s = String.valueOf(total + item_amount);
-                mItemTotal.setText("₹ " + s);
 
-                setTotal(String.valueOf(item_amount), true);
+                Map map = mListMap.get(position);
+                String tax = (String) map.get("tax");
+
+                if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
+                    Double item_tax = (item_amount * taxSplit(tax))/100;
+                    Double taxInclude = total + item_tax;
+                    mItemTotal.setText("₹ " + String.format("%.2f",taxInclude));
+                    setTotal(String.valueOf(item_tax), true);
+                } else {
+                    Double s = total + item_amount;
+                    mItemTotal.setText("₹ " + String.format("%.2f",s));
+                    setTotal(String.valueOf(item_amount), true);
+                }
             }
         });
 
@@ -105,15 +116,23 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     String arr2 = mItemAmount.getText().toString();
                     String[] arr3 = arr2.split("₹ ");
                     Double item_amount = Double.valueOf(arr3[1]);
-                    String s = String.valueOf(total - item_amount);
-                    mItemTotal.setText("₹ " + s);
 
-                    setTotal(String.valueOf(item_amount), false);
+                    Map map = mListMap.get(position);
+                    String tax = (String) map.get("tax");
+
+                    if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
+                        Double item_tax = (item_amount * taxSplit(tax))/100;
+                        Double taxInclude = total - item_tax;
+                        mItemTotal.setText("₹ " + String.format("%.2f",taxInclude));
+                        setTotal(String.valueOf(item_tax), false);
+                    } else {
+                        Double s = total - item_amount;
+                        mItemTotal.setText("₹ " + String.format("%.2f",s));
+                        setTotal(String.valueOf(item_amount), false);
+                    }
                 }
             }
         });
-
-
         return convertView;
     }
 
@@ -125,7 +144,7 @@ public class PosAddItemsAdapter extends BaseAdapter {
             total = getTotal() - Double.valueOf(amount);
         }
         setTaxChange(context, total);
-        PosItemAddActivity.mSubtotal.setText("₹ " + total);
+        PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f",total));
     }
 
     public Double getTotal() {
@@ -151,7 +170,7 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 String s = arr[0];
                 if (!s.equals("")) {
                     tax = (subtotal * Double.valueOf(s)) / 100;
-                    PosItemAddActivity.igst.setText("₹ " + tax);
+                    PosItemAddActivity.igst.setText("₹ " + String.format("%.2f",tax));
                 }
             } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
@@ -160,10 +179,10 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 String s = arr[0];
                 if (!s.equals("")) {
                     tax = (subtotal * Double.valueOf(s)) / 100;
-                    PosItemAddActivity.sgst.setText("₹ " + tax / 2);
-                    PosItemAddActivity.cgst.setText("₹ " + tax / 2);
+                    PosItemAddActivity.sgst.setText("₹ " + String.format("%.2f",tax / 2));
+                    PosItemAddActivity.cgst.setText("₹ " + String.format("%.2f",tax / 2));
                 }
-            }else {
+            } else {
                 //For Exempt
                 //For Export(ZeroRated)
                 //Tax Include
@@ -177,6 +196,16 @@ public class PosAddItemsAdapter extends BaseAdapter {
 
     public static void granTotal(Double subtotal, Double tax) {
         Double grandTotal = subtotal + tax;
-        PosItemAddActivity.grand_total.setText("₹ " + grandTotal);
+        PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f",grandTotal));
+    }
+
+    public Double taxSplit(String tax) {
+        Double a = 0.0;
+        if (tax.contains("GST ")) {
+            String[] arr = tax.split(" ");
+            String[] arr1 = arr[1].split("%");
+            a = Double.valueOf(arr1[0]);
+        }
+        return a;
     }
 }

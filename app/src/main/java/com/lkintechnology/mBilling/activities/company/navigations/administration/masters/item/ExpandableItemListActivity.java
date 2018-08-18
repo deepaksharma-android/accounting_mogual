@@ -179,18 +179,19 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.stock_in_hand_date = dateString;
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
-        floatingActionButton.bringToFront();
-        submit_layout.bringToFront();
+
         if (ExpandableItemListActivity.comingFrom==6){
             floatingActionButton.setVisibility(View.GONE);
             pos_setting_layout.setVisibility(View.VISIBLE);
             autoCompleteTextView.setVisibility(View.GONE);
             submit_layout.setVisibility(View.VISIBLE);
+            submit_layout.bringToFront();
         }else {
             floatingActionButton.setVisibility(View.VISIBLE);
             pos_setting_layout.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
             submit_layout.setVisibility(View.GONE);
+            floatingActionButton.bringToFront();
         }
         appUser.item_name = "";
         appUser.item_code = "";
@@ -216,57 +217,68 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
-                appUser.mListMapForItemSale.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
-                        R.anim.blink_on_click);
-                v.startAnimation(animFadeIn);
-                Map mMap;
-                Double subtotal = 0.0;
-                for (int i=0;i<listDataHeader.size();i++){
-                    Double total = 0.0;
-                    for (int j=0;j<listDataChild.get(listDataHeader.get(0)).size();j++){
-                        String pos = i + "," +j;
-                        //String id = pos.getPosition();
-                        String key="";
-                        if ((ItemExpandableListAdapter.mMapPosItem.get(pos)!=null)){
-                            key=pos;
-                        }
+                //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
+                    appUser.mListMapForItemSale.clear();
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                            R.anim.blink_on_click);
+                    v.startAnimation(animFadeIn);
+                    Map mMap;
+                    Double subtotal = 0.0;
+                    for (int i = 0; i < listDataHeader.size(); i++) {
+                        Double total = 0.0;
+                        for (int j = 0; j < listDataChild.get(listDataHeader.get(0)).size(); j++) {
+                            String pos = i + "," + j;
+                            //String id = pos.getPosition();
+                            String key = "";
+                            if ((ItemExpandableListAdapter.mMapPosItem.get(pos) != null)) {
+                                key = pos;
+                            }
 
-                        if ( key.equals(pos)){
-                            mMap = new HashMap();
-                            String[] arr = pos.split(",");
-                            String groupid = arr[0];
-                            String childid = arr[1];
-                            String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                            if (key.equals(pos)) {
+                                mMap = new HashMap();
+                                String[] arr = pos.split(",");
+                                String groupid = arr[0];
+                                String childid = arr[1];
+                                String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
 
-                            //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
-                            String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                            String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-                            String arr1[] = itemName.split(",");
-                            itemName = arr1[0];
-                            String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                            Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
-                            String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
-                            total = sales_price_main * Double.valueOf(quantity);
-                            subtotal = subtotal+total;
-                            if (!quantity.equals("0")){
-                                mMap.put("item_id",itemId);
-                                mMap.put("item_name",itemName);
-                                mMap.put("total",total);
-                                mMap.put("quantity",quantity);
-                                mMap.put("sales_price_main",sales_price_main);
-                                mMap.put("tax",tax);
-                                appUser.mListMapForItemSale.add(mMap);
-                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                                String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                                String arr1[] = itemName.split(",");
+                                itemName = arr1[0];
+                                String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                                String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
+                                total = sales_price_main * Double.valueOf(quantity);
+
+                                if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
+                                    Double item_tax = (Double.valueOf(total) * taxSplit(tax))/100;
+                                    Double taxInclude = Double.valueOf(total) + item_tax;
+                                    total = taxInclude;
+                                }
+                                subtotal = subtotal + total;
+                                if (!quantity.equals("0")) {
+                                    mMap.put("item_id", itemId);
+                                    mMap.put("item_name", itemName);
+                                    mMap.put("total", total);
+                                    mMap.put("quantity", quantity);
+                                    mMap.put("sales_price_main", sales_price_main);
+                                    mMap.put("tax", tax);
+                                    appUser.mListMapForItemSale.add(mMap);
+                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                }
                             }
                         }
                     }
+                    Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                    intent.putExtra("subtotal", subtotal);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(ExpandableItemListActivity.this, "Please select sale type in setting menu!!!", Toast.LENGTH_SHORT).show();
+                   // Helpers.dialogMessage(getApplicationContext(),"Please select sale type in setting menu!!!");
                 }
-                Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
-                intent.putExtra("subtotal",subtotal);
-                startActivity(intent);
             }
         });
 
@@ -636,7 +648,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,listDataTax,ExpandableItemListActivity.comingFrom);
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,ExpandableItemListActivity.comingFrom);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -1573,6 +1585,16 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
         mProgressDialog.dismiss();
+    }
+
+    public Double taxSplit(String tax) {
+        Double a = 0.0;
+        if (tax.contains("GST ")) {
+            String[] arr = tax.split(" ");
+            String[] arr1 = arr[1].split("%");
+            a = Double.valueOf(arr1[0]);
+        }
+        return a;
     }
 }
 

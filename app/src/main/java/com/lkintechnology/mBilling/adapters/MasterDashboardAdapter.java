@@ -72,6 +72,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 }
                 if(i==2){
                     ExpandableItemListActivity.isDirectForItem=true;
+                    ExpandableItemListActivity.comingFrom = 0;
                     context.startActivity(new Intent(context, ExpandableItemListActivity.class));
                 }
                 if(i==3){
