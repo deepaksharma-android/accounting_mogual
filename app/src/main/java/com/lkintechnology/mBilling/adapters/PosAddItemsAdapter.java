@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -79,9 +80,13 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 String arr = mItemTotal.getText().toString();
                 String[] arr1 = arr.split("₹ ");
                 Double total = Double.valueOf(arr1[1]);
-                Double amount = Double.valueOf(item_amount);
-                String s = String.valueOf(total + amount);
+                String arr2 = mItemAmount.getText().toString();
+                String[] arr3 = arr2.split("₹ ");
+                Double item_amount = Double.valueOf(arr3[1]);
+                String s = String.valueOf(total + item_amount);
                 mItemTotal.setText("₹ " + s);
+
+                setTotal(String.valueOf(item_amount),true);
             }
         });
 
@@ -96,14 +101,35 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     String arr = mItemTotal.getText().toString();
                     String[] arr1 = arr.split("₹ ");
                     Double total = Double.valueOf(arr1[1]);
-                    Double amount = Double.valueOf(item_amount);
-                    String s = String.valueOf(total - amount);
+                    String arr2 = mItemAmount.getText().toString();
+                    String[] arr3 = arr2.split("₹ ");
+                    Double item_amount = Double.valueOf(arr3[1]);
+                    String s = String.valueOf(total - item_amount);
                     mItemTotal.setText("₹ " + s);
+
+                    setTotal(String.valueOf(item_amount),false);
                 }
             }
         });
 
 
         return convertView;
+    }
+
+    public void setTotal(String amount, Boolean mBool){
+        Double total = 0.0;
+        if (mBool){
+            total =  getTotal() + Double.valueOf(amount);
+        }else {
+            total = getTotal() - Double.valueOf(amount);
+        }
+        PosItemAddActivity.mSubtotal.setText("₹ "+total);
+    }
+
+    public Double getTotal(){
+        String total = PosItemAddActivity.mSubtotal.getText().toString();
+        String[] arr = total.split("₹ ");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
     }
 }

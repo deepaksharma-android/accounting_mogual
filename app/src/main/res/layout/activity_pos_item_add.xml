@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/party_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
@@ -46,16 +47,20 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/view1"
         android:layout_width="fill_parent"
         android:layout_height=".1dp"
+        android:layout_below="@+id/party_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/colorPrimary" />
 
     <com.lkintechnology.mBilling.utils.BuzzTextView
+        android:id="@+id/your_item"
         style="@style/Gotham_Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/view1"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -63,37 +68,34 @@
         android:text="Your Item"
         android:textColor="@color/colorPrimary"
         android:textSize="14dp" />
+
     <View
+        android:id="@+id/view2"
         android:layout_width="fill_parent"
         android:layout_height=".1dp"
+        android:layout_below="@+id/your_item"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/colorPrimary" />
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9">
+    <ListView
+        android:id="@+id/listViewItems"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/view2"
+        android:layout_above="@+id/calculation_layout"
+        android:divider="@null">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    </ListView>
 
-            <ListView
-                android:id="@+id/listViewItems"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:divider="@null"></ListView>
-
-        </LinearLayout>
-    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/calculation_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
+        android:layout_above="@+id/submit"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical">
@@ -102,9 +104,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -133,9 +135,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -173,9 +175,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/dp_10"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -208,11 +210,11 @@
         android:id="@+id/submit"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/vendorText"
+        android:layout_marginBottom="1dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
         android:background="@drawable/solid_blue">
 
         <com.lkintechnology.mBilling.utils.BuzzTextView
@@ -225,4 +227,4 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

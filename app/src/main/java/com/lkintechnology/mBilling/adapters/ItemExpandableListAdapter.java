@@ -33,17 +33,19 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
     private HashMap<Integer, String[]> mChildCheckStates;
+    private HashMap<Integer, List<String>> listDataChildSalePriceMain;
     public static Map mMapPosItem;
     private int comingFromPOS;
     Double total = 0.0;
     Double sale_price_main = 0.0;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData,int comingFromPOS) {
+                                     HashMap<String, List<String>> listChildData,HashMap<Integer, List<String>> listDataChildSalePriceMain,int comingFromPOS) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         mChildCheckStates = new HashMap<Integer, String[]>();
+        this.listDataChildSalePriceMain = listDataChildSalePriceMain;
         this.comingFromPOS = comingFromPOS;
     }
 
@@ -70,8 +72,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         String arr[]=childText.split(",");
         String name =arr[0];
         String quantity =arr[1];
-        sale_price_main = 0.0;
         total = 0.0;
+        sale_price_main = 0.0;
         if (arr[2]!=null && !arr[2].equals("")){
             sale_price_main = Double.valueOf(arr[2]);
         }else {
@@ -100,14 +102,27 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             mItemAmount.setText("₹ "+sale_price_main);
             mItemTotal.setText("₹ 0.0");
             if (mChildCheckStates.containsKey(mGroupPosition)) {
+                /*if (mChildCheckStates.get(mGroupPosition)!=null){
+                    plus_minus_layout.setVisibility(View.VISIBLE);
+                    add_layout.setVisibility(View.GONE);
+                }else {
+                    plus_minus_layout.setVisibility(View.GONE);
+                    add_layout.setVisibility(View.VISIBLE);
+                }*/
+
                 String getChecked[] = mChildCheckStates.get(mGroupPosition);
                 mQuantity.setText(getChecked[mChildPosition]);
+               /* if (getChecked[mChildPosition]==null){
+                    plus_minus_layout.get
+                }*/
 
             } else {
+               /* plus_minus_layout.setVisibility(View.GONE);
+                add_layout.setVisibility(View.VISIBLE);*/
                 String getChecked[] = new String[getChildrenCount(mGroupPosition)];
                 // getChecked[childPosition]="0";
                 mChildCheckStates.put(mGroupPosition, getChecked);
-                mQuantity.setText("0");
+                //mQuantity.setText("0");
             }
 
 
@@ -115,6 +130,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View view) {
                     String pos = groupPosition+","+childPosition;
+                    Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     // String pos = listDataChildId.get(mGroupPosition).get(childPosition);
                     try {
                         mInteger = Integer.parseInt(mQuantity.getText().toString());
@@ -137,23 +153,28 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             plus_minus_layout.setVisibility(View.GONE);
                             add_layout.setVisibility(View.VISIBLE);
                             mItemTotal.setText("₹ " + 0.0);
+                            mQuantity.setText("0");
+                        }
+
+                        if (!mQuantity.getText().toString().equals("")) {
+                            mMapPosItem.put(pos, mQuantity.getText().toString());
+                            System.out.println(mMapPosItem.toString());
                         }
                     }
 
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
-                    if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
-                        mMapPosItem.put(pos, mQuantity.getText().toString());
-                        System.out.println(mMapPosItem.toString());
-                    }
+
                 }
             });
             increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String pos = groupPosition+","+childPosition;
-
+                    Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
+                    add_layout.setVisibility(View.GONE);
+                    plus_minus_layout.setVisibility(View.VISIBLE);
                     try {
                         mInteger = Integer.parseInt(mQuantity.getText().toString());
                     } catch (Exception e) {
@@ -176,7 +197,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
-                    if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                    if (!mQuantity.getText().toString().equals("")) {
                         mMapPosItem.put(pos, mQuantity.getText().toString());
                         System.out.println(mMapPosItem.toString());
                     }
@@ -186,14 +207,25 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             add_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mInteger = mInteger + 1;
-                    mQuantity.setText("" + mInteger);
+                    Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
+                    mQuantity.setText("1");
+                    mItemTotal.setText("₹ " + sale_price_main);
+                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = mQuantity.getText().toString();
+                    mChildCheckStates.put(mGroupPosition, getChecked);
                     add_layout.setVisibility(View.GONE);
                     plus_minus_layout.setVisibility(View.VISIBLE);
-                    mItemTotal.setText("₹ " + sale_price_main);
 
                 }
             });
+
+            /*mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String id = groupPosition + "," + childPosition;
+                    EventBus.getDefault().post(new EventEditItem(id));
+                }
+            });*/
         }else {
             old_layout.setVisibility(View.VISIBLE);
             new_layout.setVisibility(View.GONE);
@@ -220,14 +252,16 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
                 }
             });
+
+            mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String id=groupPosition+","+childPosition;
+                    EventBus.getDefault().post(new EventSaleAddItem(id));
+                }
+            });
         }
-        mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id=groupPosition+","+childPosition;
-                EventBus.getDefault().post(new EventSaleAddItem(id));
-            }
-        });
+
 
 
         return convertView;
@@ -269,7 +303,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
         ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
 
-        if (comingFromPOS==6 &&  !ExpandableItemListActivity.isDirectForItem){
+       /* if (comingFromPOS==6 &&  !ExpandableItemListActivity.isDirectForItem){
             imageview.setVisibility(View.GONE);
             expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
                 @Override
@@ -279,7 +313,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     return true;
                 }
             });
-        }
+        }*/
 
         if(isExpanded){
             imageview.setImageResource(R.drawable.up_arrow);

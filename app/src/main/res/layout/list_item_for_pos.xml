@@ -91,7 +91,7 @@
                             android:gravity="center"
                             android:text="-"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -107,7 +107,7 @@
                             android:gravity="center"
                             android:text="0"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -124,7 +124,7 @@
                             android:gravity="center"
                             android:text="+"
                             android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -153,5 +153,5 @@
         android:layout_width="fill_parent"
         android:layout_height=".1dp"
         android:layout_margin="@dimen/dp_10"
-        android:background="@color/colorPrimary" />
+        android:background="@color/view_color" />
 </LinearLayout>

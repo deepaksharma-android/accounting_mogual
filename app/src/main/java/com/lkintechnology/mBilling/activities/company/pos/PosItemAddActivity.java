@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -32,8 +34,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     ListView listViewItems;
     @Bind(R.id.party_name)
     TextView party_name;
-    @Bind(R.id.subtotal)
-    TextView mSubtotal;
+    public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
 
@@ -50,14 +51,14 @@ public class PosItemAddActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal",0.0);
-
+        mSubtotal = (TextView) findViewById(R.id.subtotal);
         if(!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")){
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
                     +", "+Preferences.getInstance(getApplicationContext()).getPos_mobile());
         }else {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
-        mSubtotal.setText(""+subtotal);
+        mSubtotal.setText("₹ "+subtotal);
 
 
 
@@ -129,6 +130,25 @@ public class PosItemAddActivity extends AppCompatActivity {
                     return;
                 }
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        FirstPageActivity.posSetting = true;
+        finish();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                FirstPageActivity.posSetting = true;
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

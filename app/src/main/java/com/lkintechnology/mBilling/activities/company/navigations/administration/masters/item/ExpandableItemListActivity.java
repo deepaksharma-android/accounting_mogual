@@ -216,7 +216,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
                 appUser.mListMapForItemSale.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -250,20 +250,21 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
                             total = sales_price_main * Double.valueOf(quantity);
                             subtotal = subtotal+total;
-                            mMap.put("item_id",itemId);
-                            mMap.put("item_name",itemName);
-                            mMap.put("total",total);
-                            mMap.put("quantity",quantity);
-                            mMap.put("sales_price_main",sales_price_main);
-                            appUser.mListMapForItemSale.add(mMap);
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            if (!quantity.equals("0")){
+                                mMap.put("item_id",itemId);
+                                mMap.put("item_name",itemName);
+                                mMap.put("total",total);
+                                mMap.put("quantity",quantity);
+                                mMap.put("sales_price_main",sales_price_main);
+                                appUser.mListMapForItemSale.add(mMap);
+                                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                            }
                         }
                     }
                 }
                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                 intent.putExtra("subtotal",subtotal);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -633,15 +634,15 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,ExpandableItemListActivity.comingFrom);
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,ExpandableItemListActivity.comingFrom);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-            if (ExpandableItemListActivity.comingFrom==6){
+           /* if (ExpandableItemListActivity.comingFrom==6){
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
-            }
+            }*/
 
             autoCompleteTextView();
 
