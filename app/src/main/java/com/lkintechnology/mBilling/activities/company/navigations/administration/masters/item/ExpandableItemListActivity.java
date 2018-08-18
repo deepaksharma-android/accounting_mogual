@@ -638,11 +638,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-           /* if (ExpandableItemListActivity.comingFrom==6){
+            if (ExpandableItemListActivity.comingFrom==6){
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
-            }*/
+            }
 
             autoCompleteTextView();
 

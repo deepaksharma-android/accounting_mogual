@@ -37,6 +37,12 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
+    public static LinearLayout igst_layout;
+    public static LinearLayout sgst_cgst_layout;
+    public static TextView igst;
+    public static TextView sgst;
+    public static TextView cgst;
+    public static TextView grand_total;
 
 
     RecyclerView.LayoutManager layoutManager;
@@ -52,6 +58,14 @@ public class PosItemAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal",0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
+        igst_layout = (LinearLayout) findViewById(R.id.igst_layout);
+        sgst_cgst_layout = (LinearLayout) findViewById(R.id.sgst_cgst_layout);
+        igst = (TextView) findViewById(R.id.igst);
+        sgst = (TextView) findViewById(R.id.sgst);
+        cgst = (TextView) findViewById(R.id.cgst);
+        grand_total = (TextView) findViewById(R.id.grand_total);
+
+
         if(!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")){
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
                     +", "+Preferences.getInstance(getApplicationContext()).getPos_mobile());
@@ -59,7 +73,10 @@ public class PosItemAddActivity extends AppCompatActivity {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
         mSubtotal.setText("₹ "+subtotal);
-
+        String total = mSubtotal.getText().toString();
+        String[] arr = total.split("₹ ");
+        Double a = Double.valueOf(arr[1].trim());
+        PosAddItemsAdapter.setTaxChange(getApplicationContext(),a);
 
 
         change_layout.setOnClickListener(new View.OnClickListener() {
