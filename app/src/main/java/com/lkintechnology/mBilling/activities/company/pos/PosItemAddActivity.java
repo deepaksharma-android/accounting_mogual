@@ -26,6 +26,8 @@ import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -43,6 +45,12 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView sgst;
     public static TextView cgst;
     public static TextView grand_total;
+    public static LinearLayout sgst_cgst_multirate_layout;
+    public static LinearLayout igst_multirate_layout;
+    public static TextView igst_12;
+    public static TextView igst_18;
+    public static TextView igst_28;
+    public static TextView igst_5;
 
 
     RecyclerView.LayoutManager layoutManager;
@@ -56,24 +64,81 @@ public class PosItemAddActivity extends AppCompatActivity {
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
         Intent intent = getIntent();
-        Double subtotal = intent.getDoubleExtra("subtotal",0.0);
+        Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
         igst_layout = (LinearLayout) findViewById(R.id.igst_layout);
         sgst_cgst_layout = (LinearLayout) findViewById(R.id.sgst_cgst_layout);
+        igst_multirate_layout = (LinearLayout) findViewById(R.id.igst_multirate_layout);
+        sgst_cgst_multirate_layout = (LinearLayout) findViewById(R.id.sgst_cgst_multirate_layout);
+
         igst = (TextView) findViewById(R.id.igst);
         sgst = (TextView) findViewById(R.id.sgst);
         cgst = (TextView) findViewById(R.id.cgst);
+
+        igst_12 = (TextView) findViewById(R.id.igst_12);
+        igst_18 = (TextView) findViewById(R.id.igst_18);
+        igst_28 = (TextView) findViewById(R.id.igst_28);
+        igst_5 = (TextView) findViewById(R.id.igst_5);
+
         grand_total = (TextView) findViewById(R.id.grand_total);
 
 
-        if(!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")){
+        if (!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")) {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
-                    +", "+Preferences.getInstance(getApplicationContext()).getPos_mobile());
-        }else {
+                    + ", " + Preferences.getInstance(getApplicationContext()).getPos_mobile());
+        } else {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
-        mSubtotal.setText("₹ "+subtotal);
-        PosAddItemsAdapter.setTaxChange(getApplicationContext(),subtotal);
+        mSubtotal.setText("₹ " + subtotal);
+        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
+            Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
+            for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
+                Map map = appUser.mListMapForItemSale.get(i);
+                String item_id = (String) map.get("item_id");
+                String tax1 = (String) map.get("tax");
+                Double sales_price_main = (Double) map.get("sales_price_main");
+                int percentage = (int) map.get(item_id);
+                if (percentage != 0) {
+                    if (percentage == 12) {
+                        gst_12 = gst_12 + (sales_price_main * percentage) / 100;
+                    } else if (percentage == 18) {
+                        gst_18 = gst_18 + (sales_price_main * percentage) / 100;
+                    } else if (percentage == 28) {
+                        gst_28 = gst_28 + (sales_price_main * percentage) / 100;
+                    } else if (percentage == 5) {
+                        gst_5 = gst_5 + (sales_price_main * percentage) / 100;
+                    }
+                }
+            }
+            if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("I/GST-MultiRate")) {
+                sgst_cgst_multirate_layout.setVisibility(View.GONE);
+                igst_layout.setVisibility(View.GONE);
+                sgst_cgst_layout.setVisibility(View.GONE);
+                igst_multirate_layout.setVisibility(View.VISIBLE);
+                igst_12.setVisibility(View.GONE);
+                igst_18.setVisibility(View.GONE);
+                igst_28.setVisibility(View.GONE);
+                igst_5.setVisibility(View.GONE);
+                if (gst_12 != 0) {
+                    igst_12.setVisibility(View.VISIBLE);
+                    igst_12.setText("" + gst_12);
+                }
+                if (gst_18 != 0) {
+                    igst_18.setVisibility(View.VISIBLE);
+                    igst_18.setText("" + gst_18);
+                }
+                if (gst_28 != 0) {
+                    igst_28.setVisibility(View.VISIBLE);
+                    igst_28.setText("" + gst_28);
+                }
+                if (gst_5 != 0) {
+                    igst_5.setVisibility(View.VISIBLE);
+                    igst_5.setText("" + gst_5);
+                }
+            }
+        } else {
+            PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal);
+        }
 
         change_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +190,7 @@ public class PosItemAddActivity extends AppCompatActivity {
 
                 if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     party_name.setText(ParameterConstant.name);
-                   // mMobileNumber.setText(ParameterConstant.mobile);
+                    // mMobileNumber.setText(ParameterConstant.mobile);
                     Preferences.getInstance(getApplicationContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getApplicationContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getApplicationContext()).setMobile(ParameterConstant.mobile);
@@ -136,7 +201,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                     String group = data.getStringExtra("group");
                     String[] strArr = result.split(",");
                     party_name.setText(strArr[0]);
-                   // mMobileNumber.setText(mobile);
+                    // mMobileNumber.setText(mobile);
                     Preferences.getInstance(getApplicationContext()).setParty_id(id);
                     Preferences.getInstance(getApplicationContext()).setParty_name(strArr[0]);
                     Preferences.getInstance(getApplicationContext()).setMobile(mobile);

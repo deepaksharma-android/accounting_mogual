@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 
 import java.util.List;
@@ -182,7 +184,20 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     PosItemAddActivity.sgst.setText("₹ " + String.format("%.2f",tax / 2));
                     PosItemAddActivity.cgst.setText("₹ " + String.format("%.2f",tax / 2));
                 }
-            } else {
+            } else if (taxString.contains("I/GST-MultiRate")){
+                /*AppUser appUser = LocalRepositories.getAppUser(context);
+                for (int i = 0; i <appUser.mListMapForItemSale.size();i++){
+                    Map map = appUser.mListMapForItemSale.get(i);
+                    String item_id = (String) map.get("item_id");
+                    String tax1 = (String) map.get("tax");
+                    if (map.get(item_id)!=null){
+
+                    }
+
+                }
+                */
+
+            }else {
                 //For Exempt
                 //For Export(ZeroRated)
                 //Tax Include

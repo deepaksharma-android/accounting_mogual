@@ -258,6 +258,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                     Double taxInclude = Double.valueOf(total) + item_tax;
                                     total = taxInclude;
                                 }
+                                int multiRate = 0;
+                                if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
+                                    multiRate = taxSplit(tax);
+                                }
+
                                 subtotal = subtotal + total;
                                 if (!quantity.equals("0")) {
                                     mMap.put("item_id", itemId);
@@ -266,6 +271,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                     mMap.put("quantity", quantity);
                                     mMap.put("sales_price_main", sales_price_main);
                                     mMap.put("tax", tax);
+                                    mMap.put(itemId, multiRate);
                                     appUser.mListMapForItemSale.add(mMap);
                                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                 }
@@ -1587,12 +1593,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         mProgressDialog.dismiss();
     }
 
-    public Double taxSplit(String tax) {
-        Double a = 0.0;
+    public int taxSplit(String tax) {
+        int  a = 0;
         if (tax.contains("GST ")) {
             String[] arr = tax.split(" ");
             String[] arr1 = arr[1].split("%");
-            a = Double.valueOf(arr1[0]);
+            a = Integer.parseInt(arr1[0]);
         }
         return a;
     }
