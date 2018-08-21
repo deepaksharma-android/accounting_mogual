@@ -71,8 +71,8 @@ public class PosAddItemsAdapter extends BaseAdapter {
         String tax = (String) map.get("tax").toString();
         mItemName.setText(itemName);
         mQuantity.setText(quantity);
-        mItemAmount.setText("₹ " + String.format("%.2f",item_amount));
-        mItemTotal.setText("₹ " + String.format("%.2f",total));
+        mItemAmount.setText("₹ " + String.format("%.2f", item_amount));
+        mItemTotal.setText("₹ " + String.format("%.2f", total));
 
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,16 +90,21 @@ public class PosAddItemsAdapter extends BaseAdapter {
 
                 Map map = mListMap.get(position);
                 String tax = (String) map.get("tax");
-
+                Double s = total + item_amount;
                 if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
-                    Double item_tax = (item_amount * taxSplit(tax))/100;
+                    Double taxValue = taxSplit(tax);
+                    Double item_tax = (item_amount * taxValue) / 100;
                     Double taxInclude = total + item_tax;
-                    mItemTotal.setText("₹ " + String.format("%.2f",taxInclude));
-                    setTotal(String.valueOf(item_tax), true);
+                    mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                    setTotal(String.valueOf(item_tax), true, 0.0, 0.0, tax);
+                } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
+                    Double taxValue = taxSplit(tax);
+                    Double gst = item_amount * taxValue / 100;
+                    mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
-                    Double s = total + item_amount;
-                    mItemTotal.setText("₹ " + String.format("%.2f",s));
-                    setTotal(String.valueOf(item_amount), true);
+                    mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
             }
         });
@@ -120,17 +125,23 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     Double item_amount = Double.valueOf(arr3[1]);
 
                     Map map = mListMap.get(position);
-                    String tax = (String) map.get("tax");
-
+                    Double s = total - item_amount;
                     if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
-                        Double item_tax = (item_amount * taxSplit(tax))/100;
+                        String tax = (String) map.get("tax");
+                        Double taxValue = taxSplit(tax);
+                        Double item_tax = (item_amount * taxValue) / 100;
                         Double taxInclude = total - item_tax;
-                        mItemTotal.setText("₹ " + String.format("%.2f",taxInclude));
-                        setTotal(String.valueOf(item_tax), false);
+                        mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                        setTotal(String.valueOf(item_tax), false, 0.0, 0.0, tax);
+                    } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
+                        String tax = (String) map.get("tax");
+                        Double taxValue = taxSplit(tax);
+                        Double gst = item_amount * taxValue / 100;
+                        mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        setTotal(String.valueOf(item_amount), false, gst, taxValue, tax);
                     } else {
-                        Double s = total - item_amount;
-                        mItemTotal.setText("₹ " + String.format("%.2f",s));
-                        setTotal(String.valueOf(item_amount), false);
+                        mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
                 }
             }
@@ -138,15 +149,19 @@ public class PosAddItemsAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setTotal(String amount, Boolean mBool) {
+    public void setTotal(String amount, Boolean mBool, Double gst, Double taxValue, String tax) {
         Double total = 0.0;
         if (mBool) {
             total = getTotal() + Double.valueOf(amount);
         } else {
             total = getTotal() - Double.valueOf(amount);
         }
-        setTaxChange(context, total);
-        PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f",total));
+       /* if(Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
+            setMultiRateTaxChange(gst,taxValue);
+            granTotal(total, gst);
+        }else {*/
+        setTaxChange(context, total, gst, taxValue, tax, mBool);
+        PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", total));
     }
 
     public Double getTotal() {
@@ -156,48 +171,114 @@ public class PosAddItemsAdapter extends BaseAdapter {
         return a;
     }
 
-    public static void setTaxChange(Context context, Double subtotal) {
+    public static void setTaxChange(Context context, Double subtotal, Double gst, Double taxValueInt, String tax1, Boolean mBool) {
         Double tax = 0.0;
         if (Preferences.getInstance(context).getPos_sale_type() != null && !Preferences.getInstance(context).getPos_sale_type().equals("")) {
             String taxString = Preferences.getInstance(context).getPos_sale_type();
             String taxName = "";
             String taxValue = "";
-            String arrTaxString[] = taxString.split("-");
-            taxName = arrTaxString[0].trim();
-            taxValue = arrTaxString[1].trim();
             if (taxString.startsWith("I") && taxString.endsWith("%")) {
+                String arrTaxString[] = taxString.split("-");
+                taxName = arrTaxString[0].trim();
+                taxValue = arrTaxString[1].trim();
                 PosItemAddActivity.igst_layout.setVisibility(View.VISIBLE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
                 String[] arr = taxValue.split("%");
                 String s = arr[0];
                 if (!s.equals("")) {
                     tax = (subtotal * Double.valueOf(s)) / 100;
-                    PosItemAddActivity.igst.setText("₹ " + String.format("%.2f",tax));
+                    PosItemAddActivity.igst.setText("₹ " + String.format("%.2f", tax));
                 }
             } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
+                String arrTaxString[] = taxString.split("-");
+                taxName = arrTaxString[0].trim();
+                taxValue = arrTaxString[1].trim();
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.VISIBLE);
                 String[] arr = taxValue.split("%");
                 String s = arr[0];
                 if (!s.equals("")) {
                     tax = (subtotal * Double.valueOf(s)) / 100;
-                    PosItemAddActivity.sgst.setText("₹ " + String.format("%.2f",tax / 2));
-                    PosItemAddActivity.cgst.setText("₹ " + String.format("%.2f",tax / 2));
+                    PosItemAddActivity.sgst.setText("₹ " + String.format("%.2f", tax / 2));
+                    PosItemAddActivity.cgst.setText("₹ " + String.format("%.2f", tax / 2));
                 }
-            } else if (taxString.contains("I/GST-MultiRate")){
-                /*AppUser appUser = LocalRepositories.getAppUser(context);
-                for (int i = 0; i <appUser.mListMapForItemSale.size();i++){
-                    Map map = appUser.mListMapForItemSale.get(i);
-                    String item_id = (String) map.get("item_id");
-                    String tax1 = (String) map.get("tax");
-                    if (map.get(item_id)!=null){
-
+            } else if (taxString.contains("GST-MultiRate")) {
+                if (taxString.contains("I/GST-MultiRate")) {
+                    if (tax1.contains("GST ")) {
+                        if (taxValueInt == 12) {
+                            Double gst_total = getMultiRateTaxChange(PosItemAddActivity.igst_12.getText().toString());
+                            Double plusMinus = gstPlusMinus(gst_total, gst, mBool);
+                            PosItemAddActivity.igst_12.setText("₹ " + String.format("%.2f", (plusMinus)));
+                            tax = tax + plusMinus;
+                        } else if (taxValueInt == 18) {
+                            Double gst_total = getMultiRateTaxChange(PosItemAddActivity.igst_18.getText().toString());
+                            Double plusMinus = gstPlusMinus(gst_total, gst, mBool);
+                            PosItemAddActivity.igst_18.setText("₹ " + String.format("%.2f", (plusMinus)));
+                            tax = tax + plusMinus;
+                        } else if (taxValueInt == 28) {
+                            Double gst_total = getMultiRateTaxChange(PosItemAddActivity.igst_28.getText().toString());
+                            Double plusMinus = gstPlusMinus(gst_total, gst, mBool);
+                            PosItemAddActivity.igst_28.setText("₹ " + String.format("%.2f", (plusMinus)));
+                            tax = tax + plusMinus;
+                        } else if (taxValueInt == 5) {
+                            Double gst_total = getMultiRateTaxChange(PosItemAddActivity.igst_5.getText().toString());
+                            Double plusMinus = gstPlusMinus(gst_total, gst, mBool);
+                            PosItemAddActivity.igst_5.setText("₹ " + String.format("%.2f", (plusMinus)));
+                            tax = tax + plusMinus;
+                        }
+                    }else {
+                        subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.igst_12.getText().toString())
+                                +getMultiRateTaxChange(PosItemAddActivity.igst_18.getText().toString())
+                                        +getMultiRateTaxChange(PosItemAddActivity.igst_28.getText().toString())
+                                                +getMultiRateTaxChange(PosItemAddActivity.igst_5.getText().toString());
                     }
-
+                } else {
+                    if (tax1.contains("GST ")) {
+                        if (taxValueInt == 12) {
+                            Double sgst_total = getMultiRateTaxChange(PosItemAddActivity.sgst_12.getText().toString());
+                            Double cgst_total = getMultiRateTaxChange(PosItemAddActivity.cgst_12.getText().toString());
+                            Double sgstPlusMinus = gstPlusMinus(sgst_total, gst / 2, mBool);
+                            Double cgstPlusMinus = gstPlusMinus(cgst_total, gst / 2, mBool);
+                            PosItemAddActivity.sgst_12.setText("₹ " + String.format("%.2f", (sgstPlusMinus)));
+                            PosItemAddActivity.cgst_12.setText("₹ " + String.format("%.2f", (cgstPlusMinus)));
+                            tax = tax + sgstPlusMinus + cgstPlusMinus;
+                        } else if (taxValueInt == 18) {
+                            Double sgst_total = getMultiRateTaxChange(PosItemAddActivity.sgst_18.getText().toString());
+                            Double cgst_total = getMultiRateTaxChange(PosItemAddActivity.cgst_18.getText().toString());
+                            Double sgstPlusMinus = gstPlusMinus(sgst_total, gst / 2, mBool);
+                            Double cgstPlusMinus = gstPlusMinus(cgst_total, gst / 2, mBool);
+                            PosItemAddActivity.sgst_18.setText("₹ " + String.format("%.2f", (sgstPlusMinus)));
+                            PosItemAddActivity.cgst_18.setText("₹ " + String.format("%.2f", (cgstPlusMinus)));
+                            tax = tax + sgstPlusMinus + cgstPlusMinus;
+                        } else if (taxValueInt == 28) {
+                            Double sgst_total = getMultiRateTaxChange(PosItemAddActivity.sgst_28.getText().toString());
+                            Double cgst_total = getMultiRateTaxChange(PosItemAddActivity.cgst_28.getText().toString());
+                            Double sgstPlusMinus = gstPlusMinus(sgst_total, gst / 2, mBool);
+                            Double cgstPlusMinus = gstPlusMinus(cgst_total, gst / 2, mBool);
+                            PosItemAddActivity.sgst_28.setText("₹ " + String.format("%.2f", (sgstPlusMinus)));
+                            PosItemAddActivity.cgst_28.setText("₹ " + String.format("%.2f", (cgstPlusMinus)));
+                            tax = tax + sgstPlusMinus + cgstPlusMinus;
+                        } else if (taxValueInt == 5) {
+                            Double sgst_total = getMultiRateTaxChange(PosItemAddActivity.sgst_5.getText().toString());
+                            Double cgst_total = getMultiRateTaxChange(PosItemAddActivity.cgst_5.getText().toString());
+                            Double sgstPlusMinus = gstPlusMinus(sgst_total, gst / 2, mBool);
+                            Double cgstPlusMinus = gstPlusMinus(cgst_total, gst / 2, mBool);
+                            PosItemAddActivity.sgst_5.setText("₹ " + String.format("%.2f", (sgstPlusMinus)));
+                            PosItemAddActivity.cgst_5.setText("₹ " + String.format("%.2f", (cgstPlusMinus)));
+                            tax = tax + sgstPlusMinus + cgstPlusMinus;
+                        }
+                    }else {
+                        subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.sgst_12.getText().toString())
+                                +getMultiRateTaxChange(PosItemAddActivity.cgst_12.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.sgst_18.getText().toString())
+                                +getMultiRateTaxChange(PosItemAddActivity.cgst_18.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.sgst_28.getText().toString())
+                                +getMultiRateTaxChange(PosItemAddActivity.cgst_28.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.sgst_5.getText().toString())
+                                +getMultiRateTaxChange(PosItemAddActivity.cgst_5.getText().toString());
+                    }
                 }
-                */
-
-            }else {
+            } else {
                 //For Exempt
                 //For Export(ZeroRated)
                 //Tax Include
@@ -205,13 +286,12 @@ public class PosAddItemsAdapter extends BaseAdapter {
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
             }
         }
-
         granTotal(subtotal, tax);
     }
 
     public static void granTotal(Double subtotal, Double tax) {
         Double grandTotal = subtotal + tax;
-        PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f",grandTotal));
+        PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
     }
 
     public Double taxSplit(String tax) {
@@ -222,5 +302,25 @@ public class PosAddItemsAdapter extends BaseAdapter {
             a = Double.valueOf(arr1[0]);
         }
         return a;
+    }
+
+    public static Double getMultiRateTaxChange(String total) {
+        // String total = PosItemAddActivity.mSubtotal.getText().toString();
+        if (total.equals("0.0")){
+            total = "₹ 0.0";
+        }
+        String[] arr = total.split("₹ ");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
+    }
+
+    public static Double gstPlusMinus(Double gst_total, Double gst, Boolean mBool) {
+        Double total = 0.0;
+        if (mBool) {
+            total = gst_total + gst;
+        } else {
+            total = gst_total - gst;
+        }
+        return total;
     }
 }
