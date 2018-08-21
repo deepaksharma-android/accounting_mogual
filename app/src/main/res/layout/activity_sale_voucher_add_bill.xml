@@ -85,8 +85,7 @@
             android:id="@+id/totallayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
                 style="@style/Gotham_Medium"

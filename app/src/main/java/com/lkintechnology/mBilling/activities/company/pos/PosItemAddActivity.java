@@ -47,6 +47,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     RecyclerView mRecyclerViewBill;
     @Bind(R.id.party_name)
     TextView party_name;
+    @Bind(R.id.add_bill_button)
+    TextView add_bill_button;
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
@@ -251,6 +253,14 @@ public class PosItemAddActivity extends AppCompatActivity {
             }
         });
 
+        add_bill_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getApplicationContext(),PosAddBillActivity.class);
+                startActivity(intent1);
+            }
+        });
+
      /*   listViewItems.setAdapter(new PosAddItemsAdapter(getApplicationContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);*/
@@ -278,7 +288,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         list.add("a");
         mRecyclerViewBill.setLayoutManager(layoutManager);
         mBillAdapter = new PosAddBillAdapter(this, list);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerViewBill.setAdapter(mBillAdapter);
 
   
     }
