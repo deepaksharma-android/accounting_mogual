@@ -414,7 +414,7 @@ public class CreatePurchaseFragment extends Fragment {
                             Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
                             startActivity(intent);
                         } else {
-                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                            Helpers.dialogMessage(getContext(), "You can't settle payment for this account type");
                         }
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");

@@ -489,7 +489,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                             System.out.println("pcccc fragment " + appUser.paymentSettlementList.size());
                             startActivity(intent);
                         } else {
-                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                            Helpers.dialogMessage(getContext(), "You can't settle payment for this account type");
                         }
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");

@@ -206,7 +206,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand,Sundry Debtors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -222,7 +222,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand,Sundry Debtors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -238,7 +238,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand,Sundry Debtors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -254,7 +254,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand,Sundry Debtors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;
@@ -270,7 +270,7 @@ public class PaymentSettlementActivity extends AppCompatActivity {
                 ParameterConstant.forAccountIntentBool = false;
                 ParameterConstant.forAccountIntentName = "";
                 ParameterConstant.forAccountIntentId = "";
-                appUser.account_master_group = "Bank Accounts,Cash-in-hand";
+                appUser.account_master_group = "Bank Accounts,Cash-in-hand,Sundry Debtors";
                 ExpandableAccountListActivity.isDirectForAccount = false;
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ParameterConstant.handleAutoCompleteTextView = 0;

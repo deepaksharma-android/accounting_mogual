@@ -14,6 +14,8 @@ import com.lkintechnology.mBilling.utils.EventAccountChildClicked;
 import com.lkintechnology.mBilling.utils.EventDeleteAccount;
 import com.lkintechnology.mBilling.utils.EventEditAccount;
 import com.lkintechnology.mBilling.utils.EventSelectAccountPurchase;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
+
 import org.greenrobot.eventbus.EventBus;
 import java.util.HashMap;
 import java.util.List;
@@ -131,6 +133,9 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
+       /* if(!ParameterConstant.forPaymentSettlement.equals("")&&headerTitle.equals("Sundry Debtors")){
+
+        }*/
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);

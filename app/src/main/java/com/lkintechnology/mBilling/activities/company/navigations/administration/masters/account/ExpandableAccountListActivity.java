@@ -326,7 +326,14 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 listDataChildMobile.put(i, mobile);
                 listDataChildState.put(i, stateList);
             }
+            if(!ParameterConstant.forPaymentSettlement.equals(""))
+            for(int k=0;k<listDataHeader.size();k++){
+                if(listDataHeader.get(k).equals("Sundry Debtors")){
+                    listDataHeader.remove(k);
+                    listDataChild.remove(k);
 
+                }
+            }
 
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
