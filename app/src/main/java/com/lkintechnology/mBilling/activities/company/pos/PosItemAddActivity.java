@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
+import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.ListHeight;
@@ -28,21 +30,26 @@ import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class PosItemAddActivity extends AppCompatActivity {
+    RecyclerView.LayoutManager layoutManager;
+    PosAddItemsAdapter mAdapter;
+    PosAddBillAdapter mBillAdapter;
     @Bind(R.id.listViewItems)
-    ListView listViewItems;
+    RecyclerView mRecyclerView;
+    @Bind(R.id.recycler_view_bill)
+    RecyclerView mRecyclerViewBill;
     @Bind(R.id.party_name)
     TextView party_name;
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
-    @Bind(R.id.floating_button)
-    FloatingActionButton floatingActionButton;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
 
@@ -79,18 +86,18 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView cgst_5;
 
 
-    RecyclerView.LayoutManager layoutManager;
+
     AppUser appUser;
     Double grandTotal = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pos_item_add);
+        setContentView(R.layout.test_layout);
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
-        floatingActionButton.bringToFront();
+       // floatingActionButton.bringToFront();
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -244,9 +251,34 @@ public class PosItemAddActivity extends AppCompatActivity {
             }
         });
 
-        listViewItems.setAdapter(new PosAddItemsAdapter(getApplicationContext(), appUser.mListMapForItemSale));
+     /*   listViewItems.setAdapter(new PosAddItemsAdapter(getApplicationContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+        ListHeight.setListViewHeightBasedOnChildren(listViewItems);*/
+
+        mRecyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new PosAddItemsAdapter(this, appUser.mListMapForItemSale);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        mRecyclerViewBill.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        List<String> list = new ArrayList();
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        list.add("a");
+        mRecyclerViewBill.setLayoutManager(layoutManager);
+        mBillAdapter = new PosAddBillAdapter(this, list);
+        mRecyclerView.setAdapter(mAdapter);
 
   
     }

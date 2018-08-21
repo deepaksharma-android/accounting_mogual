@@ -777,9 +777,9 @@ public class AddPosItemVoucherFragment extends Fragment {
             billsundrymamounttotal = 0.0;
         }
 
-        listViewItems.setAdapter(new PosAddItemsAdapter(getContext(), appUser.mListMapForItemSale));
+    /*    listViewItems.setAdapter(new PosAddItemsAdapter(getContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+        ListHeight.setListViewHeightBasedOnChildren(listViewItems);*/
 
         listViewBills.setAdapter(new AddBillsVoucherAdapter(getContext(), appUser.mListMapForBillSale, /*appUser.mListMapForItemSale*/appUser.billsundrytotal));
         ListHeight.setListViewHeightBasedOnChildren(listViewBills);

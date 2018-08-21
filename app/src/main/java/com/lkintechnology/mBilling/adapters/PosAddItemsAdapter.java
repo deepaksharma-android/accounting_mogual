@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,15 @@ import com.lkintechnology.mBilling.utils.Preferences;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by BerylSystems on 11/25/2017.
  */
 
-public class PosAddItemsAdapter extends BaseAdapter {
+public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter.ViewHolder> {
 
     Context context;
     List<Map> mListMap;
@@ -36,32 +40,24 @@ public class PosAddItemsAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
+    public PosAddItemsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_pos, viewGroup, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemCount() {
         return mListMap.size();
     }
-
     @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void onBindViewHolder(PosAddItemsAdapter.ViewHolder viewHolder, int position) {
         mInteger = 0;
-        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = infalInflater.inflate(R.layout.list_item_for_pos, null);
-
-        TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
+      /*  TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
         TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
         TextView mItemAmount = (TextView) convertView.findViewById(R.id.item_amount);
         TextView mItemTotal = (TextView) convertView.findViewById(R.id.item_total);
         LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
-        LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
+        LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);*/
         Map map = mListMap.get(position);
         String item_id = (String) map.get("item_id");
         String itemName = (String) map.get("item_name");
@@ -69,22 +65,22 @@ public class PosAddItemsAdapter extends BaseAdapter {
         Double item_amount = (Double) map.get("sales_price_main");
         Double total = (Double) map.get("total");
         String tax = (String) map.get("tax").toString();
-        mItemName.setText(itemName);
-        mQuantity.setText(quantity);
-        mItemAmount.setText("₹ " + String.format("%.2f", item_amount));
-        mItemTotal.setText("₹ " + String.format("%.2f", total));
+        viewHolder.mItemName.setText(itemName);
+        viewHolder.mQuantity.setText(quantity);
+        viewHolder.mItemAmount.setText("₹ " + String.format("%.2f", item_amount));
+        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", total));
 
-        increase.setOnClickListener(new View.OnClickListener() {
+        viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInteger = Integer.parseInt(mQuantity.getText().toString());
+                mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 mInteger = mInteger + 1;
-                mQuantity.setText("" + mInteger);
+                viewHolder.mQuantity.setText("" + mInteger);
 
-                String arr = mItemTotal.getText().toString();
+                String arr = viewHolder.mItemTotal.getText().toString();
                 String[] arr1 = arr.split("₹ ");
                 Double total = Double.valueOf(arr1[1]);
-                String arr2 = mItemAmount.getText().toString();
+                String arr2 = viewHolder.mItemAmount.getText().toString();
                 String[] arr3 = arr2.split("₹ ");
                 Double item_amount = Double.valueOf(arr3[1]);
 
@@ -95,32 +91,32 @@ public class PosAddItemsAdapter extends BaseAdapter {
                     Double taxValue = taxSplit(tax);
                     Double item_tax = (item_amount * taxValue) / 100;
                     Double taxInclude = total + item_tax;
-                    mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
                     setTotal(String.valueOf(item_tax), true, 0.0, 0.0, tax);
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
                     Double gst = item_amount * taxValue / 100;
-                    mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
-                    mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
             }
         });
 
-        decrease.setOnClickListener(new View.OnClickListener() {
+        viewHolder.decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInteger = Integer.parseInt(mQuantity.getText().toString());
+                mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 if (mInteger > 1) {
                     mInteger = mInteger - 1;
-                    mQuantity.setText("" + mInteger);
+                    viewHolder.mQuantity.setText("" + mInteger);
 
-                    String arr = mItemTotal.getText().toString();
+                    String arr = viewHolder.mItemTotal.getText().toString();
                     String[] arr1 = arr.split("₹ ");
                     Double total = Double.valueOf(arr1[1]);
-                    String arr2 = mItemAmount.getText().toString();
+                    String arr2 = viewHolder.mItemAmount.getText().toString();
                     String[] arr3 = arr2.split("₹ ");
                     Double item_amount = Double.valueOf(arr3[1]);
 
@@ -131,22 +127,21 @@ public class PosAddItemsAdapter extends BaseAdapter {
                         Double taxValue = taxSplit(tax);
                         Double item_tax = (item_amount * taxValue) / 100;
                         Double taxInclude = total - item_tax;
-                        mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
                         setTotal(String.valueOf(item_tax), false, 0.0, 0.0, tax);
                     } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
                         String tax = (String) map.get("tax");
                         Double taxValue = taxSplit(tax);
                         Double gst = item_amount * taxValue / 100;
-                        mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                         setTotal(String.valueOf(item_amount), false, gst, taxValue, tax);
                     } else {
-                        mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
                 }
             }
         });
-        return convertView;
     }
 
     public void setTotal(String amount, Boolean mBool, Double gst, Double taxValue, String tax) {
@@ -322,5 +317,26 @@ public class PosAddItemsAdapter extends BaseAdapter {
             total = gst_total - gst;
         }
         return total;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.lblListItem)
+        TextView mItemName;
+        @Bind(R.id.quantity)
+        TextView mQuantity;
+        @Bind(R.id.item_amount)
+        TextView mItemAmount;
+        @Bind(R.id.item_total)
+        TextView mItemTotal;
+        @Bind(R.id.decrease)
+        LinearLayout decrease;
+        @Bind(R.id.increase)
+        LinearLayout increase;
+
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }
