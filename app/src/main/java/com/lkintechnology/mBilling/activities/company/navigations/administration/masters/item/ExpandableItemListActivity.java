@@ -159,6 +159,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     List<String> idList;
     private ArrayAdapter<String> adapter;
     private SimpleDateFormat dateFormatter;
+    public static Boolean boolForAdapterSet = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -280,6 +281,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     }
                     Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                     intent.putExtra("subtotal", subtotal);
+                    boolForAdapterSet = true;
                     startActivity(intent);
                 }else {
                     Toast.makeText(ExpandableItemListActivity.this, "Please select sale type in setting menu!!!", Toast.LENGTH_SHORT).show();

@@ -36,6 +36,7 @@ import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -113,9 +114,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(this);
        // floatingActionButton.bringToFront();
-        appUser.billsundrytotal.clear();
-        appUser.itemtotal.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -303,16 +301,27 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         System.out.println(appUser.mListMapForBillSale.toString());
-        setBillListDataAdapter();
+        if (ExpandableItemListActivity.boolForAdapterSet){
+            setBillListDataAdapter();
+        }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        EventBus.getDefault().unregister(this);
         System.out.println(appUser.mListMapForBillSale.toString());
+        ExpandableItemListActivity.boolForAdapterSet = false;
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     private void initActionbar() {
@@ -399,7 +408,10 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Subscribe
     public void event_click_alert(EventForPos response) {
         if (response.getPosition().equals("true")){
-            setBillListDataAdapter();
+            appUser = LocalRepositories.getAppUser(this);
+            if (appUser.mListMapForBillSale.size()>0){
+                setBillListDataAdapter();
+            }
         }
     }
 
@@ -409,7 +421,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         mRecyclerViewBill.setLayoutManager(layoutManager);
         mBillAdapter = new PosAddBillAdapter(this, appUser.mListMapForBillSale);
         mRecyclerViewBill.setAdapter(mBillAdapter);
-        mBillAdapter.notifyDataSetChanged();
+        //mBillAdapter.notifyDataSetChanged();
 
     }
 }

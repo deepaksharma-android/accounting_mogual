@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
@@ -274,6 +275,7 @@ public class PosAddBillActivity extends AppCompatActivity {
                /* Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);*/
+                ExpandableItemListActivity.boolForAdapterSet = true;
                 finish();
 
             }

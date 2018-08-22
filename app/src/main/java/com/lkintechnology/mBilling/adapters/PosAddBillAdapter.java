@@ -49,7 +49,7 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
 
     @Override
     public void onBindViewHolder(PosAddBillAdapter.ViewHolder viewHolder, int position) {
-        Double total = 0.0, subtotal = 0.0, subTotal = 0.0, grandTotal = 0.0;
+        Double total = 0.0, subtotal = 0.0, subTotal = 0.0, grandTotal = 0.0,total1 = 0.0,subtotal1 = 0.0;
         Map map = mListMap.get(position);
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
@@ -77,15 +77,15 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
                 subtotal = (subTotal * Double.valueOf(amount)) / 100;
                 viewHolder.mAmount.setText("₹ " + String.format("%.2f", total));
                 if (type.equals("Additive")) {
-                    total = grandTotal + total;
-                    subtotal = subTotal + subtotal;
+                    total1 = grandTotal + total;
+                    subtotal1 = subTotal + subtotal;
                 } else {
-                    total = grandTotal - total;
-                    subtotal = subTotal - subtotal;
+                    total1 = grandTotal - total;
+                    subtotal1 = subTotal - subtotal;
                 }
                 viewHolder.mDiscount.setText("Discount " + amount + "%");
-                PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal));
-                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total));
+                PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal1));
+                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total1));
             }
         }
     }

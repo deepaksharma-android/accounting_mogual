@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.EventForPos;
@@ -107,14 +108,6 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
-
-
-
-                appUser = LocalRepositories.getAppUser(context);
-                if (appUser.mListMapForBillSale.size()>0){
-                   // new PosItemAddActivity().setBillListDataAdapter();
-                    EventBus.getDefault().post(new EventForPos("true"));
-                }
             }
         });
 
@@ -152,11 +145,6 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
-                }
-                appUser = LocalRepositories.getAppUser(context);
-                if (appUser.mListMapForBillSale.size()>0){
-                    // new PosItemAddActivity().setBillListDataAdapter();
-                    EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
         });
@@ -305,6 +293,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     public static void granTotal(Double subtotal, Double tax) {
         Double grandTotal = subtotal + tax;
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
+        EventBus.getDefault().post(new EventForPos("true"));
     }
 
     public Double taxSplit(String tax) {
