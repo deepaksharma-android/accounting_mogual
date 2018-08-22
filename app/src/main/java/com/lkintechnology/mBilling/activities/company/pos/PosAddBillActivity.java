@@ -225,37 +225,37 @@ public class PosAddBillActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-             /*   submit.startAnimation(blinkOnClick);
-                appUser.bill_sundry_fed_as =*//*data.getAttributes().getAmount_of_bill_sundry_fed_as()*//*billSundryFedAs;
-                appUser.bill_sundry_sale_voucher_type =*//*data.getAttributes().getBill_sundry_type()*//*billSundryType;
-                mMap.put("id", *//*data.getId()*//*id);
+                submit.startAnimation(blinkOnClick);
+                appUser.bill_sundry_fed_as =/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs;
+                appUser.bill_sundry_sale_voucher_type =/*data.getAttributes().getBill_sundry_type()*/billSundryType;
+                mMap.put("id", /*data.getId()*/id);
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("bill_sundry_id", billSundryId);
                 mMap.put("percentage", billAmount.getText().toString());
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as",*//*data.getAttributes().getAmount_of_bill_sundry_fed_as()*//*billSundryFedAs);
-                mMap.put("fed_as_percentage",*//*data.getAttributes().getBill_sundry_of_percentage()*//*billSundryFedAsPercentage);
-                mMap.put("type",*//*data.getAttributes().getBill_sundry_type()*//*billSundryType);
+                mMap.put("fed_as",/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs);
+                mMap.put("fed_as_percentage",/*data.getAttributes().getBill_sundry_of_percentage()*/billSundryFedAsPercentage);
+                mMap.put("type",/*data.getAttributes().getBill_sundry_type()*/billSundryType);
                 mMap.put("amount", billAmount.getText().toString());
                 mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(*//*data.getAttributes().getNumber_of_bill_sundry()*//*billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(*//*data.getAttributes().getNumber_of_bill_sundry()*//*billSundryNumber));
+                if (String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber) != null) {
+                    mMap.put("number_of_bill", String.valueOf(/*data.getAttributes().getNumber_of_bill_sundry()*/billSundryNumber));
                 }
-                if (String.valueOf(*//*data.getAttributes().isConsolidate_bill_sundry()*//*billSundryConsolidated) != null) {
+                if (String.valueOf(/*data.getAttributes().isConsolidate_bill_sundry()*/billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
                 if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
-                        mMap.put("changeamount",*//*data.getAttributes().getBill_sundry_type()*//*mTotalAmt.getText().toString());
+                        mMap.put("changeamount",/*data.getAttributes().getBill_sundry_type()*/mTotalAmt.getText().toString());
                     }
                 }
 
-                if (*//*data.getAttributes().getBill_sundry_id()*//*String.valueOf(billSundryId) != null) {
+                if (/*data.getAttributes().getBill_sundry_id()*/String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int i = 0; i < size; i++) {
                         String id = appUser.arr_billSundryId.get(i);
-                        if (id.equals(String.valueOf(*//*data.getAttributes().getBill_sundry_id()*//*billSundryId))) {
+                        if (id.equals(String.valueOf(/*data.getAttributes().getBill_sundry_id()*/billSundryId))) {
                             billsundryothername = appUser.arr_billSundryName.get(i);
                             break;
                         }
@@ -271,7 +271,7 @@ public class PosAddBillActivity extends AppCompatActivity {
                     appUser.mListMapForBillSale.add(finalPos, mMap);
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
+               /* Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);*/
                 finish();
@@ -304,8 +304,8 @@ public class PosAddBillActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, BillSundryListActivity.class);
-        startActivity(intent);
+       /* Intent intent = new Intent(this, BillSundryListActivity.class);
+        startActivity(intent);*/
         finish();
     }
 
@@ -364,9 +364,9 @@ public class PosAddBillActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, BillSundryListActivity.class);
+               /* Intent intent = new Intent(this, BillSundryListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
                 finish();
                 return true;
             default:

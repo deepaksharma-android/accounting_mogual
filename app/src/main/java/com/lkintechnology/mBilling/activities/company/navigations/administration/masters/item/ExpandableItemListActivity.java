@@ -228,7 +228,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     Double subtotal = 0.0;
                     for (int i = 0; i < listDataHeader.size(); i++) {
                         Double total = 0.0;
-                        for (int j = 0; j < listDataChild.get(listDataHeader.get(0)).size(); j++) {
+                        for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); j++) {
                             String pos = i + "," + j;
                             //String id = pos.getPosition();
                             String key = "";

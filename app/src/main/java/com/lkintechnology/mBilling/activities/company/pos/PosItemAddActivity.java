@@ -29,11 +29,14 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.EventForPos;
 import com.lkintechnology.mBilling.utils.ListHeight;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
 import com.lkintechnology.mBilling.utils.Preferences;
 import com.lkintechnology.mBilling.utils.TypefaceCache;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +50,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class PosItemAddActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     PosAddItemsAdapter mAdapter;
-    PosAddBillAdapter mBillAdapter;
+    public PosAddBillAdapter mBillAdapter;
     @Bind(R.id.listViewItems)
     RecyclerView mRecyclerView;
     @Bind(R.id.recycler_view_bill)
@@ -292,30 +295,24 @@ public class PosItemAddActivity extends AppCompatActivity {
         mAdapter = new PosAddItemsAdapter(this, appUser.mListMapForItemSale);
         mRecyclerView.setAdapter(mAdapter);
 
-
-        mRecyclerViewBill.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        List<String> list = new ArrayList();
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        list.add("a");
-        mRecyclerViewBill.setLayoutManager(layoutManager);
-        mBillAdapter = new PosAddBillAdapter(this, list);
-        mRecyclerViewBill.setAdapter(mBillAdapter);
-
-  
     }
     
     public void add(View v) {
         Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        appUser = LocalRepositories.getAppUser(getApplicationContext());
+        System.out.println(appUser.mListMapForBillSale.toString());
+        setBillListDataAdapter();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        System.out.println(appUser.mListMapForBillSale.toString());
+        super.onPause();
     }
 
     private void initActionbar() {
@@ -397,5 +394,22 @@ public class PosItemAddActivity extends AppCompatActivity {
 
                 })
                 .show();
+    }
+
+    @Subscribe
+    public void event_click_alert(EventForPos response) {
+        if (response.getPosition().equals("true")){
+            setBillListDataAdapter();
+        }
+    }
+
+   public void setBillListDataAdapter(){
+        mRecyclerViewBill.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerViewBill.setLayoutManager(layoutManager);
+        mBillAdapter = new PosAddBillAdapter(this, appUser.mListMapForBillSale);
+        mRecyclerViewBill.setAdapter(mBillAdapter);
+        mBillAdapter.notifyDataSetChanged();
+
     }
 }

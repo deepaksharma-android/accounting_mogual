@@ -24,11 +24,11 @@ public class AddBillsVoucherAdapter extends BaseAdapter {
 
     Context context;
     List<Map<String, String>> mListMap;
-   // List<Map<String, String>> mListItemMap;
+    // List<Map<String, String>> mListItemMap;
     ArrayList<String> mListItemMap;
 
 
-    public AddBillsVoucherAdapter(Context context, List<Map<String, String>> mListMap, /*List<Map<String, String>> mListItemMap*/ArrayList<String> mListItemMap ) {
+    public AddBillsVoucherAdapter(Context context, List<Map<String, String>> mListMap, /*List<Map<String, String>> mListItemMap*/ArrayList<String> mListItemMap) {
         this.context = context;
         this.mListMap = mListMap;
         this.mListItemMap = mListItemMap;
@@ -67,17 +67,17 @@ public class AddBillsVoucherAdapter extends BaseAdapter {
         String fed_as_percentage = (String) map.get("fed_as_percentage");
         String fed_as = (String) map.get("fed_as");
 
-        if(fed_as_percentage!=null) {
+        if (fed_as_percentage != null) {
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 holder.mDiscount.setText(String.valueOf(changeamount));
                 holder.mDefaultText.setText("DEFAULT VALUE (₹)");
-            }
-            else{    if(fed_as!=null){
-                if(fed_as.equals("Absolute Amount")){
-                    holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+            } else {
+                if (fed_as != null) {
+                    if (fed_as.equals("Absolute Amount")) {
+                        holder.mDefaultText.setText("DEFAULT VALUE (₹)");
+                    }
                 }
-            }
                 holder.mDiscount.setText(amount);
             }
         }

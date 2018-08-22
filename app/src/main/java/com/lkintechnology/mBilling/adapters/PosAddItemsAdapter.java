@@ -12,8 +12,11 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.EventForPos;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     Context context;
     List<Map> mListMap;
     int mInteger = 0;
+    AppUser appUser;
     //ViewHolder holder;
 
     public PosAddItemsAdapter(Context context, List<Map> mListMap) {
@@ -51,6 +55,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     }
     @Override
     public void onBindViewHolder(PosAddItemsAdapter.ViewHolder viewHolder, int position) {
+        appUser = LocalRepositories.getAppUser(context);
         mInteger = 0;
       /*  TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
         TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
@@ -102,6 +107,14 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
+
+
+
+                appUser = LocalRepositories.getAppUser(context);
+                if (appUser.mListMapForBillSale.size()>0){
+                   // new PosItemAddActivity().setBillListDataAdapter();
+                    EventBus.getDefault().post(new EventForPos("true"));
+                }
             }
         });
 
@@ -139,6 +152,11 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
+                }
+                appUser = LocalRepositories.getAppUser(context);
+                if (appUser.mListMapForBillSale.size()>0){
+                    // new PosItemAddActivity().setBillListDataAdapter();
+                    EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
         });
