@@ -38,7 +38,7 @@ public class PosAddBillAdapter extends  RecyclerView.Adapter<PosAddBillAdapter.V
 
     @Override
     public PosAddBillAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_for_pos, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_bill_for_pos, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -52,7 +52,7 @@ public class PosAddBillAdapter extends  RecyclerView.Adapter<PosAddBillAdapter.V
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.lblListItem)
+       /* @Bind(R.id.lblListItem)
         TextView mItemName;
         @Bind(R.id.quantity)
         TextView mQuantity;
@@ -63,7 +63,7 @@ public class PosAddBillAdapter extends  RecyclerView.Adapter<PosAddBillAdapter.V
         @Bind(R.id.decrease)
         LinearLayout decrease;
         @Bind(R.id.increase)
-        LinearLayout increase;
+        LinearLayout increase;*/
 
 
         public ViewHolder(View itemView) {

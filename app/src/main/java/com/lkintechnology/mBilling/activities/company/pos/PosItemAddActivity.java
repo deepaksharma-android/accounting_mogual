@@ -110,6 +110,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(this);
        // floatingActionButton.bringToFront();
+        appUser.billsundrytotal.clear();
+        appUser.itemtotal.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
