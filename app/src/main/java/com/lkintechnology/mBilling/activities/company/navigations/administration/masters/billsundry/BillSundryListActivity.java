@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
@@ -316,6 +317,12 @@ public class BillSundryListActivity extends AppCompatActivity {
             }else if (ExpandableItemListActivity.comingFrom == 4) {
                 Intent intent = new Intent(getApplicationContext(), StockTransferAddBillActivity.class);
                 intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            }else if (ExpandableItemListActivity.comingFrom == 5) {
+                Intent intent = new Intent(getApplicationContext(), PosAddBillActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("fromvoucherbilllist", false);
                 startActivity(intent);
                 finish();
             }

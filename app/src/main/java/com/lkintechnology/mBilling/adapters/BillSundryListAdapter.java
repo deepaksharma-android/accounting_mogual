@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.CreateBillSundryActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddBillActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddBillActivity;
@@ -88,6 +89,8 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
                     SaleReturnAddBillActivity.data = data.get(i);
                 } else if (ExpandableItemListActivity.comingFrom == 4) {
                     StockTransferAddBillActivity.data = data.get(i);
+                }else  if (ExpandableItemListActivity.comingFrom == 5) {
+                    PosAddBillActivity.data = data.get(i);
                 }
                 EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));
             }

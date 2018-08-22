@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -37,6 +42,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class PosItemAddActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     PosAddItemsAdapter mAdapter;
@@ -52,6 +59,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
+    Animation blinkOnClick;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
 
@@ -95,9 +103,11 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.activity_pos_item_add);
         ButterKnife.bind(this);
         initActionbar();
+        blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(this);
        // floatingActionButton.bringToFront();
         Intent intent = getIntent();
@@ -256,8 +266,16 @@ public class PosItemAddActivity extends AppCompatActivity {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(getApplicationContext(),PosAddBillActivity.class);
-                startActivity(intent1);
+                if(!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
+                    add_bill_button.startAnimation(blinkOnClick);
+                    ExpandableItemListActivity.comingFrom = 5;
+                    BillSundryListActivity.isDirectForBill = false;
+                    startActivity(new Intent(getApplicationContext(), BillSundryListActivity.class));
+                   // finish();
+                }
+                else{
+                    alertdialog();
+                }
             }
         });
 
@@ -365,5 +383,16 @@ public class PosItemAddActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void alertdialog(){
+        new AlertDialog.Builder(getApplicationContext())
+                .setTitle("Sale Voucher")
+                .setMessage("Please add sale type in create voucher")
+                .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
+                    return;
+
+                })
+                .show();
     }
 }
