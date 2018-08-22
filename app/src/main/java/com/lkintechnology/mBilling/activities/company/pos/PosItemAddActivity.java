@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
@@ -39,22 +41,47 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
+    @Bind(R.id.floating_button)
+    FloatingActionButton floatingActionButton;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
+
+    public  LinearLayout igst_layout_12;
+    public  LinearLayout igst_layout_18;
+    public  LinearLayout igst_layout_28;
+    public  LinearLayout igst_layout_5;
+
+    public  LinearLayout sgst_cgst_layout_12;
+    public  LinearLayout sgst_cgst_layout_18;
+    public  LinearLayout sgst_cgst_layout_28;
+    public  LinearLayout sgst_cgst_layout_5;
+
     public static TextView igst;
     public static TextView sgst;
     public static TextView cgst;
     public static TextView grand_total;
-    public static LinearLayout sgst_cgst_multirate_layout;
-    public static LinearLayout igst_multirate_layout;
+
+    public  LinearLayout sgst_cgst_multirate_layout;
+    public  LinearLayout igst_multirate_layout;
+
     public static TextView igst_12;
     public static TextView igst_18;
     public static TextView igst_28;
     public static TextView igst_5;
 
+    public static TextView sgst_12;
+    public static TextView cgst_12;
+    public static TextView sgst_18;
+    public static TextView cgst_18;
+    public static TextView sgst_28;
+    public static TextView cgst_28;
+    public static TextView sgst_5;
+    public static TextView cgst_5;
+
 
     RecyclerView.LayoutManager layoutManager;
     AppUser appUser;
+    Double grandTotal = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +90,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initActionbar();
         appUser = LocalRepositories.getAppUser(this);
+        floatingActionButton.bringToFront();
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -70,6 +98,16 @@ public class PosItemAddActivity extends AppCompatActivity {
         sgst_cgst_layout = (LinearLayout) findViewById(R.id.sgst_cgst_layout);
         igst_multirate_layout = (LinearLayout) findViewById(R.id.igst_multirate_layout);
         sgst_cgst_multirate_layout = (LinearLayout) findViewById(R.id.sgst_cgst_multirate_layout);
+
+        igst_layout_12 = (LinearLayout) findViewById(R.id.igst_layout_12);
+        igst_layout_18 = (LinearLayout) findViewById(R.id.igst_layout_18);
+        igst_layout_28 = (LinearLayout) findViewById(R.id.igst_layout_28);
+        igst_layout_5 = (LinearLayout) findViewById(R.id.igst_layout_5);
+
+        sgst_cgst_layout_12 = (LinearLayout) findViewById(R.id.sgst_cgst_layout_12);
+        sgst_cgst_layout_18 = (LinearLayout) findViewById(R.id.sgst_cgst_layout_18);
+        sgst_cgst_layout_28 = (LinearLayout) findViewById(R.id.sgst_cgst_layout_28);
+        sgst_cgst_layout_5 = (LinearLayout) findViewById(R.id.sgst_cgst_layout_5);
 
         igst = (TextView) findViewById(R.id.igst);
         sgst = (TextView) findViewById(R.id.sgst);
@@ -79,6 +117,17 @@ public class PosItemAddActivity extends AppCompatActivity {
         igst_18 = (TextView) findViewById(R.id.igst_18);
         igst_28 = (TextView) findViewById(R.id.igst_28);
         igst_5 = (TextView) findViewById(R.id.igst_5);
+
+        sgst_12 = (TextView) findViewById(R.id.sgst_12);
+        cgst_12 = (TextView) findViewById(R.id.cgst_12);
+        sgst_18 = (TextView) findViewById(R.id.sgst_18);
+        cgst_18 = (TextView) findViewById(R.id.cgst_18);
+        sgst_28 = (TextView) findViewById(R.id.sgst_28);
+        cgst_28 = (TextView) findViewById(R.id.cgst_28);
+        sgst_5 = (TextView) findViewById(R.id.sgst_5);
+        cgst_5 = (TextView) findViewById(R.id.cgst_5);
+
+
 
         grand_total = (TextView) findViewById(R.id.grand_total);
 
@@ -92,52 +141,92 @@ public class PosItemAddActivity extends AppCompatActivity {
         mSubtotal.setText("₹ " + subtotal);
         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
             Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
+            String quantity = "";
             for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
                 Map map = appUser.mListMapForItemSale.get(i);
                 String item_id = (String) map.get("item_id");
                 String tax1 = (String) map.get("tax");
+                quantity = (String) map.get("quantity");
                 Double sales_price_main = (Double) map.get("sales_price_main");
-                int percentage = (int) map.get(item_id);
+                Double percentage = (Double) map.get(item_id);
                 if (percentage != 0) {
                     if (percentage == 12) {
-                        gst_12 = gst_12 + (sales_price_main * percentage) / 100;
+                        gst_12 = Double.valueOf(quantity) *  (gst_12 + (sales_price_main * percentage) / 100);
                     } else if (percentage == 18) {
-                        gst_18 = gst_18 + (sales_price_main * percentage) / 100;
+                        gst_18 = Double.valueOf(quantity) * (gst_18 + (sales_price_main * percentage) / 100);
                     } else if (percentage == 28) {
-                        gst_28 = gst_28 + (sales_price_main * percentage) / 100;
+                        gst_28 = Double.valueOf(quantity) * (gst_28 + (sales_price_main * percentage) / 100);
                     } else if (percentage == 5) {
-                        gst_5 = gst_5 + (sales_price_main * percentage) / 100;
+                        gst_5 = Double.valueOf(quantity) * (gst_5 + (sales_price_main * percentage) / 100);
                     }
                 }
             }
             if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("I/GST-MultiRate")) {
-                sgst_cgst_multirate_layout.setVisibility(View.GONE);
                 igst_layout.setVisibility(View.GONE);
                 sgst_cgst_layout.setVisibility(View.GONE);
+                sgst_cgst_multirate_layout.setVisibility(View.GONE);
                 igst_multirate_layout.setVisibility(View.VISIBLE);
-                igst_12.setVisibility(View.GONE);
-                igst_18.setVisibility(View.GONE);
-                igst_28.setVisibility(View.GONE);
-                igst_5.setVisibility(View.GONE);
+                igst_layout_12.setVisibility(View.GONE);
+                igst_layout_18.setVisibility(View.GONE);
+                igst_layout_28.setVisibility(View.GONE);
+                igst_layout_5.setVisibility(View.GONE);
                 if (gst_12 != 0) {
-                    igst_12.setVisibility(View.VISIBLE);
-                    igst_12.setText("" + gst_12);
+                    igst_layout_12.setVisibility(View.VISIBLE);
+                    igst_12.setText("₹ " + gst_12);
+                    grandTotal = grandTotal + gst_12;
                 }
                 if (gst_18 != 0) {
-                    igst_18.setVisibility(View.VISIBLE);
-                    igst_18.setText("" + gst_18);
+                    igst_layout_18.setVisibility(View.VISIBLE);
+                    igst_18.setText("₹ " + gst_18);
+                    grandTotal = grandTotal + gst_18;
                 }
                 if (gst_28 != 0) {
-                    igst_28.setVisibility(View.VISIBLE);
-                    igst_28.setText("" + gst_28);
+                    igst_layout_28.setVisibility(View.VISIBLE);
+                    igst_28.setText("₹ " + gst_28);
+                    grandTotal = grandTotal + gst_28;
                 }
                 if (gst_5 != 0) {
-                    igst_5.setVisibility(View.VISIBLE);
-                    igst_5.setText("" + gst_5);
+                    igst_layout_5.setVisibility(View.VISIBLE);
+                    igst_5.setText("₹ " + gst_5);
+                    grandTotal = grandTotal + gst_5;
+                }
+            } else {
+                igst_layout.setVisibility(View.GONE);
+                sgst_cgst_layout.setVisibility(View.GONE);
+                sgst_cgst_multirate_layout.setVisibility(View.VISIBLE);
+                igst_multirate_layout.setVisibility(View.GONE);
+                sgst_cgst_layout_12.setVisibility(View.GONE);
+                sgst_cgst_layout_18.setVisibility(View.GONE);
+                sgst_cgst_layout_28.setVisibility(View.GONE);
+                sgst_cgst_layout_5.setVisibility(View.GONE);
+                if (gst_12 != 0) {
+                    sgst_cgst_layout_12.setVisibility(View.VISIBLE);
+                    sgst_12.setText("₹ " + gst_12/2);
+                    cgst_12.setText("₹ " + gst_12/2);
+                    grandTotal = grandTotal + gst_12;
+                }
+                if (gst_18 != 0) {
+                    sgst_cgst_layout_18.setVisibility(View.VISIBLE);
+                    sgst_18.setText("₹ " + gst_18/2);
+                    cgst_18.setText("₹ " + gst_18/2);
+                    grandTotal = grandTotal + gst_18;
+                }
+                if (gst_28 != 0) {
+                    sgst_cgst_layout_28.setVisibility(View.VISIBLE);
+                    sgst_28.setText("₹ " + gst_28/2);
+                    cgst_28.setText("₹ " + gst_28/2);
+                    grandTotal = grandTotal + gst_28;
+                }
+                if (gst_5 != 0) {
+                    sgst_cgst_layout_5.setVisibility(View.VISIBLE);
+                    sgst_5.setText("₹ " + gst_5/2);
+                    cgst_5.setText("₹ " + gst_5/2);
+                    grandTotal = grandTotal + gst_5;
                 }
             }
+            grand_total.setText("₹ " +(subtotal + grandTotal));
         } else {
-            PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal);
+            PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal,0.0,0.0,"",false);
         }
 
         change_layout.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +247,12 @@ public class PosItemAddActivity extends AppCompatActivity {
         listViewItems.setAdapter(new PosAddItemsAdapter(getApplicationContext(), appUser.mListMapForItemSale));
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
         ListHeight.setListViewHeightBasedOnChildren(listViewItems);
+
+  
+    }
+    
+    public void add(View v) {
+        Toast.makeText(this, "Yes", Toast.LENGTH_SHORT).show();
     }
 
     private void initActionbar() {

@@ -258,9 +258,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                     Double taxInclude = Double.valueOf(total) + item_tax;
                                     total = taxInclude;
                                 }
-                                int multiRate = 0;
+                                Double multiRate = 0.0;
                                 if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
-                                    multiRate = taxSplit(tax);
+                                    multiRate = Double.valueOf(taxSplit(tax));
                                 }
 
                                 subtotal = subtotal + total;
