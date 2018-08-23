@@ -111,7 +111,6 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
-                EventBus.getDefault().post(new EventForPos("true"));
             }
         });
 
@@ -150,7 +149,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
 
-                    EventBus.getDefault().post(new EventForPos("true"));
+                  //  EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
         });
@@ -297,7 +296,9 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
         }
         appUser = LocalRepositories.getAppUser(context);
         if (appUser.mListMapForBillSale.size()>0){
-           new PosItemAddActivity().billCalculation((subtotal+tax),true);
+          // new PosItemAddActivity().billCalculation((subtotal+tax),true);
+            String subTotal = String.valueOf(subtotal+tax);
+            EventBus.getDefault().post(new EventForPos(subTotal));
         }else {
             granTotal(subtotal, tax);
         }

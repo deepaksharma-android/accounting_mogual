@@ -415,12 +415,13 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Subscribe
     public void event_click_alert(EventForPos response) {
-        if (response.getPosition().equals("true")) {
             appUser = LocalRepositories.getAppUser(this);
             if (appUser.mListMapForBillSale.size() > 0) {
-                notifyDataSetChanged();
+                appUser.billsundrytotal.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+                billCalculation(Double.valueOf(response.getPosition()),true);
+                setBillListDataAdapter();
             }
-        }
     }
 
     public void setBillListDataAdapter() {
@@ -489,6 +490,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                             } else {
                                 grandTotal = grandTotal - total;
                             }
+
                             appUser.billsundrytotal.add(i, String.format("%.2f", total));
                         }
                     } else {
