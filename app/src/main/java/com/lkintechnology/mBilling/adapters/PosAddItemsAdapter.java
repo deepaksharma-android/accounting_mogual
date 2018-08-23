@@ -295,15 +295,17 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
             }
         }
-        granTotal(subtotal, tax,appUser,context);
-
+        appUser = LocalRepositories.getAppUser(context);
+        if (appUser.mListMapForBillSale.size()>0){
+           new PosItemAddActivity().billCalculation((subtotal+tax),true);
+        }else {
+            granTotal(subtotal, tax);
+        }
     }
 
-    public static void granTotal(Double subtotal, Double tax,AppUser appUser,Context context) {
+    public static void granTotal(Double subtotal, Double tax) {
         Double grandTotal = subtotal + tax;
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
-        appUser.grandTotal = String.valueOf(grandTotal);
-        LocalRepositories.saveAppUser(context,appUser);
     }
 
     public Double taxSplit(String tax) {

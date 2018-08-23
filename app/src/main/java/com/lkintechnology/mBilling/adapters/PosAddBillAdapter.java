@@ -14,6 +14,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,15 +31,15 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
     Context context;
     List<Map<String, String>> mListMap;
     int mInteger = 0;
-    Boolean aBoolean = false;
+    ArrayList<String> billSundryTotal;
     AppUser appUser;
 
     //ViewHolder holder;
 
-    public PosAddBillAdapter(Context context, List<Map<String, String>> mListMap,Boolean aBoolean) {
+    public PosAddBillAdapter(Context context, List<Map<String, String>> mListMap,ArrayList<String> billSundryTotal) {
         this.context = context;
         this.mListMap = mListMap;
-        this.aBoolean = aBoolean;
+        this.billSundryTotal = billSundryTotal;
 
     }
 
@@ -62,17 +63,25 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         String fed_as_percentage = (String) map.get("fed_as_percentage");
         String fed_as = (String) map.get("fed_as");
         String type = (String) map.get("type");
+        viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
         if (fed_as_percentage != null) {
-            if (position==0){
+            if (fed_as_percentage.equals("valuechange")) {
+                viewHolder.mDiscount.setText("Discount ");
+            }else {
+                viewHolder.mDiscount.setText("Discount " + amount + "%");
+            }
+        }
+     /*   if (fed_as_percentage != null) {
+          *//*  if (position==0){
                 appUser = LocalRepositories.getAppUser(context);
                 grandTotal = Double.valueOf(appUser.grandTotal);
                 subTotal = Double.valueOf(appUser.subTotal);
-            }else {
+            }else {*//*
                 grandTotal = getGrandTotal(PosItemAddActivity.grand_total.getText().toString());
                 subTotal = getGrandTotal(PosItemAddActivity.mSubtotal.getText().toString());
-            }
+          //  }
             if (fed_as_percentage.equals("valuechange")) {
-                Double changeamount = Double.parseDouble((String) map.get("changeamount"));
+               *//* Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 if (type.equals("Additive")) {
                     total = grandTotal + changeamount;
                     subtotal = subTotal + changeamount;
@@ -83,9 +92,9 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
                 PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal));
                 PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total));
                 viewHolder.mAmount.setText(String.valueOf("₹ " + String.format("%.2f", changeamount)));
-                // viewHolder.mDefaultText.setText("DEFAULT VALUE (₹)");
+                // viewHolder.mDefaultText.setText("DEFAULT VALUE (₹)");*//*
             } else {
-                total = (grandTotal * Double.valueOf(amount)) / 100;
+              *//*  total = (grandTotal * Double.valueOf(amount)) / 100;
                 subtotal = (subTotal * Double.valueOf(amount)) / 100;
                 viewHolder.mAmount.setText("₹ " + String.format("%.2f", total));
                 if (type.equals("Additive")) {
@@ -97,9 +106,9 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
                 }
                 viewHolder.mDiscount.setText("Discount " + amount + "%");
                 PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal1));
-                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total1));
+                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total1));*//*
             }
-        }
+        }*/
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
