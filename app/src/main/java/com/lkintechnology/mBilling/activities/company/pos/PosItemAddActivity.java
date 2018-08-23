@@ -162,6 +162,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         }
         mSubtotal.setText("₹ " + subtotal);
+        appUser.subTotal = String.valueOf((subtotal));
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
             Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
             String quantity = "";
@@ -248,6 +250,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
             }
             grand_total.setText("₹ " +(subtotal + grandTotal));
+            appUser.grandTotal = String.valueOf(subtotal + grandTotal);
+            appUser.subTotal = String.valueOf((subtotal));
+            LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         } else {
             PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal,0.0,0.0,"",false);
         }
@@ -410,7 +415,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         if (response.getPosition().equals("true")){
             appUser = LocalRepositories.getAppUser(this);
             if (appUser.mListMapForBillSale.size()>0){
-                setBillListDataAdapter();
+                notifyDataSetChanged();
             }
         }
     }
@@ -419,9 +424,19 @@ public class PosItemAddActivity extends AppCompatActivity {
         mRecyclerViewBill.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerViewBill.setLayoutManager(layoutManager);
-        mBillAdapter = new PosAddBillAdapter(this, appUser.mListMapForBillSale);
+        mBillAdapter = new PosAddBillAdapter(this, appUser.mListMapForBillSale,true);
         mRecyclerViewBill.setAdapter(mBillAdapter);
         //mBillAdapter.notifyDataSetChanged();
+
+    }
+
+    public void notifyDataSetChanged(){
+        mRecyclerViewBill.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerViewBill.setLayoutManager(layoutManager);
+        mBillAdapter = new PosAddBillAdapter(this, appUser.mListMapForBillSale,false);
+        mRecyclerViewBill.setAdapter(mBillAdapter);
+        mBillAdapter.notifyDataSetChanged();
 
     }
 }

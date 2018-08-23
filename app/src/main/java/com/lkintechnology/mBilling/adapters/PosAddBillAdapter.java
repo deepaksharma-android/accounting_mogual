@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
+import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
 
 import java.util.List;
@@ -28,11 +30,15 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
     Context context;
     List<Map<String, String>> mListMap;
     int mInteger = 0;
+    Boolean aBoolean = false;
+    AppUser appUser;
+
     //ViewHolder holder;
 
-    public PosAddBillAdapter(Context context, List<Map<String, String>> mListMap) {
+    public PosAddBillAdapter(Context context, List<Map<String, String>> mListMap,Boolean aBoolean) {
         this.context = context;
         this.mListMap = mListMap;
+        this.aBoolean = aBoolean;
 
     }
 
@@ -57,8 +63,14 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         String fed_as = (String) map.get("fed_as");
         String type = (String) map.get("type");
         if (fed_as_percentage != null) {
-            grandTotal = getGrandTotal(PosItemAddActivity.grand_total.getText().toString());
-            subTotal = getGrandTotal(PosItemAddActivity.mSubtotal.getText().toString());
+            if (position==0){
+                appUser = LocalRepositories.getAppUser(context);
+                grandTotal = Double.valueOf(appUser.grandTotal);
+                subTotal = Double.valueOf(appUser.subTotal);
+            }else {
+                grandTotal = getGrandTotal(PosItemAddActivity.grand_total.getText().toString());
+                subTotal = getGrandTotal(PosItemAddActivity.mSubtotal.getText().toString());
+            }
             if (fed_as_percentage.equals("valuechange")) {
                 Double changeamount = Double.parseDouble((String) map.get("changeamount"));
                 if (type.equals("Additive")) {

@@ -36,6 +36,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     List<Map> mListMap;
     int mInteger = 0;
     AppUser appUser;
+    public Map mMapPosItem;
     //ViewHolder holder;
 
     public PosAddItemsAdapter(Context context, List<Map> mListMap) {
@@ -90,8 +91,10 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                 String[] arr3 = arr2.split("₹ ");
                 Double item_amount = Double.valueOf(arr3[1]);
 
+
                 Map map = mListMap.get(position);
                 String tax = (String) map.get("tax");
+               // mMapPosItem.put(pos, mQuantity.getText().toString());
                 Double s = total + item_amount;
                 if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
                     Double taxValue = taxSplit(tax);
@@ -108,6 +111,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
+                EventBus.getDefault().post(new EventForPos("true"));
             }
         });
 
@@ -145,6 +149,8 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
+
+                    EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
         });
@@ -174,6 +180,8 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
 
     public static void setTaxChange(Context context, Double subtotal, Double gst, Double taxValueInt, String tax1, Boolean mBool) {
         Double tax = 0.0;
+        Double mainGrandTotal = subtotal;
+        AppUser appUser = LocalRepositories.getAppUser(context);
         if (Preferences.getInstance(context).getPos_sale_type() != null && !Preferences.getInstance(context).getPos_sale_type().equals("")) {
             String taxString = Preferences.getInstance(context).getPos_sale_type();
             String taxName = "";
@@ -287,13 +295,15 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
             }
         }
-        granTotal(subtotal, tax);
+        granTotal(subtotal, tax,appUser,context);
+
     }
 
-    public static void granTotal(Double subtotal, Double tax) {
+    public static void granTotal(Double subtotal, Double tax,AppUser appUser,Context context) {
         Double grandTotal = subtotal + tax;
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
-        EventBus.getDefault().post(new EventForPos("true"));
+        appUser.grandTotal = String.valueOf(grandTotal);
+        LocalRepositories.saveAppUser(context,appUser);
     }
 
     public Double taxSplit(String tax) {
