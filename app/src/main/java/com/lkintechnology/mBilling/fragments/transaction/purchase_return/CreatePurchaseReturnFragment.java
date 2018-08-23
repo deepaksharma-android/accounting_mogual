@@ -991,6 +991,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mNarration.setText("");
             encodedString = "";
             mVchNumber.setText("");
+            ParameterConstant.forPaymentSettlement="";
             mVoucher.setText("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");

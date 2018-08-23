@@ -95,6 +95,7 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
     List<String> mobileList;
     List<String> stateList;
     List<String> idList;
+    int mypos;
     private ArrayAdapter<String> adapter;
 
     @Override
@@ -283,7 +284,12 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 error_layout.setVisibility(View.GONE);
             }
             for (int i = 0; i < response.getOrdered_accounts().size(); i++) {
+
+                if(response.getOrdered_accounts().get(i).getGroup_name().equals("Sundry Debtors")){
+                    mypos=i;
+                }
                 listDataHeader.add(response.getOrdered_accounts().get(i).getGroup_name());
+
                 name = new ArrayList<>();
                 mobile = new ArrayList<>();
                 stateList = new ArrayList();
@@ -326,14 +332,17 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
                 listDataChildMobile.put(i, mobile);
                 listDataChildState.put(i, stateList);
             }
-            if(!ParameterConstant.forPaymentSettlement.equals(""))
+           /* if(!ParameterConstant.forPaymentSettlement.equals(""))
             for(int k=0;k<listDataHeader.size();k++){
                 if(listDataHeader.get(k).equals("Sundry Debtors")){
+                    listDataChild.remove("Sundry Debtors");
                     listDataHeader.remove(k);
-                    listDataChild.remove(k);
-
+                    listDataChildId.remove(k);
+                    listDataChildMobile.remove(k);
+                    listDataChildState.remove(k);
+                    break;
                 }
-            }
+            }*/
 
             listAdapter = new AccountExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -342,6 +351,19 @@ public class ExpandableAccountListActivity extends AppCompatActivity {
             for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                 expListView.expandGroup(i);
             }
+            if(ParameterConstant.forPaymentSettlement!=null) {
+                if (!ParameterConstant.forPaymentSettlement.equals("")) {
+                    expListView.collapseGroup(mypos);
+                    expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                        @Override
+                        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                            // Doing nothing
+                            return true;
+                        }
+                    });
+                }
+            }
+
 
 
             autoCompleteTextView();

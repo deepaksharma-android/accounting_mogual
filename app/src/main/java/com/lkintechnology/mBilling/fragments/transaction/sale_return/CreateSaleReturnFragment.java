@@ -1023,6 +1023,7 @@ public class CreateSaleReturnFragment extends Fragment {
             mNarration.setText("");
             mVoucher.setText("");
             encodedString = "";
+            ParameterConstant.forPaymentSettlement="";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
             Preferences.getInstance(getContext()).setVoucher_name("");

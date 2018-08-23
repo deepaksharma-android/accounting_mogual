@@ -940,6 +940,7 @@ public class CreatePurchaseFragment extends Fragment {
             encodedString = "";
             Preferences.getInstance(getContext()).setUrlAttachment("");
             Preferences.getInstance(getContext()).setAttachment("");
+            ParameterConstant.forPaymentSettlement="";
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemPurchase.clear();

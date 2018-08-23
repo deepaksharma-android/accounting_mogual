@@ -140,12 +140,28 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
-        if(isExpanded){
-            imageview.setImageResource(R.drawable.up_arrow);
+        if(ParameterConstant.forPaymentSettlement!=null) {
+            if (!ParameterConstant.forPaymentSettlement.equals("")) {
+                if (headerTitle.equals("Sundry Debtors")) {
+                    ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+                    imageview.setVisibility(View.GONE);
+                } else {
+                    ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+                    if (isExpanded) {
+                        imageview.setImageResource(R.drawable.up_arrow);
+                    } else {
+                        imageview.setImageResource(R.drawable.down_arrow);
+                    }
+                }
+            }
         }
         else{
-            imageview.setImageResource(R.drawable.down_arrow);
+            ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+            if (isExpanded) {
+                imageview.setImageResource(R.drawable.up_arrow);
+            } else {
+                imageview.setImageResource(R.drawable.down_arrow);
+            }
         }
 
         return convertView;

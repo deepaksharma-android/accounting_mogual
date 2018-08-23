@@ -1103,6 +1103,7 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.transport_details.clear();
             appUser.arr_series.clear();
             appUser.series_details.clear();
+            ParameterConstant.forPaymentSettlement="";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
             LocalRepositories.saveAppUser(getActivity(), appUser);
