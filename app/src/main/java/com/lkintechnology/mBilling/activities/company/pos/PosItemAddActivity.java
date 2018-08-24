@@ -31,6 +31,7 @@ import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
@@ -631,6 +632,9 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.series_details.clear();
             appUser.billsundrytotal.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
+            startActivity(intent);
+            finish();
 
           /*  new AlertDialog.Builder(getApplicationContext())
                     .setTitle("Print/Preview").setMessage("")
