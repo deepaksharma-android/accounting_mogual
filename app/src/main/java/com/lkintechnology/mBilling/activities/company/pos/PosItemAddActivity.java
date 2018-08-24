@@ -583,8 +583,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getMobile();
         }
         Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
-        appUser.totalamount = PosItemAddActivity.grand_total.getText().toString();
-        appUser.items_amount = PosItemAddActivity.mSubtotal.getText().toString();
+        appUser.totalamount = String.valueOf(txtSplit(PosItemAddActivity.grand_total.getText().toString()));
+        appUser.items_amount = String.valueOf(txtSplit(PosItemAddActivity.mSubtotal.getText().toString()));
        // appUser.bill_sundries_amount =
        // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         if (aBoolean){

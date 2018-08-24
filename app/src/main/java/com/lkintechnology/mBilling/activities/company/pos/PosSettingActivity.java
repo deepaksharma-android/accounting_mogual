@@ -300,7 +300,7 @@ public class PosSettingActivity extends AppCompatActivity {
                 String id = data.getStringExtra("id");
                 mSaleType.setText(result);
                 Preferences.getInstance(getApplicationContext()).setPos_sale_type(result);
-                Preferences.getInstance(getApplicationContext()).setSale_type_id(id);
+                Preferences.getInstance(getApplicationContext()).setPos_sale_type_id(id);
             }
         }
 

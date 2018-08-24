@@ -72,6 +72,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -165,6 +166,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private SimpleDateFormat dateFormatter;
     public static Boolean boolForAdapterSet = false;
+    ArrayList<String> mUnitList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -263,108 +265,131 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
                                 if (!Preferences.getInstance(getApplicationContext()).getPos_store().equals("")) {
                                     if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("")) {
-                                    if (ItemExpandableListAdapter.mMapPosItem.size()>0) {
-                                        Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
-                                        appUser.mListMapForItemSale.clear();
-                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                        Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
-                                                R.anim.blink_on_click);
-                                        v.startAnimation(animFadeIn);
-                                        Map mMap;
-                                        Double subtotal = 0.0;
-                                        for (int i = 0; i < listDataHeader.size(); i++) {
-                                            Double total = 0.0;
-                                            for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); j++) {
-                                                String pos = i + "," + j;
-                                                //String id = pos.getPosition();
-                                                String key = "";
-                                                if ((ItemExpandableListAdapter.mMapPosItem.get(pos) != null)) {
-                                                    key = pos;
-                                                }
-
-                                                if (key.equals(pos)) {
-                                                    mMap = new HashMap();
-                                                    String[] arr = pos.split(",");
-                                                    String groupid = arr[0];
-                                                    String childid = arr[1];
-                                                    String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-
-                                                    //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
-                                                    String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-                                                    String arr1[] = itemName.split(",");
-                                                    itemName = arr1[0];
-                                                    String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
-                                                    String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
-                                                    total = sales_price_main * Double.valueOf(quantity);
-
-                                                    if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
-                                                        Double item_tax = (Double.valueOf(total) * taxSplit(tax)) / 100;
-                                                        Double taxInclude = Double.valueOf(total) + item_tax;
-                                                        total = taxInclude;
+                                        if (ItemExpandableListAdapter.mMapPosItem.size() > 0) {
+                                            Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
+                                            appUser.mListMapForItemSale.clear();
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                                                    R.anim.blink_on_click);
+                                            v.startAnimation(animFadeIn);
+                                            Map mMap;
+                                            Double subtotal = 0.0;
+                                            ArrayList<String> sale_item_serial_arr=new ArrayList<>();
+                                            sale_item_serial_arr.clear();
+                                            for (int i = 0; i < listDataHeader.size(); i++) {
+                                                Double total = 0.0;
+                                                for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); j++) {
+                                                    String pos = i + "," + j;
+                                                    //String id = pos.getPosition();
+                                                    String key = "";
+                                                    if ((ItemExpandableListAdapter.mMapPosItem.get(pos) != null)) {
+                                                        key = pos;
                                                     }
-                                                    Double multiRate = 0.0;
-                                                    if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
-                                                        multiRate = Double.valueOf(taxSplit(tax));
-                                                    }
-                                                    String descr;
-                                                    String alternate_unit;
-                                                    String sales_price_alternate;
-                                                    Boolean batch, serial;
-                                                    descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                    String barcode = listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
 
-                                                    subtotal = subtotal + total;
-                                                    if (!quantity.equals("0")) {
-                                                        mMap.put("item_id", itemId);
-                                                        mMap.put("item_name", itemName);
-                                                        mMap.put("total", total);
-                                                        mMap.put("quantity", quantity);
-                                                        mMap.put("sales_price_main", sales_price_main);
-                                                        mMap.put("tax", tax);
-                                                        mMap.put(itemId, multiRate);
+                                                    if (key.equals(pos)) {
+                                                        mMap = new HashMap();
+                                                        String[] arr = pos.split(",");
+                                                        String groupid = arr[0];
+                                                        String childid = arr[1];
+                                                        String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
 
-                                                        mMap.put("name", itemName);
-                                                        mMap.put("desc", descr);
-                                                        mMap.put("main_unit", main_unit);
-                                                        mMap.put("alternate_unit", alternate_unit);
-                                                        mMap.put("serial_wise", String.valueOf(serial));
-                                                        mMap.put("batch_wise", String.valueOf(batch));
-                                                        mMap.put("applied", applied);
-                                                        mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
-                                                        mMap.put("sales_price_alternate", sales_price_alternate);
-                                                        mMap.put("default_unit", default_unit);
-                                                        mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
-                                                        mMap.put("packaging_unit_sales_price", packaging_unit_sales_price);
-                                                        mMap.put("packaging_unit", packaging_unit);
-                                                        mMap.put("mrp", mrp);
-                                                        mMap.put("barcode", "");
-                                                        appUser.mListMapForItemSale.add(mMap);
-                                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                        //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                                                        String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                                                        String arr1[] = itemName.split(",");
+                                                        itemName = arr1[0];
+                                                        String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                                                        String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
+                                                        total = sales_price_main * Double.valueOf(quantity);
+
+                                                        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
+                                                            Double item_tax = (Double.valueOf(total) * taxSplit(tax)) / 100;
+                                                            Double taxInclude = Double.valueOf(total) + item_tax;
+                                                            total = taxInclude;
+                                                        }
+                                                        Double multiRate = 0.0;
+                                                        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
+                                                            multiRate = Double.valueOf(taxSplit(tax));
+                                                        }
+                                                        String descr;
+                                                        String alternate_unit;
+                                                        String sales_price_alternate;
+                                                        Boolean batch, serial;
+                                                        descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String default_unit = "";
+                                                       try {
+                                                            default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                       }catch (Exception e){
+                                                           default_unit = "";
+                                                       }
+                                                        String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        String barcode = listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                        mUnitList = new ArrayList<>();
+                                                        mUnitList.add("Main Unit : " + main_unit);
+                                                        mUnitList.add("Alternate Unit :" + alternate_unit);
+                                                        mUnitList.add("Alternate Unit :" + packaging_unit);
+                                                        subtotal = subtotal + total;
+                                                        if (!quantity.equals("0")) {
+                                                            mMap.put("id", "");
+                                                            mMap.put("item_id", itemId);
+                                                            mMap.put("item_name", itemName);
+                                                            mMap.put("total", total);
+                                                            mMap.put("quantity", quantity);
+                                                            mMap.put("sales_price_main", sales_price_main);
+                                                            mMap.put("tax", tax);
+                                                            mMap.put(itemId, multiRate);
+                                                            mMap.put("description", descr);
+                                                            mMap.put("main_unit", main_unit);
+                                                            mMap.put("alternate_unit", alternate_unit);
+                                                            mMap.put("serial_wise", String.valueOf(serial));
+                                                            mMap.put("batch_wise", String.valueOf(batch));
+                                                            mMap.put("applied", applied);
+                                                            mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                                                            mMap.put("sales_price_alternate", sales_price_alternate);
+                                                            mMap.put("default_unit", default_unit);
+                                                            mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                                                            mMap.put("packaging_unit_sales_price", packaging_unit_sales_price);
+                                                            mMap.put("packaging_unit", packaging_unit);
+                                                            mMap.put("mrp", mrp);
+                                                            mMap.put("sr_no","");
+                                                            mMap.put("serial_number",sale_item_serial_arr);
+
+                                                            mMap.put("rate", appUser.sale_item_serial_arr);
+                                                            mMap.put("discount", "0");
+                                                            mMap.put("value","0.0");
+                                                            mMap.put("sale_unit", main_unit);
+                                                            mMap.put("unit", "Main Unit");
+                                                            mMap.put("rate", sales_price_main);
+                                                            mMap.put("unit_list", mUnitList);
+
+
+                                                           // mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
+                                                           // mMap.put("id", itemid);
+
+                                                            appUser.mListMapForItemSale.add(mMap);
+                                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                        }
                                                     }
                                                 }
                                             }
+                                            Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                                            intent.putExtra("subtotal", subtotal);
+                                            boolForAdapterSet = true;
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();
                                         }
-                                        Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
-                                        intent.putExtra("subtotal", subtotal);
-                                        boolForAdapterSet = true;
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();
-                                    }
                                     } else {
                                         Toast.makeText(ExpandableItemListActivity.this, "Please select party name in setting menu!!!", Toast.LENGTH_SHORT).show();
                                     }

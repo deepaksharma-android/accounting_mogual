@@ -185,7 +185,6 @@ public class BaseActivityCompany extends AppCompatActivity {
         appUser.billsundrytotal.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setVoucher_number("");
-        Preferences.getInstance(getApplicationContext()).setVoucherSeries("");
         Preferences.getInstance(getApplicationContext()).setSale_type_id("");
         Preferences.getInstance(getApplicationContext()).setParty_id("");
         Preferences.getInstance(getApplicationContext()).setShipped_to_id("");
@@ -198,9 +197,9 @@ public class BaseActivityCompany extends AppCompatActivity {
         appUser.sale_vchNo = "";
         appUser.sale_mobileNumber = "";
         appUser.sale_narration = "";
-        appUser.totalamount = "";
-        appUser.items_amount = "";
-        appUser.bill_sundries_amount = "";
+        appUser.totalamount = "0.0";
+        appUser.items_amount = "0.0";
+        appUser.bill_sundries_amount = "0.0";
         appUser.email_yes_no = "";
         appUser.transport_details.clear();
         appUser.paymentSettlementHashMap.clear();
