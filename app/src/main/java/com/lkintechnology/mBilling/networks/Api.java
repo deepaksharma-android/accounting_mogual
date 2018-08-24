@@ -205,7 +205,6 @@ import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.EditBan
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBankCashDepositDetailsResponse;
 import com.lkintechnology.mBilling.networks.api_response.bankcashdeposit.GetBankCashDepositResponse;
 import com.lkintechnology.mBilling.networks.api_response.version.VersionResponse;
-import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeries;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 
 public interface Api {

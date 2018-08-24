@@ -1,11 +1,14 @@
 package com.lkintechnology.mBilling.activities.company.pos;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
@@ -30,7 +34,11 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
+import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventForPos;
+import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ListHeight;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.ParameterConstant;
@@ -50,6 +58,8 @@ import butterknife.ButterKnife;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PosItemAddActivity extends AppCompatActivity {
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     RecyclerView.LayoutManager layoutManager;
     PosAddItemsAdapter mAdapter;
     public PosAddBillAdapter mBillAdapter;
@@ -67,6 +77,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Bind(R.id.submit)
     LinearLayout submit;
     Animation blinkOnClick;
+    ProgressDialog mProgressDialog;
+    Snackbar snackbar;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
 
@@ -293,13 +305,36 @@ public class PosItemAddActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        submit.startAnimation(blinkOnClick);
+                        appUser = LocalRepositories.getAppUser(getApplicationContext());
+                        if (appUser.mListMapForItemSale.size() > 0) {
+                            if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
+                                new AlertDialog.Builder(getApplicationContext())
+                                        .setTitle("Email")
+                                        .setMessage(R.string.btn_send_email)
+                                        .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+                                            apiCall(true);
+                                        })
+                                        .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                            apiCall(false);
+                                        })
+                                        .show();
+                            } else {
+                                apiCall(false);
+                            }
+                        } else {
+                            Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
 
             }
         });
-
-     /*   listViewItems.setAdapter(new PosAddItemsAdapter(getApplicationContext(), appUser.mListMapForItemSale));
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);
-        ListHeight.setListViewHeightBasedOnChildren(listViewItems);*/
 
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -320,8 +355,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         System.out.println(appUser.mListMapForBillSale.toString());
         if (appUser.mListMapForBillSale.size() > 0) {
             if (ExpandableItemListActivity.boolForAdapterSet) {
-              billCalculation( 0.0, false);
-              setBillListDataAdapter();
+                billCalculation(0.0, false);
+                setBillListDataAdapter();
             }
         }
         super.onResume();
@@ -365,7 +400,6 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         appUser = LocalRepositories.getAppUser(getApplicationContext());
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
 
@@ -375,6 +409,8 @@ public class PosItemAddActivity extends AppCompatActivity {
                     Preferences.getInstance(getApplicationContext()).setParty_id(ParameterConstant.id);
                     Preferences.getInstance(getApplicationContext()).setParty_name(ParameterConstant.name);
                     Preferences.getInstance(getApplicationContext()).setMobile(ParameterConstant.mobile);
+                    appUser.sale_partyEmail = ParameterConstant.email;
+
                 } else {
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
@@ -383,6 +419,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                     String[] strArr = result.split(",");
                     party_name.setText(strArr[0]);
                     // mMobileNumber.setText(mobile);
+                    appUser.sale_partyEmail = strArr[3];
                     Preferences.getInstance(getApplicationContext()).setParty_id(id);
                     Preferences.getInstance(getApplicationContext()).setParty_name(strArr[0]);
                     Preferences.getInstance(getApplicationContext()).setMobile(mobile);
@@ -424,13 +461,13 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Subscribe
     public void event_click_alert(EventForPos response) {
-            appUser = LocalRepositories.getAppUser(this);
-            if (appUser.mListMapForBillSale.size() > 0) {
-                appUser.billsundrytotal.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
-                billCalculation(Double.valueOf(response.getPosition()),true);
-                setBillListDataAdapter();
-            }
+        appUser = LocalRepositories.getAppUser(this);
+        if (appUser.mListMapForBillSale.size() > 0) {
+            appUser.billsundrytotal.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            billCalculation(Double.valueOf(response.getPosition()), true);
+            setBillListDataAdapter();
+        }
     }
 
     public void setBillListDataAdapter() {
@@ -460,7 +497,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         } else {
             grandTotal = txtSplit(grand_total.getText().toString());
         }
-        for (int i = 0; i <appUser.mListMapForBillSale.size(); i++) {
+        for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
             Double total = 0.0;
             Map map = appUser.mListMapForBillSale.get(i);
             String itemName = (String) map.get("courier_charges");
@@ -514,7 +551,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
             }
         }
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         // PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal));
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
@@ -528,6 +565,92 @@ public class PosItemAddActivity extends AppCompatActivity {
         String[] arr = total.split("₹ ");
         a = Double.valueOf(arr[1].trim());
         return a;
+    }
+
+    void apiCall(Boolean aBoolean){
+        appUser.sale_date = Preferences.getInstance(getApplicationContext()).getPos_date();
+        appUser.sale_series = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
+        appUser.sale_vchNo = Preferences.getInstance(getApplicationContext()).getVoucher_number();
+        if (Preferences.getInstance(getApplicationContext()).getSale_type_id().equals("")){
+            Preferences.getInstance(getApplicationContext()).setSale_type_id(Preferences.getInstance(getApplicationContext()).getPos_sale_type_id());
+        }
+        if (Preferences.getInstance(getApplicationContext()).getParty_id().equals("")){
+            Preferences.getInstance(getApplicationContext()).setParty_id(Preferences.getInstance(getApplicationContext()).getPos_party_id());
+        }
+        if (Preferences.getInstance(getApplicationContext()).getMobile().equals("")){
+            appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getPos_mobile();
+        }else {
+            appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getMobile();
+        }
+        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
+        appUser.totalamount = PosItemAddActivity.grand_total.getText().toString();
+        appUser.items_amount = PosItemAddActivity.mSubtotal.getText().toString();
+       // appUser.bill_sundries_amount =
+       // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
+        if (aBoolean){
+            appUser.email_yes_no = "true";
+        }else {
+            appUser.email_yes_no = "false";
+        }
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(PosItemAddActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+        } else {
+            snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Boolean isConnected = ConnectivityReceiver.isConnected();
+                    if (isConnected) {
+                        snackbar.dismiss();
+                    }
+                }
+            });
+            snackbar.show();
+        }
+    }
+
+    @Subscribe
+    public void createPosSaleVoucher(CreateSaleVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+           /* Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_voucher");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            appUser.arr_series.clear();
+            appUser.series_details.clear();
+            appUser.billsundrytotal.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+          /*  new AlertDialog.Builder(getApplicationContext())
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report", response.getHtml());
+                        intent.putExtra("type", "sale_voucher");
+                        startActivity(intent);
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();*/
+
+        } else {
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(PosItemAddActivity.this, response.getMessage());
+        }
     }
 
 }

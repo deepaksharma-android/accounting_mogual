@@ -126,15 +126,18 @@ public class PosSettingActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, appUser.arr_series);
         mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSeries.setAdapter(mVoucherAdapter);
-        String group_type = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
-        int groupindex = -1;
-        for (int i = 0; i < appUser.arr_series.size(); i++) {
-            if (appUser.arr_series.get(i).equals(group_type)) {
-                groupindex = i;
-                break;
+        if (!Preferences.getInstance(getApplicationContext()).getVoucherSeries().equals("")){
+            String group_type = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
+            int groupindex = -1;
+            for (int i = 0; i < appUser.arr_series.size(); i++) {
+                if (appUser.arr_series.get(i).equals(group_type)) {
+                    groupindex = i;
+                    break;
+                }
             }
+            mSeries.setSelection(groupindex);
         }
-        mSeries.setSelection(groupindex);
+
         mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -242,19 +245,16 @@ public class PosSettingActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 
@@ -316,6 +316,7 @@ public class PosSettingActivity extends AppCompatActivity {
                     Preferences.getInstance(getApplicationContext()).setPos_party_id(ParameterConstant.id);
                     Preferences.getInstance(getApplicationContext()).setPos_party_name(ParameterConstant.name);
                     Preferences.getInstance(getApplicationContext()).setPos_mobile(ParameterConstant.mobile);
+                    appUser.sale_partyEmail = ParameterConstant.email;
                 } else {
                     String result = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
@@ -332,45 +333,6 @@ public class PosSettingActivity extends AppCompatActivity {
                     return;
                 }
             }
-        }
-    }
-
-    @Subscribe
-    public void createsalevoucher(CreateSaleVoucherResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-           /* Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
-            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            mMobileNumber.setText("");
-            mDate.setText("");
-            appUser.mListMapForItemSale.clear();
-            appUser.mListMapForBillSale.clear();
-            appUser.arr_series.clear();
-            appUser.series_details.clear();
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
-
-          /*  new AlertDialog.Builder(getApplicationContext())
-                    .setTitle("Print/Preview").setMessage("")
-                    .setMessage(R.string.print_preview_mesage)
-                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
-                        appUser.edit_sale_voucher_id = String.valueOf(response.getId());
-                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                        Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
-                        intent.putExtra("company_report", response.getHtml());
-                        intent.putExtra("type", "sale_voucher");
-                        startActivity(intent);
-
-                    })
-                    .setNegativeButton(R.string.btn_cancel, null)
-                    .show();*/
-
-        } else {
-            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(PosSettingActivity.this, response.getMessage());
         }
     }
 }

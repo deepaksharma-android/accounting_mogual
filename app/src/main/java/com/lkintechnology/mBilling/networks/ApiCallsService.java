@@ -582,11 +582,13 @@ public class ApiCallsService extends IntentService {
             handleCompanyInvoice();
         } else if (Cv.ACTION_VOUCHER_SERIES.equals(action)) {
             handleGetVoucherSeries();
-        }/*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
+        }
+        /*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
 
-    }
+
+}
 
     private void handleGetItemGroupDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);

@@ -185,7 +185,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.stock_in_hand_date = dateString;
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
-        Boolean isConnected = ConnectivityReceiver.isConnected();
+      /*  Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
             mProgressDialog = new ProgressDialog(ExpandableItemListActivity.this);
             mProgressDialog.setMessage("Info...");
@@ -208,16 +208,16 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         }
                     });
             snackbar.show();
-        }
+        }*/
 
-        mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
+      /*  mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
                 mVchNumber.setEnabled(false);
             } else {
                 mVchNumber.setEnabled(true);
             }
-        }
+        }*/
 
         if (ExpandableItemListActivity.comingFrom == 6) {
             floatingActionButton.setVisibility(View.GONE);
@@ -308,6 +308,24 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                     if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
                                                         multiRate = Double.valueOf(taxSplit(tax));
                                                     }
+                                                    String descr;
+                                                    String alternate_unit;
+                                                    String sales_price_alternate;
+                                                    Boolean batch, serial;
+                                                    descr = listDataChildDesc.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    sales_price_alternate = listDataChildSalePriceAlternate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    alternate_unit = listDataChildAlternateUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    batch = listDataChildBatchWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    serial = listDataChildSerialWise.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String main_unit = listDataChildUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String mrp = listDataChildMrp.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String barcode = listDataBarcode.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
 
                                                     subtotal = subtotal + total;
                                                     if (!quantity.equals("0")) {
@@ -318,6 +336,22 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                         mMap.put("sales_price_main", sales_price_main);
                                                         mMap.put("tax", tax);
                                                         mMap.put(itemId, multiRate);
+
+                                                        mMap.put("name", itemName);
+                                                        mMap.put("desc", descr);
+                                                        mMap.put("main_unit", main_unit);
+                                                        mMap.put("alternate_unit", alternate_unit);
+                                                        mMap.put("serial_wise", String.valueOf(serial));
+                                                        mMap.put("batch_wise", String.valueOf(batch));
+                                                        mMap.put("applied", applied);
+                                                        mMap.put("alternate_unit_con_factor", alternate_unit_con_factor);
+                                                        mMap.put("sales_price_alternate", sales_price_alternate);
+                                                        mMap.put("default_unit", default_unit);
+                                                        mMap.put("packaging_unit_con_factor", packaging_unit_con_factor);
+                                                        mMap.put("packaging_unit_sales_price", packaging_unit_sales_price);
+                                                        mMap.put("packaging_unit", packaging_unit);
+                                                        mMap.put("mrp", mrp);
+                                                        mMap.put("barcode", "");
                                                         appUser.mListMapForItemSale.add(mMap);
                                                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                                     }
@@ -745,8 +779,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 }
             }
 
-            autoCompleteTextView();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
 
+            autoCompleteTextView();
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
