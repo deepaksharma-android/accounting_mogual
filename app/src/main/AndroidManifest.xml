@@ -765,14 +765,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.printerintegration.BluetoothActivity" />
         <activity
-            android:name=".activities.company.pos.CreatePosSaleActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.company.pos.PosExpandableItemListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".activities.company.CompanyInvoiceFormatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

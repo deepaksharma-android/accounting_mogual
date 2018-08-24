@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,6 +25,66 @@
                 android:orientation="vertical"
                 android:padding="7dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                        style="@style/Gotham_Medium"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Voucher Series *"
+                        android:textColor="@color/textColorPrimaryDark"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <Spinner
+                                android:id="@+id/series"
+                                android:layout_width="fill_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:spinnerMode="dialog"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_grey_stroke"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="invisible">
+
+                            <com.lkintechnology.mBilling.utils.BuzzEditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:background="@android:color/transparent"
+                                android:text="Main"
+                                android:textColor="#000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,9 +117,9 @@
                             <com.lkintechnology.mBilling.utils.BuzzTextView
                                 android:id="@+id/date"
                                 android:layout_width="0dp"
+                                android:layout_weight="0.9"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:layout_weight="0.9"
                                 android:background="@android:color/transparent"
                                 android:hint="eg.1 April 2017"
                                 android:textColor="#000"
@@ -114,6 +173,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

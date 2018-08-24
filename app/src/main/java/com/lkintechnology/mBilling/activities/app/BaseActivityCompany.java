@@ -28,14 +28,11 @@ import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
-import com.lkintechnology.mBilling.activities.company.pos.CreatePosSaleActivity;
-import com.lkintechnology.mBilling.activities.company.pos.PosExpandableItemListActivity;
 import com.lkintechnology.mBilling.adapters.ItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.lkintechnology.mBilling.utils.Preferences;
 
 import java.util.HashMap;
 import java.util.List;
