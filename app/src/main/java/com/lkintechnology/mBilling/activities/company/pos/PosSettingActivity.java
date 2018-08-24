@@ -73,8 +73,6 @@ public class PosSettingActivity extends AppCompatActivity {
     TextView mDate;
     @Bind(R.id.series)
     Spinner mSeries;
-    @Bind(R.id.vch_number)
-    EditText mVchNumber;
     @Bind(R.id.sale_type_layout)
     LinearLayout mSaleTypeLayout;
     @Bind(R.id.sale_type)
@@ -111,43 +109,15 @@ public class PosSettingActivity extends AppCompatActivity {
         FirstPageActivity.posSetting = true;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
 
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(PosSettingActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            appUser.arr_series.clear();
-            appUser.series_details.clear();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }
-
         mSaleType.setText(Preferences.getInstance(getApplicationContext()).getPos_sale_type());
         mDate.setText(Preferences.getInstance(getApplicationContext()).getPos_date());
         mStore.setText(Preferences.getInstance(getApplicationContext()).getPos_store());
         mPartyName.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         mMobileNumber.setText(Preferences.getInstance(getApplicationContext()).getPos_mobile());
-        mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
-                mVchNumber.setEnabled(false);
                 mSeries.setEnabled(false);
             } else {
-                mVchNumber.setEnabled(true);
                 mSeries.setEnabled(true);
             }
         }
@@ -168,22 +138,15 @@ public class PosSettingActivity extends AppCompatActivity {
         mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Map map = new HashMap();
+                appUser.voucherSeriesPosition = position;
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser); Map map = new HashMap();
                 if (appUser.series_details.size() > 0) {
-                    map = appUser.series_details.get(position);
+                    map = appUser.series_details.get(appUser.voucherSeriesPosition);
                     String auto_increament = (String) map.get("auto_increment");
                     String vch_number = (String) map.get("voucher_number");
-                    if (auto_increament.equals("false")) {
-                        mVchNumber.setEnabled(true);
-                    } else {
-                        mVchNumber.setEnabled(false);
-                    }
-                    mVchNumber.setText(vch_number);
-                    if (Preferences.getInstance(getApplicationContext()).getVoucherSeries().equals(mSeries.getSelectedItem().toString())) {
-                        mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
-                    }
+                    Preferences.getInstance(getApplicationContext()).setVoucher_number(vch_number);
+                    Preferences.getInstance(getApplicationContext()).setAuto_increment(auto_increament);
                 }
-
             }
 
             @Override
@@ -251,13 +214,11 @@ public class PosSettingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!mSeries.getSelectedItem().toString().equals("")) {
                     if (!mDate.getText().toString().equals("")) {
-                        if (!mVchNumber.getText().toString().equals("")) {
                             if (!mSaleType.getText().toString().equals("")) {
                                 if (!mStore.getText().toString().equals("")) {
                                     if (!mPartyName.getText().toString().equals("")) {
                                         Preferences.getInstance(getApplicationContext()).setPos_mobile(mMobileNumber.getText().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
-                                        ExpandableItemListActivity.boolForSubmit = true;
                                         finish();
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
@@ -268,32 +229,7 @@ public class PosSettingActivity extends AppCompatActivity {
                             } else {
                                 Snackbar.make(coordinatorLayout, "Please select sale type", Snackbar.LENGTH_LONG).show();
                             }
-                        } else {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                mProgressDialog = new ProgressDialog(PosSettingActivity.this);
-                                mProgressDialog.setMessage("Info...");
-                                mProgressDialog.setIndeterminate(false);
-                                mProgressDialog.setCancelable(true);
-                                mProgressDialog.show();
-                                appUser.arr_series.clear();
-                                appUser.series_details.clear();
-                                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
-                            } else {
-                                snackbar = Snackbar
-                                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                                        .setAction("RETRY", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Boolean isConnected = ConnectivityReceiver.isConnected();
-                                                if (isConnected) {
-                                                    snackbar.dismiss();
-                                                }
-                                            }
-                                        });
-                                snackbar.show();
-                            }
-                        }
+
                     } else {
                         Snackbar.make(coordinatorLayout, "Please select the date", Snackbar.LENGTH_LONG).show();
                     }
@@ -400,61 +336,6 @@ public class PosSettingActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getVoucherNumber(VoucherSeriesResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            int pos = -1;
-            for (int i = 0; i < response.getVoucher_series().getData().size(); i++) {
-                Map map = new HashMap();
-                map.put("id", response.getVoucher_series().getData().get(i).getId());
-                map.put("name", response.getVoucher_series().getData().get(i).getAttributes().getName());
-                if (response.getVoucher_series().getData().get(i).getAttributes().isDefaults()) {
-                    pos = i;
-                }
-                map.put("default", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isDefaults()));
-                map.put("auto_increment", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isAuto_increment()));
-                map.put("voucher_number", response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
-                appUser.arr_series.add(response.getVoucher_series().getData().get(i).getAttributes().getName());
-                appUser.series_details.add(map);
-            }
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_spinner_item, appUser.arr_series);
-            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mSeries.setAdapter(mVoucherAdapter);
-            mSeries.setSelection(pos);
-            mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Map map = new HashMap();
-                    map = appUser.series_details.get(position);
-                    String auto_increament = (String) map.get("auto_increment");
-                    String vch_number = (String) map.get("voucher_number");
-                    if (auto_increament.equals("false")) {
-                        mVchNumber.setEnabled(true);
-                    } else {
-                        mVchNumber.setEnabled(false);
-                    }
-                    mVchNumber.setText(vch_number);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-
-            // mVchNumber.setText(response.get());
-
-        } else {
-            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(PosSettingActivity.this, response.getMessage());
-        }
-    }
-
-    @Subscribe
     public void createsalevoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
@@ -464,7 +345,6 @@ public class PosSettingActivity extends AppCompatActivity {
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             mMobileNumber.setText("");
-            mVchNumber.setText("");
             mDate.setText("");
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();

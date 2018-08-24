@@ -135,42 +135,6 @@
 
                         </LinearLayout>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <com.lkintechnology.mBilling.utils.BuzzTextView
-                            style="@style/Gotham_Medium"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Vch. No. *"
-                            android:textColor="@color/textColorPrimaryDark"
-                            android:textSize="15sp" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="3dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/bg_grey_stroke"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <com.lkintechnology.mBilling.utils.BuzzEditText
-                                android:id="@+id/vch_number"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:background="@android:color/transparent"
-                                android:hint="Enter Vch No"
-                                android:textColor="#000"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 

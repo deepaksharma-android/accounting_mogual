@@ -582,5 +582,6 @@ public class AppUser {
     public List<Map> mMapPosItem = new ArrayList();
     public String grandTotal;
     public String subTotal;
+    public int voucherSeriesPosition = -1;
 
 }

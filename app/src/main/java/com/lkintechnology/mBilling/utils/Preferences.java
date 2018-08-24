@@ -1562,4 +1562,5 @@ public class Preferences {
     public String getPos_mobile() {
         return pref.getString(pos_mobile, "");
     }
+
 }

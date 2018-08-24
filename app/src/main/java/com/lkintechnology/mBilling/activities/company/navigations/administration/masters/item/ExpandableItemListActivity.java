@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -51,6 +52,7 @@ import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.item.DeleteItemResponse;
 import com.lkintechnology.mBilling.networks.api_response.item.GetItemResponse;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventDeleteItem;
 import com.lkintechnology.mBilling.utils.EventEditItem;
@@ -96,6 +98,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     LinearLayout pos_setting_layout;
     @Bind(R.id.pos_setting)
     TextView pos_setting;
+    @Bind(R.id.vch_number)
+    EditText mVchNumber;
     @Bind(R.id.submit)
     TextView mSubmit;
     @Bind(R.id.submit_layout)
@@ -128,7 +132,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
-    public static Boolean boolForSubmit = false;
 
     // Boolean fromsalelist;
 
@@ -172,7 +175,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
         initActionbar();
-        mTotal= (TextView) findViewById(R.id.total);
+        mTotal = (TextView) findViewById(R.id.total);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
         appUser = LocalRepositories.getAppUser(this);
@@ -182,14 +185,47 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.stock_in_hand_date = dateString;
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
+        Boolean isConnected = ConnectivityReceiver.isConnected();
+        if (isConnected) {
+            mProgressDialog = new ProgressDialog(ExpandableItemListActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            appUser.arr_series.clear();
+            appUser.series_details.clear();
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+        } else {
+            snackbar = Snackbar
+                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Boolean isConnected = ConnectivityReceiver.isConnected();
+                            if (isConnected) {
+                                snackbar.dismiss();
+                            }
+                        }
+                    });
+            snackbar.show();
+        }
 
-        if (ExpandableItemListActivity.comingFrom==6){
+        mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
+        if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
+            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
+                mVchNumber.setEnabled(false);
+            } else {
+                mVchNumber.setEnabled(true);
+            }
+        }
+
+        if (ExpandableItemListActivity.comingFrom == 6) {
             floatingActionButton.setVisibility(View.GONE);
             pos_setting_layout.setVisibility(View.VISIBLE);
             autoCompleteTextView.setVisibility(View.GONE);
             submit_layout.setVisibility(View.VISIBLE);
             submit_layout.bringToFront();
-        }else {
+        } else {
             floatingActionButton.setVisibility(View.VISIBLE);
             pos_setting_layout.setVisibility(View.GONE);
             autoCompleteTextView.setVisibility(View.VISIBLE);
@@ -221,73 +257,97 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
-                if (boolForSubmit) {
-                    appUser.mListMapForItemSale.clear();
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                    Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
-                            R.anim.blink_on_click);
-                    v.startAnimation(animFadeIn);
-                    Map mMap;
-                    Double subtotal = 0.0;
-                    for (int i = 0; i < listDataHeader.size(); i++) {
-                        Double total = 0.0;
-                        for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); j++) {
-                            String pos = i + "," + j;
-                            //String id = pos.getPosition();
-                            String key = "";
-                            if ((ItemExpandableListAdapter.mMapPosItem.get(pos) != null)) {
-                                key = pos;
+                if (!Preferences.getInstance(getApplicationContext()).getVoucherSeries().equals("")) {
+                    if (!Preferences.getInstance(getApplicationContext()).getPos_date().equals("")) {
+                        if (!mVchNumber.getText().equals("")) {
+                            if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
+                                if (!Preferences.getInstance(getApplicationContext()).getPos_store().equals("")) {
+                                    if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("")) {
+                                    if (ItemExpandableListAdapter.mMapPosItem.size()>0) {
+                                        Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
+                                        appUser.mListMapForItemSale.clear();
+                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                        Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                                                R.anim.blink_on_click);
+                                        v.startAnimation(animFadeIn);
+                                        Map mMap;
+                                        Double subtotal = 0.0;
+                                        for (int i = 0; i < listDataHeader.size(); i++) {
+                                            Double total = 0.0;
+                                            for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); j++) {
+                                                String pos = i + "," + j;
+                                                //String id = pos.getPosition();
+                                                String key = "";
+                                                if ((ItemExpandableListAdapter.mMapPosItem.get(pos) != null)) {
+                                                    key = pos;
+                                                }
+
+                                                if (key.equals(pos)) {
+                                                    mMap = new HashMap();
+                                                    String[] arr = pos.split(",");
+                                                    String groupid = arr[0];
+                                                    String childid = arr[1];
+                                                    String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+
+                                                    //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
+                                                    String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
+                                                    String arr1[] = itemName.split(",");
+                                                    itemName = arr1[0];
+                                                    String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
+                                                    Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                                                    String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
+                                                    total = sales_price_main * Double.valueOf(quantity);
+
+                                                    if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
+                                                        Double item_tax = (Double.valueOf(total) * taxSplit(tax)) / 100;
+                                                        Double taxInclude = Double.valueOf(total) + item_tax;
+                                                        total = taxInclude;
+                                                    }
+                                                    Double multiRate = 0.0;
+                                                    if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
+                                                        multiRate = Double.valueOf(taxSplit(tax));
+                                                    }
+
+                                                    subtotal = subtotal + total;
+                                                    if (!quantity.equals("0")) {
+                                                        mMap.put("item_id", itemId);
+                                                        mMap.put("item_name", itemName);
+                                                        mMap.put("total", total);
+                                                        mMap.put("quantity", quantity);
+                                                        mMap.put("sales_price_main", sales_price_main);
+                                                        mMap.put("tax", tax);
+                                                        mMap.put(itemId, multiRate);
+                                                        appUser.mListMapForItemSale.add(mMap);
+                                                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                                        intent.putExtra("subtotal", subtotal);
+                                        boolForAdapterSet = true;
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    } else {
+                                        Toast.makeText(ExpandableItemListActivity.this, "Please select party name in setting menu!!!", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(ExpandableItemListActivity.this, "Please select store in setting menu!!!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(ExpandableItemListActivity.this, "Please select sale type in setting menu!!!", Toast.LENGTH_SHORT).show();
                             }
-
-                            if (key.equals(pos)) {
-                                mMap = new HashMap();
-                                String[] arr = pos.split(",");
-                                String groupid = arr[0];
-                                String childid = arr[1];
-                                String arrid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-
-                                //Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
-                                String itemId = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
-                                String arr1[] = itemName.split(",");
-                                itemName = arr1[0];
-                                String tax = listDataTax.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
-                                String quantity = ItemExpandableListAdapter.mMapPosItem.get(pos).toString();
-                                total = sales_price_main * Double.valueOf(quantity);
-
-                                if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
-                                    Double item_tax = (Double.valueOf(total) * taxSplit(tax))/100;
-                                    Double taxInclude = Double.valueOf(total) + item_tax;
-                                    total = taxInclude;
-                                }
-                                Double multiRate = 0.0;
-                                if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
-                                    multiRate = Double.valueOf(taxSplit(tax));
-                                }
-
-                                subtotal = subtotal + total;
-                                if (!quantity.equals("0")) {
-                                    mMap.put("item_id", itemId);
-                                    mMap.put("item_name", itemName);
-                                    mMap.put("total", total);
-                                    mMap.put("quantity", quantity);
-                                    mMap.put("sales_price_main", sales_price_main);
-                                    mMap.put("tax", tax);
-                                    mMap.put(itemId, multiRate);
-                                    appUser.mListMapForItemSale.add(mMap);
-                                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                                }
-                            }
+                        } else {
+                            Toast.makeText(ExpandableItemListActivity.this, "Please select voucher number in setting menu!!!", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(ExpandableItemListActivity.this, "Please select date in setting menu!!!", Toast.LENGTH_SHORT).show();
                     }
-                    Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
-                    intent.putExtra("subtotal", subtotal);
-                    boolForAdapterSet = true;
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(ExpandableItemListActivity.this, "Please select setting menu!!!", Toast.LENGTH_SHORT).show();
-                   // Helpers.dialogMessage(getApplicationContext(),"Please select sale type in setting menu!!!");
+                } else {
+                    Toast.makeText(ExpandableItemListActivity.this, "Please select voucher series in setting menu!!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -353,30 +413,47 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Boolean isConnected = ConnectivityReceiver.isConnected();
        /* if(isDirectForItem==true){*/
-       if (!FirstPageActivity.posSetting){
-           if (isConnected) {
-               mProgressDialog = new ProgressDialog(this);
-               mProgressDialog.setMessage("Info...");
-               mProgressDialog.setIndeterminate(false);
-               mProgressDialog.setCancelable(true);
-               mProgressDialog.show();
-               LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-               ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
-           } else {
-               snackbar = Snackbar
-                       .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                       .setAction("RETRY", new View.OnClickListener() {
-                           @Override
-                           public void onClick(View view) {
-                               Boolean isConnected = ConnectivityReceiver.isConnected();
-                               if (isConnected) {
-                                   snackbar.dismiss();
-                               }
-                           }
-                       });
-               snackbar.show();
-           }
-       }
+        if (!FirstPageActivity.posSetting) {
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+
+            if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
+                if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
+                    mVchNumber.setEnabled(false);
+                } else {
+                    mVchNumber.setEnabled(true);
+                }
+                mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
+            }
+           /* if (Preferences.getInstance(getApplicationContext()).getPos_voucher_number()!=null){
+                if (!mVchNumber.getText().toString().equals(Preferences.getInstance(getApplicationContext()).getPos_voucher_number())) {
+                    mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getPos_voucher_number());
+                }else {
+                    mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
+                }
+            }*/
+
+        }
  /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
@@ -463,7 +540,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             if (response.getOrdered_items().size() == 0) {
                 expListView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 expListView.setVisibility(View.VISIBLE);
                 error_layout.setVisibility(View.GONE);
             }
@@ -658,11 +735,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
             }
-            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild,listDataChildSalePriceMain,ExpandableItemListActivity.comingFrom);
+            listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild, listDataChildSalePriceMain, ExpandableItemListActivity.comingFrom);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-            if (ExpandableItemListActivity.comingFrom==6){
+            if (ExpandableItemListActivity.comingFrom == 6) {
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
@@ -673,8 +750,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
         } else {
             //   startActivity(new Intent(getApplicationContext(), MasterDashboardActivity.class));
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
 
 
@@ -732,7 +809,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
@@ -1552,9 +1629,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         finish();
 
 
-                    }
-
-                    else if (ExpandableItemListActivity.comingFrom == 5) {
+                    } else if (ExpandableItemListActivity.comingFrom == 5) {
                         Intent intent = new Intent();
                         String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                         String itemName = listDataChild.get(listDataHeader.get(Integer.parseInt(groupid))).get(Integer.parseInt(childid));
@@ -1598,13 +1673,77 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     }
 
     public int taxSplit(String tax) {
-        int  a = 0;
+        int a = 0;
         if (tax.contains("GST ")) {
             String[] arr = tax.split(" ");
             String[] arr1 = arr[1].split("%");
             a = Integer.parseInt(arr1[0]);
         }
         return a;
+    }
+
+    @Subscribe
+    public void getVoucherNumber(VoucherSeriesResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            int pos = -1;
+            for (int i = 0; i < response.getVoucher_series().getData().size(); i++) {
+                Map map = new HashMap();
+                map.put("id", response.getVoucher_series().getData().get(i).getId());
+                map.put("name", response.getVoucher_series().getData().get(i).getAttributes().getName());
+                if (response.getVoucher_series().getData().get(i).getAttributes().isDefaults()) {
+                    pos = i;
+                }
+                map.put("default", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isDefaults()));
+                map.put("auto_increment", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isAuto_increment()));
+                map.put("voucher_number", response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
+                appUser.arr_series.add(response.getVoucher_series().getData().get(i).getAttributes().getName());
+                appUser.series_details.add(map);
+            }
+            Map map = new HashMap();
+            map = appUser.series_details.get(pos);
+            String auto_increament = (String) map.get("auto_increment");
+            String vch_number = (String) map.get("voucher_number");
+            Preferences.getInstance(getApplicationContext()).setAuto_increment(auto_increament);
+            if (auto_increament.equals("false")) {
+                mVchNumber.setEnabled(true);
+            } else {
+                mVchNumber.setEnabled(false);
+            }
+            mVchNumber.setText(vch_number);
+            Preferences.getInstance(getApplicationContext()).setVoucher_number(vch_number);
+
+          /*  mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    android.R.layout.simple_spinner_item, appUser.arr_series);
+            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSeries.setAdapter(mVoucherAdapter);
+            mSeries.setSelection(pos);
+            mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Map map = new HashMap();
+                    map = appUser.series_details.get(position);
+                    String auto_increament = (String) map.get("auto_increment");
+                    String vch_number = (String) map.get("voucher_number");
+                    if (auto_increament.equals("false")) {
+                        mVchNumber.setEnabled(true);
+                    } else {
+                        mVchNumber.setEnabled(false);
+                    }
+                    mVchNumber.setText(vch_number);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });*/
+
+        } else {
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(ExpandableItemListActivity.this, response.getMessage());
+        }
     }
 }
 
