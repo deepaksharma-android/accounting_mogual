@@ -1150,6 +1150,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                 map.put("voucher_number", response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
                 appUser.arr_series.add(response.getVoucher_series().getData().get(i).getAttributes().getName());
                 appUser.series_details.add(map);
+
             }
             LocalRepositories.saveAppUser(getActivity(), appUser);
             mVoucherAdapter = new ArrayAdapter<String>(getActivity(),

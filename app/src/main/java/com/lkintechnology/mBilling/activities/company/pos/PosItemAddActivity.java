@@ -64,6 +64,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
+    @Bind(R.id.submit)
+    LinearLayout submit;
     Animation blinkOnClick;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
@@ -285,6 +287,13 @@ public class PosItemAddActivity extends AppCompatActivity {
                 } else {
                     alertdialog();
                 }
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

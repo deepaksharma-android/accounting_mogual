@@ -128,6 +128,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
+    public static Boolean boolForSubmit = false;
+
     // Boolean fromsalelist;
 
 
@@ -219,7 +221,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
-                if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
+                if (boolForSubmit) {
                     appUser.mListMapForItemSale.clear();
                     LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -284,7 +286,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     boolForAdapterSet = true;
                     startActivity(intent);
                 }else {
-                    Toast.makeText(ExpandableItemListActivity.this, "Please select sale type in setting menu!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExpandableItemListActivity.this, "Please select setting menu!!!", Toast.LENGTH_SHORT).show();
                    // Helpers.dialogMessage(getApplicationContext(),"Please select sale type in setting menu!!!");
                 }
             }

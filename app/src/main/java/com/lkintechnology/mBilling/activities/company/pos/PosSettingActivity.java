@@ -1,6 +1,7 @@
 package com.lkintechnology.mBilling.activities.company.pos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,9 +29,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
@@ -37,6 +41,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
@@ -100,7 +105,9 @@ public class PosSettingActivity extends AppCompatActivity {
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         final Calendar newCalendar = Calendar.getInstance();
         String date1 = dateFormatter.format(newCalendar.getTime());
-        Preferences.getInstance(getApplicationContext()).setPos_date(date1);
+        if (Preferences.getInstance(getApplicationContext()).getPos_date().equals("")){
+            Preferences.getInstance(getApplicationContext()).setPos_date(date1);
+        }
         FirstPageActivity.posSetting = true;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
 
@@ -189,7 +196,7 @@ public class PosSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(getApplicationContext());
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getApplicationContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(PosSettingActivity.this, new android.app.DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar newDate = Calendar.getInstance();
@@ -250,6 +257,7 @@ public class PosSettingActivity extends AppCompatActivity {
                                     if (!mPartyName.getText().toString().equals("")) {
                                         Preferences.getInstance(getApplicationContext()).setPos_mobile(mMobileNumber.getText().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
+                                        ExpandableItemListActivity.boolForSubmit = true;
                                         finish();
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
@@ -380,6 +388,8 @@ public class PosSettingActivity extends AppCompatActivity {
                     String[] strArr = result.split(",");
                     mPartyName.setText(strArr[0]);
                     mMobileNumber.setText(mobile);
+                    appUser.sale_partyEmail = strArr[3];
+                    LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                     Preferences.getInstance(getApplicationContext()).setPos_party_id(id);
                     Preferences.getInstance(getApplicationContext()).setPos_party_name(strArr[0]);
                     Preferences.getInstance(getApplicationContext()).setPos_mobile(mobile);
@@ -440,6 +450,46 @@ public class PosSettingActivity extends AppCompatActivity {
         } else {
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             // set_date.setOnClickListener(this);
+            Helpers.dialogMessage(PosSettingActivity.this, response.getMessage());
+        }
+    }
+
+    @Subscribe
+    public void createsalevoucher(CreateSaleVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+           /* Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_voucher");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
+            Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            mMobileNumber.setText("");
+            mVchNumber.setText("");
+            mDate.setText("");
+            appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            appUser.arr_series.clear();
+            appUser.series_details.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+
+          /*  new AlertDialog.Builder(getApplicationContext())
+                    .setTitle("Print/Preview").setMessage("")
+                    .setMessage(R.string.print_preview_mesage)
+                    .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
+                        appUser.edit_sale_voucher_id = String.valueOf(response.getId());
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                        Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
+                        intent.putExtra("company_report", response.getHtml());
+                        intent.putExtra("type", "sale_voucher");
+                        startActivity(intent);
+
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show();*/
+
+        } else {
+            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(PosSettingActivity.this, response.getMessage());
         }
     }
