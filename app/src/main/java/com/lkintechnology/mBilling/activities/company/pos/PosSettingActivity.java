@@ -296,6 +296,10 @@ public class PosSettingActivity extends AppCompatActivity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
+                appUser.billsundrytotal.clear();
+                appUser.mListMapForItemSale.clear();
+                appUser.mListMapForBillSale.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 mSaleType.setText(result);

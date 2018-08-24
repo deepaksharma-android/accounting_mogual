@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,10 +33,13 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.adapters.BillSundryListAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddItemsAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
+import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
+import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventForPos;
@@ -50,11 +54,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -75,11 +81,14 @@ public class PosItemAddActivity extends AppCompatActivity {
     public static TextView mSubtotal;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
+    @Bind(R.id.add_bill_layout)
+    LinearLayout add_bill_layout;
     @Bind(R.id.submit)
     LinearLayout submit;
     Animation blinkOnClick;
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
+    public BillSundryData data = null;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
 
@@ -166,20 +175,45 @@ public class PosItemAddActivity extends AppCompatActivity {
         cgst_28 = (TextView) findViewById(R.id.cgst_28);
         sgst_5 = (TextView) findViewById(R.id.sgst_5);
         cgst_5 = (TextView) findViewById(R.id.cgst_5);
-
-
+        String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
         grand_total = (TextView) findViewById(R.id.grand_total);
 
-
-        if (!Preferences.getInstance(getApplicationContext()).getPos_mobile().equals("")) {
+        if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("") && !Preferences.getInstance(getApplicationContext()).getPos_party_id().equals("")) {
             party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
                     + ", " + Preferences.getInstance(getApplicationContext()).getPos_mobile());
         } else {
-            party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
+            party_name.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name()
+                    + "," + Preferences.getInstance(getApplicationContext()).getMobile());
         }
+
         mSubtotal.setText("₹ " + subtotal);
-        appUser.subTotal = String.valueOf((subtotal));
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+        if ((taxString.startsWith("I") && taxString.endsWith("%")) || taxString.startsWith("L") && taxString.endsWith("%")) {
+            add_bill_layout.setVisibility(View.GONE);
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(PosItemAddActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_LIST);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
+                            }
+                        });
+                snackbar.show();
+            }
+        }
         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
             Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
             String quantity = "";
@@ -568,32 +602,169 @@ public class PosItemAddActivity extends AppCompatActivity {
         return a;
     }
 
-    void apiCall(Boolean aBoolean){
+    @Subscribe
+    public void getBillSundryList(GetBillSundryListResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            appUser.arr_billSundryId.clear();
+            appUser.arr_billSundryName.clear();
+            appUser.billSundryName.clear();
+            appUser.billSundryId.clear();
+            appUser.mListMapForBillSale.clear();
+            LocalRepositories.saveAppUser(this, appUser);
+            String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
+                        appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                        appUser.arr_billSundryId.add(response.getBill_sundries().getData().get(i).getId());
+                        if (response.getBill_sundries().getData().get(i).getAttributes().getUndefined() == false) {
+                            appUser.billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
+                            appUser.billSundryId.add(response.getBill_sundries().getData().get(i).getId());
+                        }
+                        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+
+                        if (response.getBill_sundries().getData().get(i).getAttributes().getName().equals("IGST")
+                                && (taxString.startsWith("I") && taxString.endsWith("%")) ) {
+                            data = response.getBill_sundries().getData().get(i);
+                            gstBillSundryCalculation(data);
+                        }
+                        if ((response.getBill_sundries().getData().get(i).getAttributes().getName().equals("CGST") || response.getBill_sundries().getData().get(i).getAttributes().getName().equals("SGST"))
+                                && (taxString.startsWith("L") && taxString.endsWith("%"))) {
+                            data = response.getBill_sundries().getData().get(i);
+                            gstBillSundryCalculation(data);
+                        }
+
+                    }
+                }
+            }, 1);
+        } else {
+            Helpers.dialogMessage(this, response.getMessage());
+        }
+    }
+
+    void gstBillSundryCalculation(BillSundryData data) {
+        appUser = LocalRepositories.getAppUser(this);
+        String billSundaryPercentage;
+        String billSundryAmount = "0";
+        String billSundryCharges;
+        String billsundryothername = "";
+        String billSundryId;
+        String billSundryFedAs;
+        String billSundryFedAsPercentage;
+        String billSundryFedAsPercentagePrevious;
+        String billSundryType;
+        Double billSundryDefaultValue;
+        int billSundryNumber;
+        Boolean billSundryConsolidated;
+        double taxval = 0.0;
+        String id = "";
+        Map<String, String> mMap;
+
+        String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
+        billSundryCharges = data.getAttributes().getName();
+        billSundryFedAsPercentagePrevious = data.getAttributes().getBill_sundry_of_percentage();
+        billSundaryPercentage = data.getAttributes().getBill_sundry_percentage_value();
+        billSundryFedAs = data.getAttributes().getAmount_of_bill_sundry_fed_as();
+        billSundryDefaultValue = data.getAttributes().getDefault_value();
+        if (data.getAttributes().getBill_sundry_of_percentage() != null) {
+            billSundryFedAsPercentage = data.getAttributes().getBill_sundry_of_percentage();
+        } else {
+            billSundryFedAsPercentage = "";
+        }
+        billSundryType = data.getAttributes().getBill_sundry_type();
+        billSundryNumber = data.getAttributes().getNumber_of_bill_sundry();
+        billSundryConsolidated = data.getAttributes().isConsolidate_bill_sundry();
+        billSundryId = data.getId();
+
+        String billAmount = "0";
+        if (billSundryFedAsPercentage.equals("valuechange")) {
+            billAmount = "0.0";
+        } else {
+            billAmount = billSundryAmount;
+        }
+
+        String arrtaxstring[] = taxString.split("-");
+        String taxname = arrtaxstring[0].trim();
+        String taxvalue = arrtaxstring[1].trim();
+        String taxvalpercent[] = taxvalue.split("%");
+        String taxvalpercentval = taxvalpercent[0];
+        taxval = Double.parseDouble(taxvalpercentval);
+        mMap = new HashMap<>();
+        if (billSundryCharges.equals("IGST")) {
+            billSundryAmount = String.valueOf(billSundryDefaultValue + taxval);
+        } else {
+            billSundryAmount = String.valueOf(billSundryDefaultValue + (taxval / 2.0));
+        }
+        mMap.put("id", id);
+        mMap.put("courier_charges", billSundryCharges);
+        mMap.put("bill_sundry_id", billSundryId);
+        mMap.put("percentage", billAmount);
+        mMap.put("percentage_value", billSundaryPercentage);
+        mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+        mMap.put("fed_as", billSundryFedAs);
+        mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+        mMap.put("type", billSundryType);
+        mMap.put("amount", billAmount);
+        mMap.put("previous", billSundryFedAsPercentagePrevious);
+        if (String.valueOf(billSundryNumber) != null) {
+            mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+        }
+        if (String.valueOf(billSundryConsolidated) != null) {
+            mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+        }
+       /* if (billSundryFedAsPercentage != null) {
+            if (billSundryFedAsPercentage.equals("valuechange")) {
+                mMap.put("changeamount", mTotalAmt.getText().toString());
+            }
+        }*/
+        if (String.valueOf(billSundryId) != null) {
+            int size = appUser.arr_billSundryId.size();
+            for (int j = 0; j < size; j++) {
+                String id1 = appUser.arr_billSundryId.get(j);
+                if (id1.equals(String.valueOf(billSundryId))) {
+                    billsundryothername = appUser.arr_billSundryName.get(j);
+                    break;
+                }
+            }
+            mMap.put("other", billsundryothername);
+        }
+        appUser.mListMapForBillSale.add(mMap);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+    }
+
+    void apiCall(Boolean aBoolean) {
         appUser.sale_date = Preferences.getInstance(getApplicationContext()).getPos_date();
         appUser.sale_series = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
         appUser.sale_vchNo = Preferences.getInstance(getApplicationContext()).getVoucher_number();
-        if (Preferences.getInstance(getApplicationContext()).getSale_type_id().equals("")){
-            Preferences.getInstance(getApplicationContext()).setSale_type_id(Preferences.getInstance(getApplicationContext()).getPos_sale_type_id());
-        }
-        if (Preferences.getInstance(getApplicationContext()).getParty_id().equals("")){
+        Preferences.getInstance(getApplicationContext()).setSale_type_id(Preferences.getInstance(getApplicationContext()).getPos_sale_type_id());
+        Preferences.getInstance(getApplicationContext()).setSale_type_name(Preferences.getInstance(getApplicationContext()).getPos_sale_type());
+        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
+        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
+        if (Preferences.getInstance(getApplicationContext()).getParty_id().equals("")) {
             Preferences.getInstance(getApplicationContext()).setParty_id(Preferences.getInstance(getApplicationContext()).getPos_party_id());
-        }
-        if (Preferences.getInstance(getApplicationContext()).getMobile().equals("")){
+            Preferences.getInstance(getApplicationContext()).setParty_name(Preferences.getInstance(getApplicationContext()).getPos_party_name());
             appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getPos_mobile();
-        }else {
+        } else {
             appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getMobile();
         }
-        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
+
         appUser.totalamount = String.valueOf(txtSplit(PosItemAddActivity.grand_total.getText().toString()));
         appUser.items_amount = String.valueOf(txtSplit(PosItemAddActivity.mSubtotal.getText().toString()));
-       // appUser.bill_sundries_amount =
-       // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
-        if (aBoolean){
+        Double bill_sundries_amount = 0.0;
+        for (int i = 0; i < appUser.billsundrytotal.size(); i++) {
+            bill_sundries_amount = bill_sundries_amount + Double.valueOf(appUser.billsundrytotal.get(i));
+        }
+        appUser.bill_sundries_amount = String.valueOf(bill_sundries_amount);
+        // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
+        if (aBoolean) {
             appUser.email_yes_no = "true";
-        }else {
+        } else {
             appUser.email_yes_no = "false";
         }
-        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
         if (isConnected) {
@@ -621,10 +792,6 @@ public class PosItemAddActivity extends AppCompatActivity {
     public void createPosSaleVoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-           /* Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "sale_voucher");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, appUser.company_name);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);*/
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();

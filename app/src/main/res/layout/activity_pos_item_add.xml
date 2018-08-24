@@ -101,6 +101,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/add_bill_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -766,7 +767,7 @@
         <LinearLayout
             android:id="@+id/submit"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="40dp"

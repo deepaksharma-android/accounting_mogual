@@ -185,11 +185,11 @@ public class BaseActivityCompany extends AppCompatActivity {
         appUser.billsundrytotal.clear();
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setVoucher_number("");
-        Preferences.getInstance(getApplicationContext()).setSale_type_id("");
         Preferences.getInstance(getApplicationContext()).setParty_id("");
+        Preferences.getInstance(getApplicationContext()).setParty_name("");
         Preferences.getInstance(getApplicationContext()).setShipped_to_id("");
+        Preferences.getInstance(getApplicationContext()).setShipped_to("");
         Preferences.getInstance(getApplicationContext()).setMobile("");
-        Preferences.getInstance(getApplicationContext()).setStoreId("");
         Preferences.getInstance(getApplicationContext()).setAttachment("");
         appUser.sale_date = "";
         appUser.sale_date = "";

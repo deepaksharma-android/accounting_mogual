@@ -338,7 +338,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                         mUnitList = new ArrayList<>();
                                                         mUnitList.add("Main Unit : " + main_unit);
                                                         mUnitList.add("Alternate Unit :" + alternate_unit);
-                                                        mUnitList.add("Alternate Unit :" + packaging_unit);
                                                         subtotal = subtotal + total;
                                                         if (!quantity.equals("0")) {
                                                             mMap.put("id", "");
@@ -383,6 +382,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             }
+                                            Preferences.getInstance(getApplicationContext()).setParty_name("");
+                                            Preferences.getInstance(getApplicationContext()).setParty_id("");
                                             Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                                             intent.putExtra("subtotal", subtotal);
                                             boolForAdapterSet = true;

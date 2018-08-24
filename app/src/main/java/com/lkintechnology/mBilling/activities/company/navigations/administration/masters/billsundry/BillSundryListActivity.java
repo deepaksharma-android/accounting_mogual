@@ -72,10 +72,10 @@ public class BillSundryListActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     BillSundryListAdapter mAdapter;
     ProgressDialog mProgressDialog;
-    public static Boolean isDirectForBill=true;
+    public static Boolean isDirectForBill = true;
     AppUser appUser;
 
-    Snackbar  snackbar;
+    Snackbar snackbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class BillSundryListActivity extends AppCompatActivity {
             editor.putBoolean("RanBefore", true);
             editor.commit();
             mOverlayLayout.setVisibility(View.VISIBLE);
-            mOverlayLayout.setOnTouchListener(new View.OnTouchListener(){
+            mOverlayLayout.setOnTouchListener(new View.OnTouchListener() {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -116,10 +116,11 @@ public class BillSundryListActivity extends AppCompatActivity {
     }
 
     public void add(View v) {
-        Intent intent=new Intent(getApplicationContext(), CreateBillSundryActivity.class);
-        intent.putExtra("fromlist",true);
+        Intent intent = new Intent(getApplicationContext(), CreateBillSundryActivity.class);
+        intent.putExtra("fromlist", true);
         startActivity(intent);
     }
+
     private void initActionbar() {
         ActionBar actionBar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.action_bar_tittle_text_layout, null);
@@ -133,7 +134,7 @@ public class BillSundryListActivity extends AppCompatActivity {
         actionBar.setCustomView(viewActionBar, params);
         TextView actionbarTitle = (TextView) viewActionBar.findViewById(R.id.actionbar_textview);
         actionbarTitle.setText("BILL SUNDRY LIST");
-        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(),3));
+        actionbarTitle.setTypeface(TypefaceCache.get(getAssets(), 3));
         actionbarTitle.setTextSize(16);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -169,6 +170,7 @@ public class BillSundryListActivity extends AppCompatActivity {
             snackbar.show();
         }
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
@@ -182,6 +184,7 @@ public class BillSundryListActivity extends AppCompatActivity {
         snackbar.show();
         //mProgressDialog.dismiss();
     }
+
     @Override
     protected void onStop() {
         EventBus.getDefault().unregister(this);
@@ -189,9 +192,9 @@ public class BillSundryListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getBillSundryList(GetBillSundryListResponse response){
+    public void getBillSundryList(GetBillSundryListResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200) {
+        if (response.getStatus() == 200) {
             appUser.arr_billSundryId.clear();
             appUser.arr_billSundryName.clear();
             appUser.billSundryName.clear();
@@ -207,15 +210,15 @@ public class BillSundryListActivity extends AppCompatActivity {
             }
 
             mRecyclerView.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(getApplicationContext());
-                mRecyclerView.setLayoutManager(layoutManager);
-                mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());
-                mRecyclerView.setAdapter(mAdapter);
+            layoutManager = new LinearLayoutManager(getApplicationContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            mAdapter = new BillSundryListAdapter(this, response.getBill_sundries().getData());
+            mRecyclerView.setAdapter(mAdapter);
 
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable(){
+            handler.postDelayed(new Runnable() {
                 @Override
-                public void run(){
+                public void run() {
                     for (int i = 0; i < response.getBill_sundries().getData().size(); i++) {
                         appUser.arr_billSundryName.add(response.getBill_sundries().getData().get(i).getAttributes().getName());
                         appUser.arr_billSundryId.add(response.getBill_sundries().getData().get(i).getId());
@@ -228,21 +231,21 @@ public class BillSundryListActivity extends AppCompatActivity {
                     }
                 }
             }, 1);
-        }else {
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
     @Subscribe
-    public void deletebillsundry(EventDeleteBillSundry pos){
-        appUser.delete_bill_sundry_id= String.valueOf(appUser.arr_billSundryId.get(pos.getPosition()));
-        LocalRepositories.saveAppUser(this,appUser);
+    public void deletebillsundry(EventDeleteBillSundry pos) {
+        appUser.delete_bill_sundry_id = String.valueOf(appUser.arr_billSundryId.get(pos.getPosition()));
+        LocalRepositories.saveAppUser(this, appUser);
         new AlertDialog.Builder(BillSundryListActivity.this)
                 .setTitle("Delete Bill Sundry")
                 .setMessage("Are you sure you want to delete this bill sundry ?")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     Boolean isConnected = ConnectivityReceiver.isConnected();
-                    if(isConnected) {
+                    if (isConnected) {
                         mProgressDialog = new ProgressDialog(BillSundryListActivity.this);
                         mProgressDialog.setMessage("Info...");
                         mProgressDialog.setIndeterminate(false);
@@ -250,15 +253,14 @@ public class BillSundryListActivity extends AppCompatActivity {
                         mProgressDialog.show();
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_DELETE_BILL_SUNDRY);
-                    }
-                    else{
+                    } else {
                         snackbar = Snackbar
                                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         Boolean isConnected = ConnectivityReceiver.isConnected();
-                                        if(isConnected){
+                                        if (isConnected) {
                                             snackbar.dismiss();
                                         }
                                     }
@@ -274,24 +276,23 @@ public class BillSundryListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void deletebillsundryresponse(DeleteBillSundryResponse response){
+    public void deletebillsundryresponse(DeleteBillSundryResponse response) {
         mProgressDialog.dismiss();
-        if(response.getStatus()==200){
+        if (response.getStatus() == 200) {
 
             Snackbar
                     .make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_BILL_SUNDRY_LIST);
-        }
-        else{
-           // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            Helpers.dialogMessage(this,response.getMessage());
+        } else {
+            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
+            Helpers.dialogMessage(this, response.getMessage());
         }
     }
 
 
     @Subscribe
     public void ClickEventAddSaleVoucher(EventSaleAddBill pos) {
-        if(!BillSundryListActivity.isDirectForBill) {
+        if (!BillSundryListActivity.isDirectForBill) {
             String id = pos.getPosition();
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddBillActivity.class);
@@ -314,12 +315,12 @@ public class BillSundryListActivity extends AppCompatActivity {
                 intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
-            }else if (ExpandableItemListActivity.comingFrom == 4) {
+            } else if (ExpandableItemListActivity.comingFrom == 4) {
                 Intent intent = new Intent(getApplicationContext(), StockTransferAddBillActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
-            }else if (ExpandableItemListActivity.comingFrom == 5) {
+            } else if (ExpandableItemListActivity.comingFrom == 5) {
                 Intent intent = new Intent(getApplicationContext(), PosAddBillActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("fromvoucherbilllist", false);
@@ -333,7 +334,7 @@ public class BillSundryListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!BillSundryListActivity.isDirectForBill) {
+        if (!BillSundryListActivity.isDirectForBill) {
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(this, CreateSaleActivity.class);
                 intent.putExtra("is", true);
@@ -355,10 +356,12 @@ public class BillSundryListActivity extends AppCompatActivity {
                 intent.putExtra("is", true);
                 startActivity(intent);
                 finish();
-            }else if (ExpandableItemListActivity.comingFrom == 4) {
+            } else if (ExpandableItemListActivity.comingFrom == 4) {
                 Intent intent = new Intent(this, CreateStockTransferActivity.class);
                 intent.putExtra("is", true);
                 startActivity(intent);
+                finish();
+            } else if (ExpandableItemListActivity.comingFrom == 5) {
                 finish();
             } else {
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
@@ -366,18 +369,16 @@ public class BillSundryListActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }
-        else{
+        } else {
             finish();
         }
 
     }
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
-                if(!BillSundryListActivity.isDirectForBill) {
+                if (!BillSundryListActivity.isDirectForBill) {
                     if (ExpandableItemListActivity.comingFrom == 0) {
                         Intent intent = new Intent(this, CreateSaleActivity.class);
                         intent.putExtra("is", true);
@@ -399,10 +400,12 @@ public class BillSundryListActivity extends AppCompatActivity {
                         intent.putExtra("is", true);
                         startActivity(intent);
                         finish();
-                    }else if (ExpandableItemListActivity.comingFrom == 4) {
+                    } else if (ExpandableItemListActivity.comingFrom == 4) {
                         Intent intent = new Intent(this, CreateStockTransferActivity.class);
                         intent.putExtra("is", true);
                         startActivity(intent);
+                        finish();
+                    } else if (ExpandableItemListActivity.comingFrom == 5) {
                         finish();
                     } else {
                         Intent intent = new Intent(this, MasterDashboardActivity.class);
@@ -410,8 +413,7 @@ public class BillSundryListActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                }
-                else{
+                } else {
                     finish();
                 }
 
@@ -420,7 +422,6 @@ public class BillSundryListActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
 }

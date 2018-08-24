@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAdapter.ViewHolder> {
     private ArrayList<BillSundryData> data;
     private Context context;
+    private int count = -1;
 
 
     public BillSundryListAdapter(Context context, ArrayList<BillSundryData> data) {
@@ -49,6 +50,20 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
 
     @Override
     public void onBindViewHolder(BillSundryListAdapter.ViewHolder viewHolder, int i) {
+       /* count++;
+        if (ExpandableItemListActivity.comingFrom==5){
+            if (!data.get(i).getAttributes().getName().contains("GST")){
+                viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
+            }else {
+                data.remove(i);
+                count--;
+            }
+            if (data.size()==count){
+                notifyDataSetChanged();
+            }
+        }else {
+            viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
+        }*/
         viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
         if (data.get(i).getAttributes().getUndefined() == true) {
             viewHolder.mDelete.setVisibility(View.VISIBLE);

@@ -148,7 +148,6 @@ public class PosAddBillActivity extends AppCompatActivity {
         if (!billAmount.getText().toString().equals("")) {
             Double per = Double.parseDouble(billAmount.getText().toString());
             mTotal.setText(String.valueOf((totalitemamount * per) / 100));
-
         }
         courier_charges.setText(billSundryCharges);
 
