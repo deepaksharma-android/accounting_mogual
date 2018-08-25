@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
+import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
@@ -399,7 +400,7 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
         System.out.println(appUser.mListMapForBillSale.toString());
         ExpandableItemListActivity.boolForAdapterSet = false;
         super.onPause();
@@ -627,7 +628,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
                         if (response.getBill_sundries().getData().get(i).getAttributes().getName().equals("IGST")
-                                && (taxString.startsWith("I") && taxString.endsWith("%")) ) {
+                                && (taxString.startsWith("I") && taxString.endsWith("%"))) {
                             data = response.getBill_sundries().getData().get(i);
                             gstBillSundryCalculation(data);
                         }
@@ -799,11 +800,11 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.series_details.clear();
             appUser.billsundrytotal.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
-            startActivity(intent);
-            finish();
+            /*Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
+            startActivity(intent);*/
+            //finish();
 
-          /*  new AlertDialog.Builder(getApplicationContext())
+            new AlertDialog.Builder(PosItemAddActivity.this)
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
                     .setPositiveButton(R.string.btn_print_preview, (dialogInterface, i) -> {
@@ -812,16 +813,20 @@ public class PosItemAddActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), TransactionPdfActivity.class);
                         intent.putExtra("company_report", response.getHtml());
                         intent.putExtra("type", "sale_voucher");
+                        intent.putExtra("backPress", true);
                         startActivity(intent);
-
+                        finish();
                     })
-                    .setNegativeButton(R.string.btn_cancel, null)
-                    .show();*/
+                    .setNegativeButton(R.string.btn_cancel, (dialogInterface, i) -> {
+                        Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .show();
 
         } else {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(PosItemAddActivity.this, response.getMessage());
         }
     }
-
 }

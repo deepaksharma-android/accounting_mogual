@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -114,28 +115,46 @@ public class PosSettingActivity extends AppCompatActivity {
         mStore.setText(Preferences.getInstance(getApplicationContext()).getPos_store());
         mPartyName.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         mMobileNumber.setText(Preferences.getInstance(getApplicationContext()).getPos_mobile());
+
+        mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, appUser.arr_series);
+        mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSeries.setAdapter(mVoucherAdapter);
+        mSeries.setSelection(0);
+        String group_type = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
+        if (!group_type.equals("")){
+            Handler handler = new Handler();
+            mProgressDialog = new ProgressDialog(PosSettingActivity.this);
+            mProgressDialog.setMessage("Info...");
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int groupindex = -1;
+                    for (int i = 0; i < appUser.arr_series.size(); i++) {
+                        if (appUser.arr_series.get(i).equals(group_type)) {
+                            groupindex = i;
+                            break;
+                        }
+                    }
+                    mSeries.setSelection(groupindex);
+                    mProgressDialog.dismiss();
+
+                }
+            }, 1);
+
+        }
+
+
+
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
                 mSeries.setEnabled(false);
             } else {
                 mSeries.setEnabled(true);
             }
-        }
-
-        mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, appUser.arr_series);
-        mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSeries.setAdapter(mVoucherAdapter);
-        if (!Preferences.getInstance(getApplicationContext()).getVoucherSeries().equals("")){
-            String group_type = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
-            int groupindex = -1;
-            for (int i = 0; i < appUser.arr_series.size(); i++) {
-                if (appUser.arr_series.get(i).equals(group_type)) {
-                    groupindex = i;
-                    break;
-                }
-            }
-            mSeries.setSelection(groupindex);
         }
 
         mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

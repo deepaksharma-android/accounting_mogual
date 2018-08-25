@@ -1765,6 +1765,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             map = appUser.series_details.get(pos);
             String auto_increament = (String) map.get("auto_increment");
             String vch_number = (String) map.get("voucher_number");
+            String name = (String) map.get("name");
             Preferences.getInstance(getApplicationContext()).setAuto_increment(auto_increament);
             if (auto_increament.equals("false")) {
                 mVchNumber.setEnabled(true);
@@ -1773,6 +1774,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             }
             mVchNumber.setText(vch_number);
             Preferences.getInstance(getApplicationContext()).setVoucher_number(vch_number);
+            Preferences.getInstance(getApplicationContext()).setVoucherSeries(name);
 
           /*  mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_spinner_item, appUser.arr_series);

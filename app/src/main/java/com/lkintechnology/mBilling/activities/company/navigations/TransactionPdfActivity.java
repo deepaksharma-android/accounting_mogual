@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.company.CompanyListActivity;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.printerintegration.AEMScrybeDevice;
 import com.lkintechnology.mBilling.activities.printerintegration.CardReader;
 import com.lkintechnology.mBilling.activities.printerintegration.IAemCardScanner;
@@ -92,6 +93,7 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
     String type;
     public AEMScrybeDevice m_AemScrybeDevice;
     public CardReader m_cardReader = null;
+    Boolean backPress = false;
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     @Override
@@ -99,6 +101,8 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_pdf);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        backPress = intent.getBooleanExtra("backPress", false);
         progressDialog = new ProgressDialog(TransactionPdfActivity.this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
@@ -329,14 +333,26 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
             }
 
         } else {
-            finish();
+            if (backPress) {
+                Intent intent = new Intent(TransactionPdfActivity.this, FirstPageActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                finish();
+            }
         }
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (backPress) {
+            Intent intent = new Intent(TransactionPdfActivity.this, FirstPageActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
         super.onBackPressed();
     }
 
