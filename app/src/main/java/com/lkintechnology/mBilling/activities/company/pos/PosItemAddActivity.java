@@ -188,6 +188,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         }
 
         mSubtotal.setText("₹ " + subtotal);
+        grand_total.setText("₹ " + subtotal);
 
         if ((taxString.startsWith("I") && taxString.endsWith("%")) || taxString.startsWith("L") && taxString.endsWith("%")) {
             // add_bill_layout.setVisibility(View.GONE);
@@ -304,9 +305,9 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.grandTotal = String.valueOf(subtotal + grandTotal);
             appUser.subTotal = String.valueOf((subtotal));
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        } else {
+        } /*else {
             PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal, 0.0, 0.0, "", false);
-        }
+        }*/
 
         change_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -386,8 +387,8 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
         appUser = LocalRepositories.getAppUser(getApplicationContext());
+        EventBus.getDefault().register(this);
         System.out.println(appUser.mListMapForBillSale.toString());
         if (appUser.mListMapForBillSale.size() > 0) {
             if (ExpandableItemListActivity.boolForAdapterSet) {
@@ -640,7 +641,8 @@ public class PosItemAddActivity extends AppCompatActivity {
                     }
            /*     }
             }, 1);*/
-            grand_total.setText(""+(txtSplit(grand_total.getText().toString())+grandTotal));
+            grand_total.setText("₹ "+(String.format("%.2f",txtSplit(grand_total.getText().toString())+grandTotal)));
+            setBillListDataAdapter();
         } else {
             Helpers.dialogMessage(this, response.getMessage());
         }
@@ -658,7 +660,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         String billSundryFedAsPercentagePrevious;
         String billSundryType;
         String changeAmount = "0.0";
-        Double billSundryDefaultValue;
+        Double billSundryDefaultValue = 0.0;
         int billSundryNumber;
         Boolean billSundryConsolidated;
         double taxval = 0.0;
@@ -698,16 +700,16 @@ public class PosItemAddActivity extends AppCompatActivity {
 
         mMap = new HashMap<>();
         if (billSundryCharges.equals("IGST")) {
-            billSundryAmount = String.valueOf(billSundryDefaultValue + taxval);
             Double subtotal = txtSplit(PosItemAddActivity.mSubtotal.getText().toString());
             changeAmount = String.valueOf((subtotal * taxval) / 100);
+            billSundryAmount = String.valueOf(billSundryDefaultValue + taxval);
             appUser.billsundrytotal.add(changeAmount);
             grandTotal = grandTotal + Double.valueOf(changeAmount);
            // LocalRepositories.saveAppUser(PosItemAddActivity.this,appUser);
         } else {
-            billSundryAmount = String.valueOf(billSundryDefaultValue + (taxval / 2.0));
             Double subtotal = txtSplit(PosItemAddActivity.mSubtotal.getText().toString());
             changeAmount = String.valueOf((subtotal * taxval / 2) / 100);
+            billSundryAmount = String.valueOf(billSundryDefaultValue + taxval);
             appUser.billsundrytotal.add(""+Double.valueOf(changeAmount)/2);
             appUser.billsundrytotal.add(""+Double.valueOf(changeAmount)/2);
             grandTotal = grandTotal + Double.valueOf(changeAmount);
@@ -717,7 +719,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         mMap.put("id", id);
         mMap.put("courier_charges", billSundryCharges);
         mMap.put("bill_sundry_id", billSundryId);
-        mMap.put("percentage", billSundryAmount);
+        mMap.put("percentage", ""+taxval);
         mMap.put("percentage_value", billSundaryPercentage);
         mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
         mMap.put("fed_as", billSundryFedAs);
@@ -749,7 +751,6 @@ public class PosItemAddActivity extends AppCompatActivity {
         }
         appUser.mListMapForBillSale.add(mMap);
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-        setBillListDataAdapter();
     }
 
     void apiCall(Boolean aBoolean) {

@@ -60,13 +60,14 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         Map map = mListMap.get(position);
         String itemName = (String) map.get("courier_charges");
         String amount = (String) map.get("amount");
+        String percentage = (String) map.get("percentage");
         String fed_as_percentage = (String) map.get("fed_as_percentage");
         String fed_as = (String) map.get("fed_as");
         String type = (String) map.get("type");
         viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
         if (fed_as_percentage != null) {
             if (fed_as_percentage.equals("valuechange")) {
-                viewHolder.mDiscount.setText("Discount ");
+                viewHolder.mDiscount.setText(itemName + " ");
             }else {
                 viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
             }

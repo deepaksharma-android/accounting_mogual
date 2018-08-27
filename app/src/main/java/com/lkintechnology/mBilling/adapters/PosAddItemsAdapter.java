@@ -156,22 +156,24 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     }
 
     public void setTotal(String amount, Boolean mBool, Double gst, Double taxValue, String tax) {
-        Double total = 0.0;
+        Double total = 0.0,grandTotal = 0.0;
         if (mBool) {
-            total = getTotal() + Double.valueOf(amount);
+            total = getTotal(PosItemAddActivity.mSubtotal.getText().toString()) + Double.valueOf(amount);
+            grandTotal = getTotal(PosItemAddActivity.grand_total.getText().toString()) + Double.valueOf(amount);
         } else {
-            total = getTotal() - Double.valueOf(amount);
+            total = getTotal(PosItemAddActivity.mSubtotal.getText().toString()) - Double.valueOf(amount);
+            grandTotal = getTotal(PosItemAddActivity.grand_total.getText().toString()) - Double.valueOf(amount);
         }
        /* if(Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
             setMultiRateTaxChange(gst,taxValue);
             granTotal(total, gst);
         }else {*/
-        setTaxChange(context, total, gst, taxValue, tax, mBool);
         PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", total));
+        PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
+        setTaxChange(context, total, gst, taxValue, tax, mBool);
     }
 
-    public Double getTotal() {
-        String total = PosItemAddActivity.mSubtotal.getText().toString();
+    public Double getTotal(String total) {
         String[] arr = total.split("₹ ");
         Double a = Double.valueOf(arr[1].trim());
         return a;
@@ -186,7 +188,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             String taxName = "";
             String taxValue = "";
             if (taxString.startsWith("I") && taxString.endsWith("%")) {
-                subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+               // subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
                /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
@@ -199,7 +201,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     PosItemAddActivity.igst.setText("₹ " + String.format("%.2f", tax));
                 }*/
             } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
-                subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+              //  subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
                /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
@@ -292,9 +294,6 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     }
                 }
             } else {
-                //For Exempt
-                //For Export(ZeroRated)
-                //Tax Include
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
                 PosItemAddActivity.sgst_cgst_layout.setVisibility(View.GONE);
             }
