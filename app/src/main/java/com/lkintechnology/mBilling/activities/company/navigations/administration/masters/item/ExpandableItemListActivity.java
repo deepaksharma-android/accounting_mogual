@@ -264,7 +264,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                 if (!Preferences.getInstance(getApplicationContext()).getPos_store().equals("")) {
                                     if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("")) {
                                         if (ItemExpandableListAdapter.mMapPosItem.size() > 0) {
-                                           // Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
+                                            // Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
+                                            appUser.billsundrytotal.clear();
                                             appUser.mListMapForItemSale.clear();
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -272,7 +273,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                             v.startAnimation(animFadeIn);
                                             Map mMap;
                                             Double subtotal = 0.0;
-                                            ArrayList<String> sale_item_serial_arr=new ArrayList<>();
+                                            ArrayList<String> sale_item_serial_arr = new ArrayList<>();
                                             sale_item_serial_arr.clear();
                                             for (int i = 0; i < listDataHeader.size(); i++) {
                                                 Double total = 0.0;
@@ -323,11 +324,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                         String applied = listDataChildApplied.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                                                         String alternate_unit_con_factor = listDataChildAlternateConFactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                                                         String default_unit = "";
-                                                       try {
+                                                        try {
                                                             default_unit = listDataChildDefaultUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
-                                                       }catch (Exception e){
-                                                           default_unit = "";
-                                                       }
+                                                        } catch (Exception e) {
+                                                            default_unit = "";
+                                                        }
                                                         String packaging_unit_con_factor = listDataChildPackagingConfactor.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                                                         String packaging_unit_sales_price = listDataChildPackagingSalesPrice.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
                                                         String packaging_unit = listDataChildPackagingUnit.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -359,20 +360,20 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                             mMap.put("packaging_unit_sales_price", packaging_unit_sales_price);
                                                             mMap.put("packaging_unit", packaging_unit);
                                                             mMap.put("mrp", mrp);
-                                                            mMap.put("sr_no","");
-                                                            mMap.put("serial_number",sale_item_serial_arr);
+                                                            mMap.put("sr_no", "");
+                                                            mMap.put("serial_number", sale_item_serial_arr);
 
                                                             mMap.put("rate", appUser.sale_item_serial_arr);
                                                             mMap.put("discount", "0");
-                                                            mMap.put("value","0.0");
+                                                            mMap.put("value", "0.0");
                                                             mMap.put("sale_unit", main_unit);
                                                             mMap.put("unit", "Main Unit");
                                                             mMap.put("rate", sales_price_main);
                                                             mMap.put("unit_list", mUnitList);
 
 
-                                                           // mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
-                                                           // mMap.put("id", itemid);
+                                                            // mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
+                                                            // mMap.put("id", itemid);
 
                                                             appUser.mListMapForItemSale.add(mMap);
                                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);

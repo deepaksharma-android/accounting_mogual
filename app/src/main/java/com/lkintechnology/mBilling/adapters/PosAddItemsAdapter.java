@@ -186,7 +186,8 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             String taxName = "";
             String taxValue = "";
             if (taxString.startsWith("I") && taxString.endsWith("%")) {
-                String arrTaxString[] = taxString.split("-");
+                subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+               /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
                 PosItemAddActivity.igst_layout.setVisibility(View.VISIBLE);
@@ -196,11 +197,10 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                 if (!s.equals("")) {
                     tax = (subtotal * Double.valueOf(s)) / 100;
                     PosItemAddActivity.igst.setText("₹ " + String.format("%.2f", tax));
-                    appUser.billsundrytotal.add(""+tax);
-                    LocalRepositories.saveAppUser(context,appUser);
-                }
+                }*/
             } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
-                String arrTaxString[] = taxString.split("-");
+                subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+               /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
                 PosItemAddActivity.igst_layout.setVisibility(View.GONE);
@@ -214,7 +214,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     appUser.billsundrytotal.add(""+tax/2);
                     appUser.billsundrytotal.add(""+tax/2);
                     LocalRepositories.saveAppUser(context,appUser);
-                }
+                }*/
             } else if (taxString.contains("GST-MultiRate")) {
                 if (taxString.contains("I/GST-MultiRate")) {
                     if (tax1.contains("GST ")) {

@@ -68,7 +68,7 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
             if (fed_as_percentage.equals("valuechange")) {
                 viewHolder.mDiscount.setText("Discount ");
             }else {
-                viewHolder.mDiscount.setText("Discount " + amount + "%");
+                viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
             }
         }
      /*   if (fed_as_percentage != null) {
