@@ -99,8 +99,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     LinearLayout pos_setting_layout;
     @Bind(R.id.pos_setting)
     TextView pos_setting;
-    @Bind(R.id.vch_number)
-    EditText mVchNumber;
     @Bind(R.id.submit)
     TextView mSubmit;
     @Bind(R.id.submit_layout)
@@ -261,12 +259,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 //  Toast.makeText(ExpandableItemListActivity.this, ExpandableItemListActivity.mTotal.getText().toString(), Toast.LENGTH_SHORT).show();
                 if (!Preferences.getInstance(getApplicationContext()).getVoucherSeries().equals("")) {
                     if (!Preferences.getInstance(getApplicationContext()).getPos_date().equals("")) {
-                        if (!mVchNumber.getText().equals("")) {
+                        if (!Preferences.getInstance(getApplicationContext()).getVoucher_number().equals("")) {
                             if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
                                 if (!Preferences.getInstance(getApplicationContext()).getPos_store().equals("")) {
                                     if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("")) {
                                         if (ItemExpandableListAdapter.mMapPosItem.size() > 0) {
-                                            Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
+                                           // Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
                                             appUser.mListMapForItemSale.clear();
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -496,22 +494,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
-
-            if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
-                if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
-                    mVchNumber.setEnabled(false);
-                } else {
-                    mVchNumber.setEnabled(true);
-                }
-                mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
-            }
-           /* if (Preferences.getInstance(getApplicationContext()).getPos_voucher_number()!=null){
-                if (!mVchNumber.getText().toString().equals(Preferences.getInstance(getApplicationContext()).getPos_voucher_number())) {
-                    mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getPos_voucher_number());
-                }else {
-                    mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
-                }
-            }*/
 
         }
  /*       }else{
@@ -804,8 +786,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     expListView.expandGroup(i);
                 }
             }
-
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
 
             autoCompleteTextView();
 
@@ -1741,72 +1721,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             a = Integer.parseInt(arr1[0]);
         }
         return a;
-    }
-
-    @Subscribe
-    public void getVoucherNumber(VoucherSeriesResponse response) {
-        mProgressDialog.dismiss();
-        if (response.getStatus() == 200) {
-            int pos = -1;
-            for (int i = 0; i < response.getVoucher_series().getData().size(); i++) {
-                Map map = new HashMap();
-                map.put("id", response.getVoucher_series().getData().get(i).getId());
-                map.put("name", response.getVoucher_series().getData().get(i).getAttributes().getName());
-                if (response.getVoucher_series().getData().get(i).getAttributes().isDefaults()) {
-                    pos = i;
-                }
-                map.put("default", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isDefaults()));
-                map.put("auto_increment", String.valueOf(response.getVoucher_series().getData().get(i).getAttributes().isAuto_increment()));
-                map.put("voucher_number", response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
-                appUser.arr_series.add(response.getVoucher_series().getData().get(i).getAttributes().getName());
-                appUser.series_details.add(map);
-            }
-            Map map = new HashMap();
-            map = appUser.series_details.get(pos);
-            String auto_increament = (String) map.get("auto_increment");
-            String vch_number = (String) map.get("voucher_number");
-            String name = (String) map.get("name");
-            Preferences.getInstance(getApplicationContext()).setAuto_increment(auto_increament);
-            if (auto_increament.equals("false")) {
-                mVchNumber.setEnabled(true);
-            } else {
-                mVchNumber.setEnabled(false);
-            }
-            mVchNumber.setText(vch_number);
-            Preferences.getInstance(getApplicationContext()).setVoucher_number(vch_number);
-            Preferences.getInstance(getApplicationContext()).setVoucherSeries(name);
-
-          /*  mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_spinner_item, appUser.arr_series);
-            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mSeries.setAdapter(mVoucherAdapter);
-            mSeries.setSelection(pos);
-            mSeries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Map map = new HashMap();
-                    map = appUser.series_details.get(position);
-                    String auto_increament = (String) map.get("auto_increment");
-                    String vch_number = (String) map.get("voucher_number");
-                    if (auto_increament.equals("false")) {
-                        mVchNumber.setEnabled(true);
-                    } else {
-                        mVchNumber.setEnabled(false);
-                    }
-                    mVchNumber.setText(vch_number);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });*/
-
-        } else {
-            // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
-            // set_date.setOnClickListener(this);
-            Helpers.dialogMessage(ExpandableItemListActivity.this, response.getMessage());
-        }
     }
 }
 
