@@ -185,31 +185,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser.stock_in_hand_date = dateString;
 //        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
 
-      /*  Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(ExpandableItemListActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            appUser.arr_series.clear();
-            appUser.series_details.clear();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
-                            }
-                        }
-                    });
-            snackbar.show();
-        }*/
-
       /*  mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {

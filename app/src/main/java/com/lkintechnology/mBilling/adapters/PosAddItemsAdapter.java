@@ -118,7 +118,9 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             @Override
             public void onClick(View v) {
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
-                if (mInteger > 1) {
+
+
+                if (mInteger > 0) {
                     mInteger = mInteger - 1;
                     viewHolder.mQuantity.setText("" + mInteger);
 
@@ -149,6 +151,14 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
 
+                    if (mInteger==0){
+                        appUser.mListMapForItemSale.remove(position);
+                        // appUser.billsundrytotal.set(position,"0.0");
+                        LocalRepositories.saveAppUser(context,appUser);
+                        mListMap.remove(position);
+                        notifyDataSetChanged();
+                    }
+
                   //  EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
@@ -170,7 +180,16 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
         }else {*/
         PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", total));
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
-        setTaxChange(context, total, gst, taxValue, tax, mBool);
+        //setTaxChange(context, total, gst, taxValue, tax, mBool);
+        appUser = LocalRepositories.getAppUser(context);
+        if (appUser.mListMapForBillSale.size()>0){
+            // new PosItemAddActivity().billCalculation((subtotal+tax),true);
+           // String subTotal = String.valueOf(total+ taxSplit(String.valueOf(tax)));
+            String subTotal = String.valueOf(total);
+            EventBus.getDefault().post(new EventForPos(subTotal));
+        }else {
+            granTotal(total, 0.00/*taxSplit(tax)*/);
+        }
     }
 
     public Double getTotal(String total) {

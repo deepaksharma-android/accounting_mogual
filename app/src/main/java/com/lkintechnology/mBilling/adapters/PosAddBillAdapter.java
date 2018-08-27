@@ -72,44 +72,6 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
                 viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
             }
         }
-     /*   if (fed_as_percentage != null) {
-          *//*  if (position==0){
-                appUser = LocalRepositories.getAppUser(context);
-                grandTotal = Double.valueOf(appUser.grandTotal);
-                subTotal = Double.valueOf(appUser.subTotal);
-            }else {*//*
-                grandTotal = getGrandTotal(PosItemAddActivity.grand_total.getText().toString());
-                subTotal = getGrandTotal(PosItemAddActivity.mSubtotal.getText().toString());
-          //  }
-            if (fed_as_percentage.equals("valuechange")) {
-               *//* Double changeamount = Double.parseDouble((String) map.get("changeamount"));
-                if (type.equals("Additive")) {
-                    total = grandTotal + changeamount;
-                    subtotal = subTotal + changeamount;
-                } else {
-                    total = grandTotal - changeamount;
-                    subtotal = subTotal - changeamount;
-                }
-                PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal));
-                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total));
-                viewHolder.mAmount.setText(String.valueOf("₹ " + String.format("%.2f", changeamount)));
-                // viewHolder.mDefaultText.setText("DEFAULT VALUE (₹)");*//*
-            } else {
-              *//*  total = (grandTotal * Double.valueOf(amount)) / 100;
-                subtotal = (subTotal * Double.valueOf(amount)) / 100;
-                viewHolder.mAmount.setText("₹ " + String.format("%.2f", total));
-                if (type.equals("Additive")) {
-                    total1 = grandTotal + total;
-                    subtotal1 = subTotal + subtotal;
-                } else {
-                    total1 = grandTotal - total;
-                    subtotal1 = subTotal - subtotal;
-                }
-                viewHolder.mDiscount.setText("Discount " + amount + "%");
-                PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", subtotal1));
-                PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", total1));*//*
-            }
-        }*/
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
