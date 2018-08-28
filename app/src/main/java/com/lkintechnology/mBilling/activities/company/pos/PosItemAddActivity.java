@@ -672,7 +672,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                             } else {
                                 grandTotal = grandTotal - total;
                             }
-                            appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                            appUser.billsundrytotal.add(i,""+ total);
                         }
                     } else {
                         if (type.equals("Additive")) {
@@ -680,7 +680,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                         } else {
                             grandTotal = grandTotal - total;
                         }
-                        appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                        appUser.billsundrytotal.add(i, ""+ total);
                     }
 
                 } else {
@@ -698,7 +698,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                appUser.billsundrytotal.add(i, ""+ total);
                             }
                         }
                     } else {
@@ -712,11 +712,11 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = grandTotal - gst;
                                         total = total - gst;
                                     }
-                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                    appUser.billsundrytotal.add(i, ""+total);
 
                                 }else {
                                     grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                    appUser.billsundrytotal.add(i,  ""+total);
                                 }
                             } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
@@ -725,7 +725,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                appUser.billsundrytotal.add(i, ""+ total);
                             }
                         } else {
                             if (itemName.equals("SGST") || itemName.equals("CGST")) {
@@ -737,10 +737,10 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = grandTotal - gst / 2;
                                         total = total - gst / 2;
                                     }
-                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                    appUser.billsundrytotal.add(i, ""+ total);
                                 }else {
                                     grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                    appUser.billsundrytotal.add(i, ""+ total);
                                 }
                             } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
@@ -749,7 +749,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                appUser.billsundrytotal.add(i, ""+ total);
                             }
 
                         }
