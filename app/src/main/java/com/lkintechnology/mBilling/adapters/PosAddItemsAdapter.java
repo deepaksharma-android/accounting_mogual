@@ -169,6 +169,8 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
     public void setTotal(String amount, Boolean mBool, Double gst, Double taxValue, String tax) {
         Double total = 0.0, grandTotal = 0.0;
         String taxString = Preferences.getInstance(context).getPos_sale_type();
+        appUser = LocalRepositories.getAppUser(context);
+        System.out.println( appUser.billsundrytotal.toString());
         if (mBool) {
             total = getTotal(PosItemAddActivity.mSubtotal.getText().toString()) + Double.valueOf(amount);
             grandTotal = getTotal(PosItemAddActivity.grand_total.getText().toString()) + Double.valueOf(amount);
@@ -192,7 +194,6 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         } else {
             granTotal(total, 0.00/*taxSplit(tax)*/);
         }
-
     }
 
     public Double getTotal(String total) {

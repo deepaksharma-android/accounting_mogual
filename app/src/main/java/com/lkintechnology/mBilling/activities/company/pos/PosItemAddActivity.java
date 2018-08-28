@@ -654,6 +654,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             grandTotal = txtSplit(grand_total.getText().toString());
         }
         for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
+            appUser = LocalRepositories.getAppUser(this);
             Double total = 0.0;
             Map map = appUser.mListMapForBillSale.get(i);
             String itemName = (String) map.get("courier_charges");
@@ -672,7 +673,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                             } else {
                                 grandTotal = grandTotal - total;
                             }
-                            appUser.billsundrytotal.add(i,""+ total);
+                            appUser.billsundrytotal.add(i, String.format("%.2f",total));
                         }
                     } else {
                         if (type.equals("Additive")) {
@@ -680,12 +681,11 @@ public class PosItemAddActivity extends AppCompatActivity {
                         } else {
                             grandTotal = grandTotal - total;
                         }
-                        appUser.billsundrytotal.add(i, ""+ total);
+                        appUser.billsundrytotal.add(i, String.format("%.2f", total));
                     }
 
                 } else {
-                    Double changeamount = Double.parseDouble((String) map.get("changeamount"));
-                    total = changeamount;
+                    total =  Double.valueOf(appUser.billsundrytotal.get(i));
                     if (!aBoolean) {
                         if (itemName.equals("IGST") || itemName.equals("SGST") || itemName.equals("CGST")) {
                             grandTotal = grandTotal + total;
@@ -698,7 +698,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, ""+ total);
+                                appUser.billsundrytotal.add(i, String.format("%.2f",total));
                             }
                         }
                     } else {
@@ -712,11 +712,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = grandTotal - gst;
                                         total = total - gst;
                                     }
-                                    appUser.billsundrytotal.add(i, ""+total);
-
+                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
+                                    //appUser.billsundrytotal.add(i, String.format("%.2f",total));
                                 }else {
                                     grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.add(i,  ""+total);
+                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
+                                  //  appUser.billsundrytotal.add(i,  String.format("%.2f",total));
                                 }
                             } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
@@ -725,7 +726,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, ""+ total);
+                                appUser.billsundrytotal.add(i, String.format("%.2f",total));
                             }
                         } else {
                             if (itemName.equals("SGST") || itemName.equals("CGST")) {
@@ -737,10 +738,10 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = grandTotal - gst / 2;
                                         total = total - gst / 2;
                                     }
-                                    appUser.billsundrytotal.add(i, ""+ total);
+                                    appUser.billsundrytotal.add(i, String.format("%.2f",total));
                                 }else {
                                     grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.add(i, ""+ total);
+                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
                                 }
                             } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
@@ -749,7 +750,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
-                                appUser.billsundrytotal.add(i, ""+ total);
+                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
                             }
 
                         }
