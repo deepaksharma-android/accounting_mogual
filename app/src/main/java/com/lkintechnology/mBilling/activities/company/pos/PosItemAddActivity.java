@@ -424,13 +424,19 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
         appUser = LocalRepositories.getAppUser(getApplicationContext());
         EventBus.getDefault().register(this);
         System.out.println(appUser.mListMapForBillSale.toString());
         if (appUser.mListMapForBillSale.size() > 0) {
             if (ExpandableItemListActivity.boolForAdapterSet) {
-                billCalculation(0.0, false);
-                setBillListDataAdapter();
+                if (taxString.contains("GST-MultiRate")) {
+                    billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
+                    setBillListDataAdapter();
+                } else {
+                    billCalculation(0.0, false);
+                    setBillListDataAdapter();
+                }
             }
         }
         super.onResume();
@@ -536,15 +542,20 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Subscribe
     public void event_click_alert(EventForPos response) {
         appUser = LocalRepositories.getAppUser(this);
-       String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
+        String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
         if (appUser.mListMapForBillSale.size() > 0) {
-            if (taxString.contains("GST-MultiRate")){
-
-            }else {
+            if (taxString.contains("GST-MultiRate")) {
+                String arr[] = response.getPosition().split(",");
+                Double total = Double.valueOf(arr[0]);
+                Double gst = Double.valueOf(arr[1]);
+                Double taxValue = Double.valueOf(arr[2]);
+                Boolean mBool = Boolean.valueOf(arr[3]);
+                billCalculationForMultiRate(total, gst, taxValue, true, mBool);
+                setBillListDataAdapter();
+            } else {
                 billCalculation(Double.valueOf(response.getPosition()), true);
                 setBillListDataAdapter();
             }
-
         }
     }
 
@@ -636,8 +647,118 @@ public class PosItemAddActivity extends AppCompatActivity {
         System.out.println(grandTotal);
     }
 
-    public void billCalculationForMultiRate() {
+    public void billCalculationForMultiRate(Double subtotal, Double gst, Double taxValue, Boolean aBoolean, Boolean mBool) {
+        if (aBoolean) {
+            grandTotal = subtotal;
+        } else {
+            grandTotal = txtSplit(grand_total.getText().toString());
+        }
+        for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
+            Double total = 0.0;
+            Map map = appUser.mListMapForBillSale.get(i);
+            String itemName = (String) map.get("courier_charges");
+            Double amount = Double.valueOf((String) map.get("amount"));
+            String fed_as_percentage = (String) map.get("fed_as_percentage");
+            String fed_as = (String) map.get("fed_as");
+            String type = (String) map.get("type");
+            if (fed_as_percentage != null) {
+                if (fed_as_percentage.equals("valuechange")) {
+                    Double changeamount = Double.parseDouble((String) map.get("changeamount"));
+                    total = changeamount;
+                    if (!aBoolean) {
+                        if (appUser.mListMapForBillSale.size() - 1 == i) {
+                            if (type.equals("Additive")) {
+                                grandTotal = grandTotal + total;
+                            } else {
+                                grandTotal = grandTotal - total;
+                            }
+                            appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                        }
+                    } else {
+                        if (type.equals("Additive")) {
+                            grandTotal = grandTotal + total;
+                        } else {
+                            grandTotal = grandTotal - total;
+                        }
+                        appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                    }
 
+                } else {
+                    Double changeamount = Double.parseDouble((String) map.get("changeamount"));
+                    total = changeamount;
+                    if (!aBoolean) {
+                        if (itemName.equals("IGST") || itemName.equals("SGST") || itemName.equals("CGST")) {
+                            grandTotal = grandTotal + total;
+                            appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                        }else {
+                            if (appUser.mListMapForBillSale.size() - 1 == i) {
+                                //total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                            }
+                        }
+                    } else {
+                        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("I/GST-MultiRate")) {
+                            if (itemName.equals("IGST")) {
+                                if(amount == taxValue){
+                                    if (mBool) {
+                                        grandTotal = grandTotal + gst;
+                                        total = total + gst;
+                                    } else {
+                                        grandTotal = grandTotal - gst;
+                                        total = total - gst;
+                                    }
+                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                }else {
+                                    grandTotal = grandTotal + total;
+                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                }
+                            } else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                            }
+                        } else {
+                            if (itemName.equals("SGST") || itemName.equals("CGST")) {
+                                if(amount == taxValue/2){
+                                    if (mBool) {
+                                        grandTotal = grandTotal + gst / 2;
+                                        total = total + gst / 2;
+                                    } else {
+                                        grandTotal = grandTotal - gst / 2;
+                                        total = total - gst / 2;
+                                    }
+                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                }else {
+                                    grandTotal = grandTotal + total;
+                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                                }
+                            } else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+        PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
+        System.out.println(grandTotal);
     }
 
 
@@ -802,11 +923,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -844,11 +966,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -886,11 +1009,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -928,11 +1052,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+              /*  if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -971,11 +1096,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+             /*   if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1011,11 +1137,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1029,6 +1156,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
                 appUser.mListMapForBillSale.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                gst_5 = 0.0;
             }
             if (gst_12 != 0) {
                 mMap = new HashMap<>();
@@ -1052,11 +1180,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1092,11 +1221,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+                /*if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1110,6 +1240,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
                 appUser.mListMapForBillSale.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                gst_12 = 0.0;
             }
             if (gst_18 != 0) {
                 mMap = new HashMap<>();
@@ -1133,11 +1264,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+              /*  if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1173,11 +1305,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1191,6 +1324,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
                 appUser.mListMapForBillSale.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                gst_18 = 0.0;
             }
             if (gst_28 != 0) {
                 mMap = new HashMap<>();
@@ -1214,11 +1348,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+               /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1254,11 +1389,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (String.valueOf(billSundryConsolidated) != null) {
                     mMap.put("consolidated", String.valueOf(billSundryConsolidated));
                 }
-                if (billSundryFedAsPercentage != null) {
+                mMap.put("changeamount", changeAmount);
+              /*  if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
-                }
+                }*/
                 if (String.valueOf(billSundryId) != null) {
                     int size = appUser.arr_billSundryId.size();
                     for (int j = 0; j < size; j++) {
@@ -1272,6 +1408,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
                 appUser.mListMapForBillSale.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                gst_18 = 0.0;
             }
         }
 

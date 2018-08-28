@@ -187,7 +187,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         appUser = LocalRepositories.getAppUser(context);
         if (appUser.mListMapForBillSale.size() > 0) {
             if (taxString.contains("GST-MultiRate")) {
-                String subTotal = String.valueOf(total) + "," + String.valueOf(gst) + String.valueOf(taxValue);
+                String subTotal = String.valueOf(total) + "," + String.valueOf(gst) + "," + String.valueOf(taxValue)+ ","+String.valueOf(mBool);
                 EventBus.getDefault().post(new EventForPos(subTotal));
             } else {
                 String subTotal = String.valueOf(total);
