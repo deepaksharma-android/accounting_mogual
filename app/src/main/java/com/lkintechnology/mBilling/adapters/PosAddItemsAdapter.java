@@ -19,6 +19,7 @@ import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by BerylSystems on 11/25/2017.
  */
 
-public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter.ViewHolder> {
+public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.ViewHolder> {
 
     Context context;
     List<Map> mListMap;
@@ -55,6 +56,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
     public int getItemCount() {
         return mListMap.size();
     }
+
     @Override
     public void onBindViewHolder(PosAddItemsAdapter.ViewHolder viewHolder, int position) {
         appUser = LocalRepositories.getAppUser(context);
@@ -83,18 +85,15 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 mInteger = mInteger + 1;
                 viewHolder.mQuantity.setText("" + mInteger);
-
                 String arr = viewHolder.mItemTotal.getText().toString();
                 String[] arr1 = arr.split("₹ ");
                 Double total = Double.valueOf(arr1[1]);
                 String arr2 = viewHolder.mItemAmount.getText().toString();
                 String[] arr3 = arr2.split("₹ ");
                 Double item_amount = Double.valueOf(arr3[1]);
-
-
                 Map map = mListMap.get(position);
                 String tax = (String) map.get("tax");
-               // mMapPosItem.put(pos, mQuantity.getText().toString());
+                // mMapPosItem.put(pos, mQuantity.getText().toString());
                 Double s = total + item_amount;
                 if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
                     Double taxValue = taxSplit(tax);
@@ -111,6 +110,11 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
+                appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
+                //map.put("quantity",viewHolder.mQuantity.getText().toString());
+                mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
+                LocalRepositories.saveAppUser(context, appUser);
+                notifyDataSetChanged();
             }
         });
 
@@ -118,8 +122,6 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             @Override
             public void onClick(View v) {
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
-
-
                 if (mInteger > 0) {
                     mInteger = mInteger - 1;
                     viewHolder.mQuantity.setText("" + mInteger);
@@ -151,22 +153,26 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
 
-                    if (mInteger==0){
+                    if (mInteger == 0) {
                         appUser.mListMapForItemSale.remove(position);
                         // appUser.billsundrytotal.set(position,"0.0");
-                        LocalRepositories.saveAppUser(context,appUser);
                         mListMap.remove(position);
-                        notifyDataSetChanged();
-                    }
+                    } else {
+                        appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
+                        mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
 
-                  //  EventBus.getDefault().post(new EventForPos("true"));
+                    }
+                    LocalRepositories.saveAppUser(context, appUser);
+                    notifyDataSetChanged();
+                    //  EventBus.getDefault().post(new EventForPos("true"));
                 }
             }
         });
     }
 
     public void setTotal(String amount, Boolean mBool, Double gst, Double taxValue, String tax) {
-        Double total = 0.0,grandTotal = 0.0;
+        Double total = 0.0, grandTotal = 0.0;
+        String taxString = Preferences.getInstance(context).getPos_sale_type();
         if (mBool) {
             total = getTotal(PosItemAddActivity.mSubtotal.getText().toString()) + Double.valueOf(amount);
             grandTotal = getTotal(PosItemAddActivity.grand_total.getText().toString()) + Double.valueOf(amount);
@@ -174,22 +180,23 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             total = getTotal(PosItemAddActivity.mSubtotal.getText().toString()) - Double.valueOf(amount);
             grandTotal = getTotal(PosItemAddActivity.grand_total.getText().toString()) - Double.valueOf(amount);
         }
-       /* if(Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")){
-            setMultiRateTaxChange(gst,taxValue);
-            granTotal(total, gst);
-        }else {*/
+
         PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", total));
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
         //setTaxChange(context, total, gst, taxValue, tax, mBool);
         appUser = LocalRepositories.getAppUser(context);
-        if (appUser.mListMapForBillSale.size()>0){
-            // new PosItemAddActivity().billCalculation((subtotal+tax),true);
-           // String subTotal = String.valueOf(total+ taxSplit(String.valueOf(tax)));
-            String subTotal = String.valueOf(total);
-            EventBus.getDefault().post(new EventForPos(subTotal));
-        }else {
+        if (appUser.mListMapForBillSale.size() > 0) {
+            if (taxString.contains("GST-MultiRate")) {
+                String subTotal = String.valueOf(total) + "," + String.valueOf(gst) + String.valueOf(taxValue);
+                EventBus.getDefault().post(new EventForPos(subTotal));
+            } else {
+                String subTotal = String.valueOf(total);
+                EventBus.getDefault().post(new EventForPos(subTotal));
+            }
+        } else {
             granTotal(total, 0.00/*taxSplit(tax)*/);
         }
+
     }
 
     public Double getTotal(String total) {
@@ -207,7 +214,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             String taxName = "";
             String taxValue = "";
             if (taxString.startsWith("I") && taxString.endsWith("%")) {
-               // subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+                // subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
                /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
@@ -220,7 +227,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                     PosItemAddActivity.igst.setText("₹ " + String.format("%.2f", tax));
                 }*/
             } else if (taxString.startsWith("L") && taxString.endsWith("%")) {
-              //  subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
+                //  subtotal = getMultiRateTaxChange(PosItemAddActivity.grand_total.getText().toString());
                /* String arrTaxString[] = taxString.split("-");
                 taxName = arrTaxString[0].trim();
                 taxValue = arrTaxString[1].trim();
@@ -260,11 +267,11 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                             PosItemAddActivity.igst_5.setText("₹ " + String.format("%.2f", (plusMinus)));
                             tax = tax + plusMinus;
                         }
-                    }else {
+                    } else {
                         subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.igst_12.getText().toString())
-                                +getMultiRateTaxChange(PosItemAddActivity.igst_18.getText().toString())
-                                        +getMultiRateTaxChange(PosItemAddActivity.igst_28.getText().toString())
-                                                +getMultiRateTaxChange(PosItemAddActivity.igst_5.getText().toString());
+                                + getMultiRateTaxChange(PosItemAddActivity.igst_18.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.igst_28.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.igst_5.getText().toString());
                     }
                 } else {
                     if (tax1.contains("GST ")) {
@@ -301,15 +308,15 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
                             PosItemAddActivity.cgst_5.setText("₹ " + String.format("%.2f", (cgstPlusMinus)));
                             tax = tax + sgstPlusMinus + cgstPlusMinus;
                         }
-                    }else {
+                    } else {
                         subtotal = subtotal + getMultiRateTaxChange(PosItemAddActivity.sgst_12.getText().toString())
-                                +getMultiRateTaxChange(PosItemAddActivity.cgst_12.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.cgst_12.getText().toString())
                                 + getMultiRateTaxChange(PosItemAddActivity.sgst_18.getText().toString())
-                                +getMultiRateTaxChange(PosItemAddActivity.cgst_18.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.cgst_18.getText().toString())
                                 + getMultiRateTaxChange(PosItemAddActivity.sgst_28.getText().toString())
-                                +getMultiRateTaxChange(PosItemAddActivity.cgst_28.getText().toString())
+                                + getMultiRateTaxChange(PosItemAddActivity.cgst_28.getText().toString())
                                 + getMultiRateTaxChange(PosItemAddActivity.sgst_5.getText().toString())
-                                +getMultiRateTaxChange(PosItemAddActivity.cgst_5.getText().toString());
+                                + getMultiRateTaxChange(PosItemAddActivity.cgst_5.getText().toString());
                     }
                 }
             } else {
@@ -318,11 +325,11 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
             }
         }
         appUser = LocalRepositories.getAppUser(context);
-        if (appUser.mListMapForBillSale.size()>0){
-          // new PosItemAddActivity().billCalculation((subtotal+tax),true);
-            String subTotal = String.valueOf(subtotal+tax);
+        if (appUser.mListMapForBillSale.size() > 0) {
+            // new PosItemAddActivity().billCalculation((subtotal+tax),true);
+            String subTotal = String.valueOf(subtotal + tax);
             EventBus.getDefault().post(new EventForPos(subTotal));
-        }else {
+        } else {
             granTotal(subtotal, tax);
         }
     }
@@ -344,7 +351,7 @@ public class PosAddItemsAdapter extends  RecyclerView.Adapter<PosAddItemsAdapter
 
     public static Double getMultiRateTaxChange(String total) {
         // String total = PosItemAddActivity.mSubtotal.getText().toString();
-        if (total.equals("0.0")){
+        if (total.equals("0.0")) {
             total = "₹ 0.0";
         }
         String[] arr = total.split("₹ ");
