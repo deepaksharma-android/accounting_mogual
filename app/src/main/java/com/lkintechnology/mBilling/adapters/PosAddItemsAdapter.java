@@ -95,7 +95,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                     Double taxValue = taxSplit(tax);
                     Double item_tax = (item_amount * taxValue) / 100;
                     Double taxInclude = total + item_tax;
-                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                    viewHolder.mItemTotal.setText("₹ " +  taxInclude);
                     setTotal(String.valueOf(item_tax), true, 0.0, 0.0, tax);
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
@@ -103,7 +103,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                     viewHolder.mItemTotal.setText("₹ " + s);
                     setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
-                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    viewHolder.mItemTotal.setText("₹ " +  s);
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
                 appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
@@ -136,16 +136,16 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                         Double taxValue = taxSplit(tax);
                         Double item_tax = (item_amount * taxValue) / 100;
                         Double taxInclude = total - item_tax;
-                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", taxInclude));
+                        viewHolder.mItemTotal.setText("₹ " + taxInclude);
                         setTotal(String.valueOf(item_tax), false, 0.0, 0.0, tax);
                     } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
                         String tax = (String) map.get("tax");
                         Double taxValue = taxSplit(tax);
                         Double gst = item_amount * taxValue / 100;
-                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        viewHolder.mItemTotal.setText("₹ " + s);
                         setTotal(String.valueOf(item_amount), false, gst, taxValue, tax);
                     } else {
-                        viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
+                        viewHolder.mItemTotal.setText("₹ " + s);
                         setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                     }
 
