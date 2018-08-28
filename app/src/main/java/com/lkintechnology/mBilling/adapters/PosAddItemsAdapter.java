@@ -61,12 +61,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
     public void onBindViewHolder(PosAddItemsAdapter.ViewHolder viewHolder, int position) {
         appUser = LocalRepositories.getAppUser(context);
         mInteger = 0;
-      /*  TextView mItemName = (TextView) convertView.findViewById(R.id.lblListItem);
-        TextView mQuantity = (TextView) convertView.findViewById(R.id.quantity);
-        TextView mItemAmount = (TextView) convertView.findViewById(R.id.item_amount);
-        TextView mItemTotal = (TextView) convertView.findViewById(R.id.item_total);
-        LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
-        LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);*/
+
         Map map = mListMap.get(position);
         String item_id = (String) map.get("item_id");
         String itemName = (String) map.get("item_name");
@@ -104,7 +99,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
                     Double gst = item_amount * taxValue / 100;
-                    viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
+                    viewHolder.mItemTotal.setText("₹ " + s);
                     setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
                     viewHolder.mItemTotal.setText("₹ " + String.format("%.2f", s));
@@ -114,7 +109,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 //map.put("quantity",viewHolder.mQuantity.getText().toString());
                 mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                 LocalRepositories.saveAppUser(context, appUser);
-                notifyDataSetChanged();
+              //  notifyDataSetChanged();
             }
         });
 
@@ -157,13 +152,14 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                         appUser.mListMapForItemSale.remove(position);
                         // appUser.billsundrytotal.set(position,"0.0");
                         mListMap.remove(position);
+                        notifyDataSetChanged();
                     } else {
                         appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                         mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
 
                     }
                     LocalRepositories.saveAppUser(context, appUser);
-                    notifyDataSetChanged();
+
                     //  EventBus.getDefault().post(new EventForPos("true"));
                 }
             }

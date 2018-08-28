@@ -647,7 +647,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         System.out.println(grandTotal);
     }
 
-    public void billCalculationForMultiRate(Double subtotal, Double gst, Double taxValue, Boolean aBoolean, Boolean mBool) {
+    public void billCalculationForMultiRate(Double subtotal, Double gst, double taxValue, Boolean aBoolean, Boolean mBool) {
         if (aBoolean) {
             grandTotal = subtotal;
         } else {
@@ -657,7 +657,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             Double total = 0.0;
             Map map = appUser.mListMapForBillSale.get(i);
             String itemName = (String) map.get("courier_charges");
-            Double amount = Double.valueOf((String) map.get("amount"));
+            double amount = Double.valueOf((String) map.get("amount"));
             String fed_as_percentage = (String) map.get("fed_as_percentage");
             String fed_as = (String) map.get("fed_as");
             String type = (String) map.get("type");
@@ -713,6 +713,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         total = total - gst;
                                     }
                                     appUser.billsundrytotal.add(i, String.format("%.2f", total));
+
                                 }else {
                                     grandTotal = grandTotal + total;
                                     appUser.billsundrytotal.add(i, String.format("%.2f", total));
@@ -755,8 +756,8 @@ public class PosItemAddActivity extends AppCompatActivity {
                     }
                 }
             }
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         }
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
         System.out.println(grandTotal);
     }
