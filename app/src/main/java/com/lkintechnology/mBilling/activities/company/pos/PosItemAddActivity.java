@@ -654,7 +654,6 @@ public class PosItemAddActivity extends AppCompatActivity {
             grandTotal = txtSplit(grand_total.getText().toString());
         }
         for (int i = 0; i < appUser.mListMapForBillSale.size(); i++) {
-            appUser = LocalRepositories.getAppUser(this);
             Double total = 0.0;
             Map map = appUser.mListMapForBillSale.get(i);
             String itemName = (String) map.get("courier_charges");

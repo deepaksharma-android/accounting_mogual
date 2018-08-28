@@ -43,6 +43,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
     public PosAddItemsAdapter(Context context, List<Map> mListMap) {
         this.context = context;
         this.mListMap = mListMap;
+        appUser=LocalRepositories.getAppUser(context);
 
     }
 
