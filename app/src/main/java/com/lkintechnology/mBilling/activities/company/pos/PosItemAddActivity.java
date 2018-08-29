@@ -550,7 +550,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                 Double gst = Double.valueOf(arr[1]);
                 Double taxValue = Double.valueOf(arr[2]);
                 Boolean mBool = Boolean.valueOf(arr[3]);
+                System.out.println(appUser.billsundrytotal);
                 billCalculationForMultiRate(total, gst, taxValue, true, mBool);
+                System.out.println(appUser.billsundrytotal);
                 setBillListDataAdapter();
             } else {
                 billCalculation(Double.valueOf(response.getPosition()), true);
@@ -560,6 +562,9 @@ public class PosItemAddActivity extends AppCompatActivity {
     }
 
     public void setBillListDataAdapter() {
+        System.out.println(appUser.billsundrytotal);
+        appUser = LocalRepositories.getAppUser(this);
+        System.out.println(appUser.billsundrytotal);
         mRecyclerViewBill.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerViewBill.setLayoutManager(layoutManager);
@@ -817,7 +822,9 @@ public class PosItemAddActivity extends AppCompatActivity {
            /*     }
             }, 1);*/
             grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
+            System.out.println(appUser.billsundrytotal);
             setBillListDataAdapter();
+
         } else {
             Helpers.dialogMessage(this, response.getMessage());
         }

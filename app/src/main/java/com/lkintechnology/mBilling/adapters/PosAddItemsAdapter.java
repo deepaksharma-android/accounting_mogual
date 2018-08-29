@@ -78,6 +78,8 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         viewHolder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(context);
+                System.out.println(appUser.billsundrytotal);
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 mInteger = mInteger + 1;
                 viewHolder.mQuantity.setText("" + mInteger);
@@ -100,6 +102,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
                     Double gst = item_amount * taxValue / 100;
+                    System.out.println(appUser.billsundrytotal);
                     viewHolder.mItemTotal.setText("₹ " + s);
                     setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
@@ -111,12 +114,15 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                 LocalRepositories.saveAppUser(context, appUser);
               //  notifyDataSetChanged();
+                System.out.println(appUser.billsundrytotal);
             }
+
         });
 
         viewHolder.decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(context);
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 if (mInteger > 0) {
                     mInteger = mInteger - 1;
@@ -183,9 +189,12 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         PosItemAddActivity.mSubtotal.setText("₹ " + String.format("%.2f", total));
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
         //setTaxChange(context, total, gst, taxValue, tax, mBool);
+        System.out.println(appUser.billsundrytotal);
         appUser = LocalRepositories.getAppUser(context);
+        System.out.println(appUser.billsundrytotal);
         if (appUser.mListMapForBillSale.size() > 0) {
             if (taxString.contains("GST-MultiRate")) {
+                System.out.println(appUser.billsundrytotal);
                 String subTotal = String.valueOf(total) + "," + String.valueOf(gst) + "," + String.valueOf(taxValue)+ ","+String.valueOf(mBool);
                 EventBus.getDefault().post(new EventForPos(subTotal));
             } else {
