@@ -422,6 +422,7 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        appUser = LocalRepositories.getAppUser(this);
         String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
         EventBus.getDefault().register(this);
         System.out.println(appUser.mListMapForBillSale.toString());
@@ -672,7 +673,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                             } else {
                                 grandTotal = grandTotal - total;
                             }
-                            appUser.billsundrytotal.add(i, String.format("%.2f",total));
+                            appUser.billsundrytotal.add(i, String.format("%.2f", total));
                         }
                     } else {
                         if (type.equals("Additive")) {
@@ -680,78 +681,83 @@ public class PosItemAddActivity extends AppCompatActivity {
                         } else {
                             grandTotal = grandTotal - total;
                         }
-                        appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                        appUser.billsundrytotal.set(i, String.format("%.2f", total));
                     }
-
                 } else {
-                    total =  Double.valueOf(appUser.billsundrytotal.get(i));
                     if (!aBoolean) {
-                        if (itemName.equals("IGST") || itemName.equals("SGST") || itemName.equals("CGST")) {
+                        if (!itemName.equals("IGST") && !itemName.equals("SGST") && !itemName.equals("CGST")) {
+                          /*  total = Double.valueOf(appUser.billsundrytotal.get(i));
                             grandTotal = grandTotal + total;
-                            appUser.billsundrytotal.add(i, String.format("%.2f", total));
-                        }else {
+                            appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                        } else {*/
+                            total = (grandTotal * Double.valueOf(amount)) / 100;
                             if (appUser.mListMapForBillSale.size() - 1 == i) {
-                                //total = (grandTotal * Double.valueOf(amount)) / 100;
-                                if (type.equals("Additive")) {
-                                    grandTotal = grandTotal + total;
-                                } else {
-                                    grandTotal = grandTotal - total;
-                                }
-                                appUser.billsundrytotal.add(i, String.format("%.2f",total));
-                            }
-                        }
-                    } else {
-                        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("I/GST-MultiRate")) {
-                            if (itemName.equals("IGST")) {
-                                if(amount == taxValue){
-                                    if (mBool) {
-                                        grandTotal = grandTotal + gst;
-                                        total = total + gst;
-                                    } else {
-                                        grandTotal = grandTotal - gst;
-                                        total = total - gst;
-                                    }
-                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
-                                    //appUser.billsundrytotal.add(i, String.format("%.2f",total));
-                                }else {
-                                    grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
-                                  //  appUser.billsundrytotal.add(i,  String.format("%.2f",total));
-                                }
-                            } else {
-                                total = (grandTotal * Double.valueOf(amount)) / 100;
-                                if (type.equals("Additive")) {
-                                    grandTotal = grandTotal + total;
-                                } else {
-                                    grandTotal = grandTotal - total;
-                                }
-                                appUser.billsundrytotal.add(i, String.format("%.2f",total));
-                            }
-                        } else {
-                            if (itemName.equals("SGST") || itemName.equals("CGST")) {
-                                if(amount == taxValue/2){
-                                    if (mBool) {
-                                        grandTotal = grandTotal + gst / 2;
-                                        total = total + gst / 2;
-                                    } else {
-                                        grandTotal = grandTotal - gst / 2;
-                                        total = total - gst / 2;
-                                    }
-                                    appUser.billsundrytotal.add(i, String.format("%.2f",total));
-                                }else {
-                                    grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.add(i, String.format("%.2f", total));
-                                }
-                            } else {
-                                total = (grandTotal * Double.valueOf(amount)) / 100;
                                 if (type.equals("Additive")) {
                                     grandTotal = grandTotal + total;
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
                                 appUser.billsundrytotal.add(i, String.format("%.2f", total));
+                            }else {
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.set(i, String.format("%.2f", total));
                             }
-
+                        }
+                    } else {
+                        if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("I/GST-MultiRate")) {
+                            if (itemName.equals("IGST")) {
+                                total = Double.valueOf(appUser.billsundrytotal.get(i));
+                                if (amount == taxValue) {
+                                    if (mBool) {
+                                        grandTotal = (grandTotal + total) + gst;
+                                        total = total + gst;
+                                    } else {
+                                        grandTotal = (grandTotal + total) - gst;
+                                        total = total - gst;
+                                    }
+                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                }else {
+                                    grandTotal = grandTotal + total;
+                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
+                                }
+                            } else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                            }
+                        } else {
+                            if (itemName.equals("SGST") || itemName.equals("CGST")) {
+                                total = Double.valueOf(appUser.billsundrytotal.get(i));
+                                if (amount == (taxValue / 2)) {
+                                    if (mBool) {
+                                        grandTotal = (grandTotal + total) + (gst / 2);
+                                        total = total + (gst / 2);
+                                    } else {
+                                        grandTotal = (grandTotal + total) - (gst / 2);
+                                        total = total - (gst / 2);
+                                    }
+                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                }else {
+                                    grandTotal = grandTotal + total;
+                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                }
+                            } else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                            }
                         }
                     }
                 }
