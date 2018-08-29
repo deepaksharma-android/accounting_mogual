@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventForPos;
 import com.lkintechnology.mBilling.utils.Helpers;
@@ -91,6 +94,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     Snackbar snackbar;
     public BillSundryData data = null;
+    Boolean backPress = false;
     public static LinearLayout igst_layout;
     public static LinearLayout sgst_cgst_layout;
 
@@ -350,7 +354,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("")) {
+                if (appUser.mListMapForItemSale.size()>0) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 5;
                     BillSundryListActivity.isDirectForBill = false;
@@ -407,13 +411,15 @@ public class PosItemAddActivity extends AppCompatActivity {
                 });
             }
         });
+        setDataOnItemAdapter();
+    }
 
+    void setDataOnItemAdapter(){
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new PosAddItemsAdapter(this, appUser.mListMapForItemSale);
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     public void add(View v) {
@@ -510,6 +516,9 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FirstPageActivity.posSetting = true;
+        if (backPress){
+            FirstPageActivity.posSetting = false;
+        }
         finish();
         super.onBackPressed();
     }
@@ -519,7 +528,11 @@ public class PosItemAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 FirstPageActivity.posSetting = true;
+                if (backPress){
+                    FirstPageActivity.posSetting = false;
+                }
                 finish();
+                super.onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -529,7 +542,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     public void alertdialog() {
         new AlertDialog.Builder(getApplicationContext())
                 .setTitle("Sale Voucher")
-                .setMessage("Please add sale type in create voucher")
+                .setMessage("Please add item!!!")
                 .setPositiveButton(R.string.btn_ok, (dialogInterface, i) -> {
                     return;
 
@@ -1521,6 +1534,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     public void createPosSaleVoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            backPress = true;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();
@@ -1528,10 +1542,11 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.series_details.clear();
             appUser.billsundrytotal.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-            /*Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
-            startActivity(intent);*/
-            //finish();
-
+            setBillListDataAdapter();
+            setDataOnItemAdapter();
+            ItemExpandableListAdapter.mMapPosItem.clear();
+            mSubtotal.setText("");
+            grand_total.setText("");
             new AlertDialog.Builder(PosItemAddActivity.this)
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)

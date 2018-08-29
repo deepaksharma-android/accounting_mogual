@@ -761,6 +761,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
             }
 
             autoCompleteTextView();
@@ -1697,6 +1698,21 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             a = Integer.parseInt(arr1[0]);
         }
         return a;
+    }
+
+    @Subscribe
+    public void getVoucherNumber(VoucherSeriesResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            for (int i = 0; i < response.getVoucher_series().getData().size(); i++) {
+                if (response.getVoucher_series().getData().get(i).getAttributes().isDefaults()) {
+                    Preferences.getInstance(getApplicationContext()).setVoucherSeries(response.getVoucher_series().getData().get(i).getAttributes().getName());
+                    Preferences.getInstance(getApplicationContext()).setVoucher_number(response.getVoucher_series().getData().get(i).getAttributes().getVoucher_number());
+                }
+            }
+        } else {
+            Helpers.dialogMessage(ExpandableItemListActivity.this, response.getMessage());
+        }
     }
 }
 
