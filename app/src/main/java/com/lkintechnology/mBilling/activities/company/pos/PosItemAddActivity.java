@@ -135,7 +135,6 @@ public class PosItemAddActivity extends AppCompatActivity {
     Double grandTotal = 0.0;
     Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
     String quantity = "";
-    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -386,7 +385,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                         apiCall(false);
                     }
                 } else {
-                    count++;
                     Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -1541,10 +1539,8 @@ public class PosItemAddActivity extends AppCompatActivity {
                         finish();
                     })
                     .setNegativeButton(R.string.btn_cancel, (dialogInterface, i) -> {
-                        FirstPageActivity.posSetting = true;
-                        if (backPress) {
-                            FirstPageActivity.posSetting = false;
-                        }
+
+                        FirstPageActivity.posSetting = false;
                         finish();
                     })
                     .show();
