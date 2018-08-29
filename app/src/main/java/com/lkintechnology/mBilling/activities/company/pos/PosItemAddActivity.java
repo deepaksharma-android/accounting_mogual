@@ -354,7 +354,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (appUser.mListMapForItemSale.size()>0) {
+                if (appUser.mListMapForItemSale.size() > 0) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 5;
                     BillSundryListActivity.isDirectForBill = false;
@@ -368,53 +368,33 @@ public class PosItemAddActivity extends AppCompatActivity {
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        submit.startAnimation(blinkOnClick);
-                        if (appUser.mListMapForItemSale.size() > 0) {
-                            if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
-                                new AlertDialog.Builder(getApplicationContext())
-                                        .setTitle("Email")
-                                        .setMessage(R.string.btn_send_email)
-                                        .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-                                            apiCall(true);
-                                        })
-                                        .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-                                            apiCall(false);
-                                        })
-                                        .show();
-                            } else {
-                                apiCall(false);
-                            }
-                        } else {
-                            count++;
-                            Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
-                        }
-                       /* if (count==2){
-                            appUser.mListMapForItemSale.clear();
-                            appUser.mListMapForBillSale.clear();
-                            appUser.arr_series.clear();
-                            appUser.series_details.clear();
-                            appUser.billsundrytotal.clear();
-                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                            ExpandableItemListActivity.comingFrom = 6;
-                            ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
-                            ExpandableItemListActivity.isDirectForItem = false;
-                            Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }*/
-
+            public void onClick(View v) {
+                submit.startAnimation(blinkOnClick);
+                if (appUser.mListMapForItemSale.size() > 0) {
+                    if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
+                        new AlertDialog.Builder(getApplicationContext())
+                                .setTitle("Email")
+                                .setMessage(R.string.btn_send_email)
+                                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+                                    apiCall(true);
+                                })
+                                .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                    apiCall(false);
+                                })
+                                .show();
+                    } else {
+                        apiCall(false);
                     }
-                });
+                } else {
+                    count++;
+                    Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
         setDataOnItemAdapter();
     }
 
-    void setDataOnItemAdapter(){
+    void setDataOnItemAdapter() {
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -516,7 +496,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FirstPageActivity.posSetting = true;
-        if (backPress){
+        if (backPress) {
             FirstPageActivity.posSetting = false;
         }
         finish();
@@ -528,7 +508,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 FirstPageActivity.posSetting = true;
-                if (backPress){
+                if (backPress) {
                     FirstPageActivity.posSetting = false;
                 }
                 finish();
@@ -711,7 +691,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                     grandTotal = grandTotal - total;
                                 }
                                 appUser.billsundrytotal.add(i, String.format("%.2f", total));
-                            }else {
+                            } else {
                                 if (type.equals("Additive")) {
                                     grandTotal = grandTotal + total;
                                 } else {
@@ -733,9 +713,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         total = total - gst;
                                     }
                                     appUser.billsundrytotal.set(i, String.format("%.2f", total));
-                                }else {
+                                } else {
                                     grandTotal = grandTotal + total;
-                                    appUser.billsundrytotal.set(i,String.format("%.2f",total));
+                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
                                 }
                             } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
@@ -758,7 +738,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         total = total - (gst / 2);
                                     }
                                     appUser.billsundrytotal.set(i, String.format("%.2f", total));
-                                }else {
+                                } else {
                                     grandTotal = grandTotal + total;
                                     appUser.billsundrytotal.set(i, String.format("%.2f", total));
                                 }
@@ -1429,7 +1409,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 }
                 appUser.mListMapForBillSale.add(mMap);
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_18 = 0.0;
+                gst_28 = 0.0;
             }
         }
 
@@ -1545,8 +1525,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             setBillListDataAdapter();
             setDataOnItemAdapter();
             ItemExpandableListAdapter.mMapPosItem.clear();
-            mSubtotal.setText("");
-            grand_total.setText("");
+            mSubtotal.setText("₹ 0.00");
+            grand_total.setText("₹ 0.00");
             new AlertDialog.Builder(PosItemAddActivity.this)
                     .setTitle("Print/Preview").setMessage("")
                     .setMessage(R.string.print_preview_mesage)
@@ -1561,8 +1541,10 @@ public class PosItemAddActivity extends AppCompatActivity {
                         finish();
                     })
                     .setNegativeButton(R.string.btn_cancel, (dialogInterface, i) -> {
-                        Intent intent = new Intent(PosItemAddActivity.this, FirstPageActivity.class);
-                        startActivity(intent);
+                        FirstPageActivity.posSetting = true;
+                        if (backPress) {
+                            FirstPageActivity.posSetting = false;
+                        }
                         finish();
                     })
                     .show();
