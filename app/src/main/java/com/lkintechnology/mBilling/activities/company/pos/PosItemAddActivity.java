@@ -368,9 +368,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        appUser = LocalRepositories.getAppUser(PosItemAddActivity.this);
                         submit.startAnimation(blinkOnClick);
-                        appUser = LocalRepositories.getAppUser(getApplicationContext());
                         if (appUser.mListMapForItemSale.size() > 0) {
                             if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                                 new AlertDialog.Builder(getApplicationContext())
@@ -425,7 +423,6 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
-        appUser = LocalRepositories.getAppUser(getApplicationContext());
         EventBus.getDefault().register(this);
         System.out.println(appUser.mListMapForBillSale.toString());
         if (appUser.mListMapForBillSale.size() > 0) {
@@ -541,7 +538,6 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Subscribe
     public void event_click_alert(EventForPos response) {
-        appUser = LocalRepositories.getAppUser(this);
         String taxString = Preferences.getInstance(getApplicationContext()).getPos_sale_type();
         if (appUser.mListMapForBillSale.size() > 0) {
             if (taxString.contains("GST-MultiRate")) {
@@ -563,7 +559,6 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     public void setBillListDataAdapter() {
         System.out.println(appUser.billsundrytotal);
-        appUser = LocalRepositories.getAppUser(this);
         System.out.println(appUser.billsundrytotal);
         mRecyclerViewBill.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -832,7 +827,6 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     void gstBillSundryCalculation(BillSundryData data) {
         Boolean boolForMap = false;
-        appUser = LocalRepositories.getAppUser(this);
         String billSundaryPercentage;
         String billSundryAmount = "0";
         String billSundryCharges;
