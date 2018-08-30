@@ -102,25 +102,18 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             mItemAmount.setText("₹ "+sale_price_main);
             mItemTotal.setText("₹ 0.0");
             if (mChildCheckStates.containsKey(mGroupPosition)) {
-                /*if (mChildCheckStates.get(mGroupPosition)!=null){
-                    plus_minus_layout.setVisibility(View.VISIBLE);
-                    add_layout.setVisibility(View.GONE);
-                }else {
+                String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                if (getChecked[mChildPosition]==null || getChecked[mChildPosition].equals("0")){
                     plus_minus_layout.setVisibility(View.GONE);
                     add_layout.setVisibility(View.VISIBLE);
-                }*/
-
-                String getChecked[] = mChildCheckStates.get(mGroupPosition);
-                mQuantity.setText(getChecked[mChildPosition]);
-               /* if (getChecked[mChildPosition]==null){
-                    plus_minus_layout.get
-                }*/
+                }else {
+                    mQuantity.setText(getChecked[mChildPosition]);
+                    plus_minus_layout.setVisibility(View.VISIBLE);
+                    add_layout.setVisibility(View.GONE);
+                }
 
             } else {
-               /* plus_minus_layout.setVisibility(View.GONE);
-                add_layout.setVisibility(View.VISIBLE);*/
                 String getChecked[] = new String[getChildrenCount(mGroupPosition)];
-                // getChecked[childPosition]="0";
                 mChildCheckStates.put(mGroupPosition, getChecked);
                 //mQuantity.setText("0");
             }
@@ -187,6 +180,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     //total = sale_price_main * mInteger;
                     setTotal(String.valueOf(sale_price_main),true);
 
+                    //Item total code
                     String arr = mItemTotal.getText().toString();
                     String[] arr1 = arr.split("₹ ");
                     Double total = Double.valueOf(arr1[1]);
