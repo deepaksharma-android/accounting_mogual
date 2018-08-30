@@ -580,18 +580,19 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 total = Double.valueOf(billSundryTotal.get(i));
                                 if (amount == taxValue) {
                                     if (mBool) {
-                                        grandTotal = (grandTotal + total) + gst;
                                         total = total + gst;
+                                        grandTotal = (grandTotal + total)/* + gst*/;
                                     } else {
-                                        grandTotal = (grandTotal + total) - gst;
                                         total = total - gst;
+                                        grandTotal = (grandTotal + total)/* - gst*/;
                                     }
-                                    if (total==0){
+                                    billSundryTotal.set(i, String.format("%.2f", total));
+                                   /* if (total==0){
                                         mListMapForBillSale.remove(i);
                                         billSundryTotal.remove(i);
                                     }else {
                                         billSundryTotal.set(i, String.format("%.2f", total));
-                                    }
+                                    }*/
                                 } else {
                                     grandTotal = grandTotal + total;
                                     billSundryTotal.set(i, String.format("%.2f", total));
@@ -610,18 +611,19 @@ public class PosItemAddActivity extends AppCompatActivity {
                                 total = Double.valueOf(billSundryTotal.get(i));
                                 if (amount == (taxValue / 2)) {
                                     if (mBool) {
-                                        grandTotal = (grandTotal + total) + (gst / 2);
                                         total = total + (gst / 2);
+                                        grandTotal = (grandTotal + total) /*+ (gst / 2)*/;
                                     } else {
-                                        grandTotal = (grandTotal + total) - (gst / 2);
                                         total = total - (gst / 2);
+                                        grandTotal = (grandTotal + total) /*- (gst / 2)*/;
                                     }
-                                    if (total==0){
+                                    billSundryTotal.set(i, String.format("%.2f", total));
+                                   /* if (total==0){
                                         mListMapForBillSale.remove(i);
                                         billSundryTotal.remove(i);
                                     }else {
                                         billSundryTotal.set(i, String.format("%.2f", total));
-                                    }
+                                    }*/
                                 } else {
                                     grandTotal = grandTotal + total;
                                     billSundryTotal.set(i, String.format("%.2f", total));
@@ -1360,8 +1362,12 @@ public class PosItemAddActivity extends AppCompatActivity {
         appUser.bill_sundries_amount = String.valueOf(bill_sundries_amount);
         appUser.billsundrytotal.clear();
         appUser.mListMapForBillSale.clear();
-        appUser.billsundrytotal = billSundryTotal;
-        appUser.mListMapForBillSale = mListMapForBillSale;
+        for (int i =0; i<billSundryTotal.size();i++){
+            if (!billSundryTotal.get(i).equals("0.00")){
+                appUser.billsundrytotal.add(billSundryTotal.get(i));
+                appUser.mListMapForBillSale.add(mListMapForBillSale.get(i));
+            }
+        }
         // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         if (aBoolean) {
             appUser.email_yes_no = "true";

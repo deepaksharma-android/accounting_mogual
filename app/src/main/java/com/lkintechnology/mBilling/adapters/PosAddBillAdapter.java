@@ -64,12 +64,20 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         String fed_as_percentage = (String) map.get("fed_as_percentage");
         String fed_as = (String) map.get("fed_as");
         String type = (String) map.get("type");
-        viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
+        if (!billSundryTotal.get(position).equals("0.00")){
+            viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
+        }
+
         if (fed_as_percentage != null) {
             if (fed_as_percentage.equals("valuechange")) {
                 viewHolder.mDiscount.setText(itemName + " ");
             }else {
-                viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
+                if (!billSundryTotal.get(position).equals("0.00")){
+                    viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
+                    viewHolder.igst_layout.setVisibility(View.VISIBLE);
+                }else {
+                    viewHolder.igst_layout.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -79,6 +87,8 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         TextView mDiscount;
         @Bind(R.id.amount)
         TextView mAmount;
+        @Bind(R.id.igst_layout)
+        LinearLayout igst_layout;
 
         public ViewHolder(View itemView) {
             super(itemView);

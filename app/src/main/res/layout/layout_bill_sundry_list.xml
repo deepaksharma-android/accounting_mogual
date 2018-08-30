@@ -14,16 +14,11 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/bill_main_layout"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="1">
-
-
-
-
-
-
 
 
             <com.lkintechnology.mBilling.utils.BuzzTextView

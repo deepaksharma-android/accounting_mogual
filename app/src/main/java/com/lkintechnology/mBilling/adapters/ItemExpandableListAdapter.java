@@ -201,6 +201,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             add_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String pos = groupPosition+","+childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     mQuantity.setText("1");
                     mItemTotal.setText("₹ " + sale_price_main);
@@ -208,6 +209,10 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
+                    if (!mQuantity.getText().toString().equals("")) {
+                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(mMapPosItem.toString());
+                    }
                     add_layout.setVisibility(View.GONE);
                     plus_minus_layout.setVisibility(View.VISIBLE);
 

@@ -64,7 +64,21 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
         }else {
             viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
         }*/
-        viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
+        if (ExpandableItemListActivity.comingFrom == 5) {
+            if (data.get(i).getAttributes().getName().equals("IGST")
+                    || data.get(i).getAttributes().getName().equals("SGST")
+                    || data.get(i).getAttributes().getName().equals("CGST")) {
+                viewHolder.bill_main_layout.setVisibility(View.GONE);
+            }else {
+                viewHolder.bill_main_layout.setVisibility(View.VISIBLE);
+                viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
+            }
+        } else {
+            viewHolder.bill_main_layout.setVisibility(View.VISIBLE);
+            viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
+        }
+
+
         if (data.get(i).getAttributes().getUndefined() == true) {
             viewHolder.mDelete.setVisibility(View.VISIBLE);
             viewHolder.mEdit.setVisibility(View.VISIBLE);
@@ -104,7 +118,7 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
                     SaleReturnAddBillActivity.data = data.get(i);
                 } else if (ExpandableItemListActivity.comingFrom == 4) {
                     StockTransferAddBillActivity.data = data.get(i);
-                }else  if (ExpandableItemListActivity.comingFrom == 5) {
+                } else if (ExpandableItemListActivity.comingFrom == 5) {
                     PosAddBillActivity.data = data.get(i);
                 }
                 EventBus.getDefault().post(new EventSaleAddBill(String.valueOf(i)));
@@ -127,6 +141,8 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
         LinearLayout mDelete;
         @Bind(R.id.edit)
         LinearLayout mEdit;
+        @Bind(R.id.bill_main_layout)
+        LinearLayout bill_main_layout;
 
 
         public ViewHolder(View view) {
