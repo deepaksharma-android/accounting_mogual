@@ -110,8 +110,8 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 }
                 appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                 mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
-                appUser.mListMapForItemSale.get(position).put("total", viewHolder.mItemTotal.getText().toString());
-                mListMap.get(position).put("total", viewHolder.mItemTotal.getText().toString());
+                appUser.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
+                mListMap.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
                 LocalRepositories.saveAppUser(context, appUser);
               //  notifyDataSetChanged();
             }
@@ -160,8 +160,8 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                     } else {
                         appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                         mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
-                        appUser.mListMapForItemSale.get(position).put("total", viewHolder.mItemTotal.getText().toString());
-                        mListMap.get(position).put("total", viewHolder.mItemTotal.getText().toString());
+                        appUser.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
+                        mListMap.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
 
                     }
                     LocalRepositories.saveAppUser(context, appUser);

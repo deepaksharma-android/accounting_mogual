@@ -351,4 +351,14 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         Double a = Double.valueOf(arr[1].trim());
         return a;
     }
+
+    public  String splitString(String total) {
+        // String total = PosItemAddActivity.mSubtotal.getText().toString();
+        if (total.equals("0.0")) {
+            total = "₹ 0.0";
+        }
+        String[] arr = total.split("₹ ");
+        String a = arr[1].trim();
+        return a;
+    }
 }

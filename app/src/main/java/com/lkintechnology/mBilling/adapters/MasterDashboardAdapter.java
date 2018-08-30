@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.accountgroup.AccountGroupListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
@@ -73,6 +74,7 @@ public class MasterDashboardAdapter extends RecyclerView.Adapter<MasterDashboard
                 if(i==2){
                     ExpandableItemListActivity.isDirectForItem=true;
                     ExpandableItemListActivity.comingFrom = 0;
+                    FirstPageActivity.posSetting = false;
                     context.startActivity(new Intent(context, ExpandableItemListActivity.class));
                 }
                 if(i==3){

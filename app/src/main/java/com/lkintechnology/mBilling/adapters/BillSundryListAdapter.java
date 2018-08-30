@@ -68,13 +68,13 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
             if (data.get(i).getAttributes().getName().equals("IGST")
                     || data.get(i).getAttributes().getName().equals("SGST")
                     || data.get(i).getAttributes().getName().equals("CGST")) {
-                viewHolder.bill_main_layout.setVisibility(View.GONE);
+                viewHolder.mMainLayout.setVisibility(View.GONE);
             }else {
-                viewHolder.bill_main_layout.setVisibility(View.VISIBLE);
+                viewHolder.mMainLayout.setVisibility(View.VISIBLE);
                 viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
             }
         } else {
-            viewHolder.bill_main_layout.setVisibility(View.VISIBLE);
+            viewHolder.mMainLayout.setVisibility(View.VISIBLE);
             viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
         }
 
