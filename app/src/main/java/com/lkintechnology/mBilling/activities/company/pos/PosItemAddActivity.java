@@ -207,13 +207,13 @@ public class PosItemAddActivity extends AppCompatActivity {
                 Double percentage = (Double) map.get(item_id);
                 if (percentage != 0) {
                     if (percentage == 12) {
-                        gst_12 = Double.valueOf(quantity) * (gst_12 + (sales_price_main * percentage) / 100);
+                        gst_12 = gst_12 + (Double.valueOf(quantity) * (sales_price_main * percentage) / 100);
                     } else if (percentage == 18) {
-                        gst_18 = Double.valueOf(quantity) * (gst_18 + (sales_price_main * percentage) / 100);
+                        gst_18 = gst_18 + ( Double.valueOf(quantity) * (sales_price_main * percentage) / 100);
                     } else if (percentage == 28) {
-                        gst_28 = Double.valueOf(quantity) * (gst_28 + (sales_price_main * percentage) / 100);
+                        gst_28 = gst_28 + (Double.valueOf(quantity) * (sales_price_main * percentage) / 100);
                     } else if (percentage == 5) {
-                        gst_5 = Double.valueOf(quantity) * (gst_5 + (sales_price_main * percentage) / 100);
+                        gst_5 = gst_5 + (Double.valueOf(quantity) * (sales_price_main * percentage) / 100);
                     }
                 }
             }
@@ -246,94 +246,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
-        /*if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
-            for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
-                Map map = appUser.mListMapForItemSale.get(i);
-                String item_id = (String) map.get("item_id");
-                String tax1 = (String) map.get("tax");
-                quantity = (String) map.get("quantity");
-                Double sales_price_main = (Double) map.get("sales_price_main");
-                Double percentage = (Double) map.get(item_id);
-                if (percentage != 0) {
-                    if (percentage == 12) {
-                        gst_12 = Double.valueOf(quantity) * (gst_12 + (sales_price_main * percentage) / 100);
-                    } else if (percentage == 18) {
-                        gst_18 = Double.valueOf(quantity) * (gst_18 + (sales_price_main * percentage) / 100);
-                    } else if (percentage == 28) {
-                        gst_28 = Double.valueOf(quantity) * (gst_28 + (sales_price_main * percentage) / 100);
-                    } else if (percentage == 5) {
-                        gst_5 = Double.valueOf(quantity) * (gst_5 + (sales_price_main * percentage) / 100);
-                    }
-                }
-            }
-            grandTotal = gst_12 + gst_18 + gst_28 + gst_5;
-           // grand_total.setText("₹ " + (subtotal + grandTotal));
-            if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("I/GST-MultiRate")) {
-                igst_layout.setVisibility(View.GONE);
-                sgst_cgst_layout.setVisibility(View.GONE);
-                sgst_cgst_multirate_layout.setVisibility(View.GONE);
-                igst_multirate_layout.setVisibility(View.VISIBLE);
-                igst_layout_12.setVisibility(View.GONE);
-                igst_layout_18.setVisibility(View.GONE);
-                igst_layout_28.setVisibility(View.GONE);
-                igst_layout_5.setVisibility(View.GONE);
-                if (gst_12 != 0) {
-                    igst_layout_12.setVisibility(View.VISIBLE);
-                    igst_12.setText("₹ " + gst_12);
-                    grandTotal = grandTotal + gst_12;
-                }
-                if (gst_18 != 0) {
-                    igst_layout_18.setVisibility(View.VISIBLE);
-                    igst_18.setText("₹ " + gst_18);
-                    grandTotal = grandTotal + gst_18;
-                }
-                if (gst_28 != 0) {
-                    igst_layout_28.setVisibility(View.VISIBLE);
-                    igst_28.setText("₹ " + gst_28);
-                    grandTotal = grandTotal + gst_28;
-                }
-                if (gst_5 != 0) {
-                    igst_layout_5.setVisibility(View.VISIBLE);
-                    igst_5.setText("₹ " + gst_5);
-                    grandTotal = grandTotal + gst_5;
-                }
-            } else {
-                igst_layout.setVisibility(View.GONE);
-                sgst_cgst_layout.setVisibility(View.GONE);
-                sgst_cgst_multirate_layout.setVisibility(View.VISIBLE);
-                igst_multirate_layout.setVisibility(View.GONE);
-                sgst_cgst_layout_12.setVisibility(View.GONE);
-                sgst_cgst_layout_18.setVisibility(View.GONE);
-                sgst_cgst_layout_28.setVisibility(View.GONE);
-                sgst_cgst_layout_5.setVisibility(View.GONE);
-                if (gst_12 != 0) {
-                    sgst_cgst_layout_12.setVisibility(View.VISIBLE);
-                    sgst_12.setText("₹ " + gst_12 / 2);
-                    cgst_12.setText("₹ " + gst_12 / 2);
-                    grandTotal = grandTotal + gst_12;
-                }
-                if (gst_18 != 0) {
-                    sgst_cgst_layout_18.setVisibility(View.VISIBLE);
-                    sgst_18.setText("₹ " + gst_18 / 2);
-                    cgst_18.setText("₹ " + gst_18 / 2);
-                    grandTotal = grandTotal + gst_18;
-                }
-                if (gst_28 != 0) {
-                    sgst_cgst_layout_28.setVisibility(View.VISIBLE);
-                    sgst_28.setText("₹ " + gst_28 / 2);
-                    cgst_28.setText("₹ " + gst_28 / 2);
-                    grandTotal = grandTotal + gst_28;
-                }
-                if (gst_5 != 0) {
-                    sgst_cgst_layout_5.setVisibility(View.VISIBLE);
-                    sgst_5.setText("₹ " + gst_5 / 2);
-                    cgst_5.setText("₹ " + gst_5 / 2);
-                    grandTotal = grandTotal + gst_5;
-                }
-            }
-        }*/ /*else {
-            PosAddItemsAdapter.setTaxChange(getApplicationContext(), subtotal, 0.0, 0.0, "", false);
-        }*/
 
         change_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,6 +280,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(PosItemAddActivity.this);
                 submit.startAnimation(blinkOnClick);
                 if (appUser.mListMapForItemSale.size() > 0) {
                     if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
@@ -710,7 +623,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = (grandTotal + total) - gst;
                                         total = total - gst;
                                     }
-                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                    if (total==0){
+                                        appUser.mListMapForBillSale.remove(i);
+                                        appUser.billsundrytotal.remove(i);
+                                    }else {
+                                        appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                    }
                                 } else {
                                     grandTotal = grandTotal + total;
                                     appUser.billsundrytotal.set(i, String.format("%.2f", total));
@@ -735,7 +653,12 @@ public class PosItemAddActivity extends AppCompatActivity {
                                         grandTotal = (grandTotal + total) - (gst / 2);
                                         total = total - (gst / 2);
                                     }
-                                    appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                    if (total==0){
+                                        appUser.mListMapForBillSale.remove(i);
+                                        appUser.billsundrytotal.remove(i);
+                                    }else {
+                                        appUser.billsundrytotal.set(i, String.format("%.2f", total));
+                                    }
                                 } else {
                                     grandTotal = grandTotal + total;
                                     appUser.billsundrytotal.set(i, String.format("%.2f", total));
@@ -753,12 +676,11 @@ public class PosItemAddActivity extends AppCompatActivity {
                     }
                 }
             }
-            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         }
+        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
         System.out.println(grandTotal);
     }
-
 
     public Double txtSplit(String total) {
         Double a = 0.0;
