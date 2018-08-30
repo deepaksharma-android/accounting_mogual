@@ -204,6 +204,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     mQuantity.setText("1");
                     mItemTotal.setText("₹ " + sale_price_main);
+                    setTotal(String.valueOf(sale_price_main),true);
                     String getChecked[] = mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     mChildCheckStates.put(mGroupPosition, getChecked);
