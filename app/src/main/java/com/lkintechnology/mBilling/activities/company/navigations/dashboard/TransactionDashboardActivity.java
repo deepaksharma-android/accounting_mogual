@@ -165,6 +165,8 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         ParameterConstant.email = "";
         ParameterConstant.id = "";
         ParameterConstant.forPaymentSettlement="";
+        Preferences.getInstance(getApplicationContext()).setPoDate("");
+        Preferences.getInstance(getApplicationContext()).setPoNumber("");
       /*  appUser = LocalRepositories.getAppUser(this);
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];

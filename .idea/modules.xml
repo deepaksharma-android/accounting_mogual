@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/accounts-android.iml" filepath="$PROJECT_DIR$/accounts-android.iml" />
       <module fileurl="file://D:\accounts-android\accounts-android.iml" filepath="D:\accounts-android\accounts-android.iml" />
+      <module fileurl="file://C:\Users\Beryl\Desktop\accounts-android\accounts-android.iml" filepath="C:\Users\Beryl\Desktop\accounts-android\accounts-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Beryl\Desktop\accounts-android\app\app.iml" filepath="C:\Users\Beryl\Desktop\accounts-android\app\app.iml" />
       <module fileurl="file://D:\accounts-android\app\app.iml" filepath="D:\accounts-android\app\app.iml" />
     </modules>
   </component>

@@ -10,6 +10,25 @@ public class PurchaseVoucherDetailsAttribute {
     public String shipped_to_id;
     public String time;
     public int company_id;
+    String po_date;
+    String po_number;
+
+
+    public String getPo_date() {
+        return po_date;
+    }
+
+    public void setPo_date(String po_date) {
+        this.po_date = po_date;
+    }
+
+    public String getPo_number() {
+        return po_number;
+    }
+
+    public void setPo_number(String po_number) {
+        this.po_number = po_number;
+    }
 
     public String getTime() {
         return time;
