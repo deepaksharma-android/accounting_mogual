@@ -378,9 +378,11 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
     public void onBackPressed() {
         if (backPress) {
             FirstPageActivity.posSetting = false;
+            ExpandableItemListActivity.comingFrom = 6;
+            ExpandableItemListActivity.isDirectForItem = false;
             finish();
         } else {
-
+            finish();
         }
     }
 

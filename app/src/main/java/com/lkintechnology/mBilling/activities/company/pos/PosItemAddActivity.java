@@ -502,15 +502,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
 
                             billSundryTotal.add(i, String.format("%.2f", total));
-                        }/*else {
-                            total = (grandTotal * Double.valueOf(amount)) / 100;
-                            if (type.equals("Additive")) {
-                                grandTotal = grandTotal + total;
-                            } else {
-                                grandTotal = grandTotal - total;
-                            }
-                            billSundryTotal.set(i, String.format("%.2f", total));
-                        }*/
+                        }
                     } else {
                         total = (grandTotal * Double.valueOf(amount)) / 100;
                         if (type.equals("Additive")) {
@@ -789,7 +781,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 changeAmount = String.valueOf((subtotal * taxval / 2) / 100);
                 billSundryAmount = String.valueOf(taxval / 2);
                 billSundryTotal.add("" + Double.valueOf(changeAmount));
-                billSundryTotal.add("" + Double.valueOf(changeAmount));
+               // billSundryTotal.add("" + Double.valueOf(changeAmount));
                 grandTotal = grandTotal + Double.valueOf(changeAmount);
                 // LocalRepositories.saveAppUser(PosItemAddActivity.this,appUser);
             }
