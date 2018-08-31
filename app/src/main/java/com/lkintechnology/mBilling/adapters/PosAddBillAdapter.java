@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
+import com.lkintechnology.mBilling.utils.EventForBillDelete;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.lkintechnology.mBilling.utils.Preferences;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +88,13 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
                 }
             }
         }
+
+        viewHolder.cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new EventForBillDelete(String.valueOf(position)));
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,6 +104,8 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         TextView mAmount;
         @Bind(R.id.igst_layout)
         LinearLayout igst_layout;
+        @Bind(R.id.cancel_button)
+        LinearLayout cancel_button;
 
         public ViewHolder(View itemView) {
             super(itemView);

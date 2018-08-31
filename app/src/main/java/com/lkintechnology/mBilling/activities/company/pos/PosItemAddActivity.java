@@ -47,6 +47,7 @@ import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSund
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
+import com.lkintechnology.mBilling.utils.EventForBillDelete;
 import com.lkintechnology.mBilling.utils.EventForPos;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ListHeight;
@@ -84,6 +85,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Bind(R.id.add_bill_button)
     TextView add_bill_button;
     public static TextView mSubtotal;
+    public static TextView grand_total;
     @Bind(R.id.change_layout)
     LinearLayout change_layout;
     @Bind(R.id.add_bill_layout)
@@ -97,43 +99,6 @@ public class PosItemAddActivity extends AppCompatActivity {
     Boolean backPress = false;
     public static ArrayList<String> billSundryTotal;
     public static List<Map<String, String>> mListMapForBillSale;
-
-    public static LinearLayout igst_layout;
-    public static LinearLayout sgst_cgst_layout;
-
-    public LinearLayout igst_layout_12;
-    public LinearLayout igst_layout_18;
-    public LinearLayout igst_layout_28;
-    public LinearLayout igst_layout_5;
-
-    public LinearLayout sgst_cgst_layout_12;
-    public LinearLayout sgst_cgst_layout_18;
-    public LinearLayout sgst_cgst_layout_28;
-    public LinearLayout sgst_cgst_layout_5;
-
-    public static TextView igst;
-    public static TextView sgst;
-    public static TextView cgst;
-    public static TextView grand_total;
-
-    public LinearLayout sgst_cgst_multirate_layout;
-    public LinearLayout igst_multirate_layout;
-
-    public static TextView igst_12;
-    public static TextView igst_18;
-    public static TextView igst_28;
-    public static TextView igst_5;
-
-    public static TextView sgst_12;
-    public static TextView cgst_12;
-    public static TextView sgst_18;
-    public static TextView cgst_18;
-    public static TextView sgst_28;
-    public static TextView cgst_28;
-    public static TextView sgst_5;
-    public static TextView cgst_5;
-
-
     AppUser appUser;
     Double grandTotal = 0.0;
     Double gst_12 = 0.0, gst_18 = 0.0, gst_28 = 0.0, gst_5 = 0.0;
@@ -429,6 +394,14 @@ public class PosItemAddActivity extends AppCompatActivity {
                 setBillListDataAdapter();
             }
         }
+    }
+
+    @Subscribe
+    public void eventDeleteBill(EventForBillDelete response){
+        int position = Integer.parseInt(response.getPosition());
+        mListMapForBillSale.remove(position);
+        billSundryTotal.remove(position);
+        setBillListDataAdapter();
     }
 
     public void setBillListDataAdapter() {

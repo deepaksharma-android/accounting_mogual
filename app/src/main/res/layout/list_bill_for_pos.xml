@@ -8,34 +8,58 @@
     <LinearLayout
         android:id="@+id/igst_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
         android:weightSum="1">
 
-        <com.lkintechnology.mBilling.utils.BuzzTextView
-            android:id="@+id/discount"
-            style="@style/Gotham_Medium"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight=".4"
-            android:text="Discount "
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:layout_weight=".1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cancel_icon"/>
 
-        <com.lkintechnology.mBilling.utils.BuzzTextView
-            android:id="@+id/amount"
-            style="@style/Gotham_Medium"
-            android:layout_width="match_parent"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".6"
-            android:gravity="right"
-            android:text="₹ 0.0"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:layout_weight=".9"
+            android:weightSum="1">
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/discount"
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".4"
+                android:text="Discount "
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/amount"
+                style="@style/Gotham_Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".6"
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:text="₹ 0.0"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 
    <!-- <View
