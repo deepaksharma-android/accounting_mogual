@@ -207,6 +207,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         ExpandableItemListActivity.comingFrom = 6;
         ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
         ExpandableItemListActivity.isDirectForItem = false;
+        FirstPageActivity.posSetting = false;
         Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
         startActivity(intent);
     }

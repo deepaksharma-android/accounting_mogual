@@ -40,7 +40,6 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         this.context = context;
         this.mListMap = mListMap;
         this.billSundryTotal = billSundryTotal;
-
     }
 
     @Override
@@ -64,17 +63,23 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         String fed_as_percentage = (String) map.get("fed_as_percentage");
         String fed_as = (String) map.get("fed_as");
         String type = (String) map.get("type");
-        if (!billSundryTotal.get(position).equals("0.00")){
-            viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
+        if (billSundryTotal.get(position)!=null) {
+            if (!billSundryTotal.get(position).equals("0.00")) {
+                viewHolder.mAmount.setText("₹ " + billSundryTotal.get(position));
+            }
         }
 
         if (fed_as_percentage != null) {
             if (fed_as_percentage.equals("valuechange")) {
                 viewHolder.mDiscount.setText(itemName + " ");
             }else {
-                if (!billSundryTotal.get(position).equals("0.00")){
-                    viewHolder.mDiscount.setText(itemName +" "+ amount + " %");
-                    viewHolder.igst_layout.setVisibility(View.VISIBLE);
+                if (billSundryTotal.get(position)!=null) {
+                    if (!billSundryTotal.get(position).equals("0.00")) {
+                        viewHolder.mDiscount.setText(itemName + " " + amount + " %");
+                        viewHolder.igst_layout.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.igst_layout.setVisibility(View.GONE);
+                    }
                 }else {
                     viewHolder.igst_layout.setVisibility(View.GONE);
                 }

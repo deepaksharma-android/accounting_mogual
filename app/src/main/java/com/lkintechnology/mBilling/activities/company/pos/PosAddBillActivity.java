@@ -67,10 +67,10 @@ public class PosAddBillActivity extends AppCompatActivity {
     String billsundryothername;
     String billSundryId;
     String billSundryFedAs;
-    String billSundryFedAsPercentage;
+    String billSundryFedAsPercentage = "";
     String billSundryFedAsPercentagePrevious;
     String billSundryType;
-    Double billSundryDefaultValue;
+    Double billSundryDefaultValue = 0.00;
     int billSundryNumber;
     String id = "";
     Boolean billSundryConsolidated;
@@ -99,7 +99,7 @@ public class PosAddBillActivity extends AppCompatActivity {
         if (frombillvoucherlist) {
             pos = getIntent().getExtras().getInt("pos");
             Map map = new HashMap<>();
-            map = appUser.mListMapForBillSale.get(pos);
+            map = PosItemAddActivity.mListMapForBillSale.get(pos);
             billSundryFedAsPercentagePrevious = (String) map.get("previous");
             billSundaryPercentage = (String) map.get("percentage_value");
             String val=(String)map.get("percentage");
@@ -235,7 +235,13 @@ public class PosAddBillActivity extends AppCompatActivity {
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as",/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs);
-                mMap.put("fed_as_percentage",/*data.getAttributes().getBill_sundry_of_percentage()*/billSundryFedAsPercentage);
+                if (billSundryFedAsPercentage!=null){
+                    mMap.put("fed_as_percentage",billSundryFedAsPercentage);
+                }else {
+                    billSundryFedAsPercentage = "";
+                    mMap.put("fed_as_percentage",billSundryFedAsPercentage);
+                }
+
                 mMap.put("type",/*data.getAttributes().getBill_sundry_type()*/billSundryType);
                 mMap.put("amount", billAmount.getText().toString());
                 mMap.put("previous", billSundryFedAsPercentagePrevious);
@@ -263,13 +269,13 @@ public class PosAddBillActivity extends AppCompatActivity {
                     mMap.put("other", billsundryothername);
                 }
                 if (!frombillvoucherlist) {
-                    appUser.mListMapForBillSale.add(mMap);
+                    PosItemAddActivity.mListMapForBillSale.add(mMap);
                     // appUser.mListMap = mListMap;
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    //LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 } else {
-                    appUser.mListMapForBillSale.remove(finalPos);
-                    appUser.mListMapForBillSale.add(finalPos, mMap);
-                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    PosItemAddActivity.mListMapForBillSale.remove(finalPos);
+                    PosItemAddActivity.mListMapForBillSale.add(finalPos, mMap);
+                   // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                /* Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
                 intent.putExtra("is", true);

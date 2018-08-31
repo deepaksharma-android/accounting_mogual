@@ -50,35 +50,23 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
 
     @Override
     public void onBindViewHolder(BillSundryListAdapter.ViewHolder viewHolder, int i) {
-       /* count++;
-        if (ExpandableItemListActivity.comingFrom==5){
-            if (!data.get(i).getAttributes().getName().contains("GST")){
-                viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
-            }else {
-                data.remove(i);
-                count--;
-            }
-            if (data.size()==count){
-                notifyDataSetChanged();
-            }
-        }else {
-            viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
-        }*/
+
         if (ExpandableItemListActivity.comingFrom == 5) {
             if (data.get(i).getAttributes().getName().equals("IGST")
                     || data.get(i).getAttributes().getName().equals("SGST")
                     || data.get(i).getAttributes().getName().equals("CGST")) {
                 viewHolder.mMainLayout.setVisibility(View.GONE);
+                viewHolder.view.setVisibility(View.GONE);
             }else {
                 viewHolder.mMainLayout.setVisibility(View.VISIBLE);
+                viewHolder.view.setVisibility(View.VISIBLE);
                 viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
             }
         } else {
             viewHolder.mMainLayout.setVisibility(View.VISIBLE);
+            viewHolder.view.setVisibility(View.VISIBLE);
             viewHolder.mBillName.setText(data.get(i).getAttributes().getName());
         }
-
-
         if (data.get(i).getAttributes().getUndefined() == true) {
             viewHolder.mDelete.setVisibility(View.VISIBLE);
             viewHolder.mEdit.setVisibility(View.VISIBLE);
@@ -143,6 +131,8 @@ public class BillSundryListAdapter extends RecyclerView.Adapter<BillSundryListAd
         LinearLayout mEdit;
         @Bind(R.id.bill_main_layout)
         LinearLayout bill_main_layout;
+        @Bind(R.id.view)
+        View view;
 
 
         public ViewHolder(View view) {

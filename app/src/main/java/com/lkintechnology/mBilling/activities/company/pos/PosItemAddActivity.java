@@ -464,6 +464,9 @@ public class PosItemAddActivity extends AppCompatActivity {
             String itemName = (String) map.get("courier_charges");
             String amount = (String) map.get("amount");
             String fed_as_percentage = (String) map.get("fed_as_percentage");
+            if(fed_as_percentage==null){
+                fed_as_percentage = "";
+            }
             String fed_as = (String) map.get("fed_as");
             String type = (String) map.get("type");
             if (fed_as_percentage != null) {
@@ -485,7 +488,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                         } else {
                             grandTotal = grandTotal - total;
                         }
-                        billSundryTotal.add(i, String.format("%.2f", total));
+                        billSundryTotal.set(i, String.format("%.2f", total));
                     }
 
                 } else {
@@ -499,7 +502,15 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
 
                             billSundryTotal.add(i, String.format("%.2f", total));
-                        }
+                        }/*else {
+                            total = (grandTotal * Double.valueOf(amount)) / 100;
+                            if (type.equals("Additive")) {
+                                grandTotal = grandTotal + total;
+                            } else {
+                                grandTotal = grandTotal - total;
+                            }
+                            billSundryTotal.set(i, String.format("%.2f", total));
+                        }*/
                     } else {
                         total = (grandTotal * Double.valueOf(amount)) / 100;
                         if (type.equals("Additive")) {
@@ -507,7 +518,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                         } else {
                             grandTotal = grandTotal - total;
                         }
-                        billSundryTotal.add(i, String.format("%.2f", total));
+                        billSundryTotal.set(i, String.format("%.2f", total));
                     }
                 }
             }
