@@ -90,6 +90,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     LinearLayout change_layout;
     @Bind(R.id.add_bill_layout)
     LinearLayout add_bill_layout;
+    @Bind(R.id.view)
+    View view;
     @Bind(R.id.submit)
     LinearLayout submit;
     Animation blinkOnClick;
@@ -260,6 +262,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         System.out.println(mListMapForBillSale.toString());
         if (mListMapForBillSale.size() > 0) {
+            view.setVisibility(View.VISIBLE);
             if (ExpandableItemListActivity.boolForAdapterSet) {
                 if (taxString.contains("GST-MultiRate")) {
                     billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
@@ -269,6 +272,8 @@ public class PosItemAddActivity extends AppCompatActivity {
                     setBillListDataAdapter();
                 }
             }
+        }else {
+            view.setVisibility(View.GONE);
         }
         super.onResume();
     }
@@ -399,8 +404,15 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Subscribe
     public void eventDeleteBill(EventForBillDelete response){
         int position = Integer.parseInt(response.getPosition());
+        String grandTotal =  String.format("%.2f",getTotal(grand_total.getText().toString()) - Double.valueOf(billSundryTotal.get(position)));
+        grand_total.setText("₹ " + grandTotal);
         mListMapForBillSale.remove(position);
         billSundryTotal.remove(position);
+        if (mListMapForBillSale.size()>0){
+            view.setVisibility(View.VISIBLE);
+        }else {
+            view.setVisibility(View.GONE);
+        }
         setBillListDataAdapter();
     }
 
@@ -1415,5 +1427,11 @@ public class PosItemAddActivity extends AppCompatActivity {
             //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(PosItemAddActivity.this, response.getMessage());
         }
+    }
+
+    public Double getTotal(String total) {
+        String[] arr = total.split("₹ ");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
     }
 }

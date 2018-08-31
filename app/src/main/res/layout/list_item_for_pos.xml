@@ -31,12 +31,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.lkintechnology.mBilling.utils.BuzzTextView
+                    <ImageView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".025"
-                        android:text="+"
-                        android:textColor="@color/colorPrimary" />
+                        android:layout_weight=".050"
+                        android:src="@drawable/dot_icon"
+                        android:layout_marginTop="4dp"/>
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/lblListItem"
