@@ -89,6 +89,12 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
             }
         }
 
+        if (itemName.equals("IGST") || itemName.equals("CGST") || itemName.equals("SGST")){
+            viewHolder.cancel_button.setVisibility(View.GONE);
+        }else {
+            viewHolder.cancel_button.setVisibility(View.VISIBLE);
+        }
+
         viewHolder.cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

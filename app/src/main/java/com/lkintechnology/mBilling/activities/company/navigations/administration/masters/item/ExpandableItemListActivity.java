@@ -358,10 +358,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                             }
                                             Preferences.getInstance(getApplicationContext()).setParty_name("");
                                             Preferences.getInstance(getApplicationContext()).setParty_id("");
-                                            Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
-                                            intent.putExtra("subtotal", subtotal);
-                                            boolForAdapterSet = true;
-                                            startActivity(intent);
+                                            if ( appUser.mListMapForItemSale.size()>0){
+                                                Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
+                                                intent.putExtra("subtotal", subtotal);
+                                                boolForAdapterSet = true;
+                                                startActivity(intent);
+                                            }else {
+                                                Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
                                             Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();
                                         }
@@ -454,6 +458,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.show();
+                appUser.mListMapForItemSale.clear();
+                ItemExpandableListAdapter.mMapPosItem.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
             } else {

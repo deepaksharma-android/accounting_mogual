@@ -423,7 +423,6 @@ public class PosItemAddActivity extends AppCompatActivity {
         mBillAdapter = new PosAddBillAdapter(this, mListMapForBillSale,billSundryTotal);
         mRecyclerViewBill.setAdapter(mBillAdapter);
         //mBillAdapter.notifyDataSetChanged();
-
     }
 
     public void notifyDataSetChanged() {
