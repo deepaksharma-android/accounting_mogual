@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -118,7 +119,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         // floatingActionButton.bringToFront();
         billSundryTotal = new ArrayList<>();
         mListMapForBillSale = new ArrayList();
-
+        hideKeyPad();
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -403,8 +404,15 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Subscribe
     public void eventDeleteBill(EventForBillDelete response){
-        int position = Integer.parseInt(response.getPosition());
-        String grandTotal =  String.format("%.2f",getTotal(grand_total.getText().toString()) - Double.valueOf(billSundryTotal.get(position)));
+        String[] data = response.getPosition().split(",");
+        int position = Integer.parseInt(data[0]);
+        String type = data[1];
+        String grandTotal = "0.0";
+        if (type.equals("Additive")){
+             grandTotal =  String.format("%.2f",getTotal(grand_total.getText().toString()) - Double.valueOf(billSundryTotal.get(position)));
+        }else {
+             grandTotal =  String.format("%.2f",getTotal(grand_total.getText().toString()) + Double.valueOf(billSundryTotal.get(position)));
+        }
         grand_total.setText("₹ " + grandTotal);
         mListMapForBillSale.remove(position);
         billSundryTotal.remove(position);
@@ -1432,5 +1440,9 @@ public class PosItemAddActivity extends AppCompatActivity {
         String[] arr = total.split("₹ ");
         Double a = Double.valueOf(arr[1].trim());
         return a;
+    }
+
+    private void hideKeyPad() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 }

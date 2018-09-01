@@ -122,6 +122,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         viewHolder.decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBool = true;
                 appUser = LocalRepositories.getAppUser(context);
                 mInteger = Integer.parseInt(viewHolder.mQuantity.getText().toString());
                 if (mInteger > 0) {

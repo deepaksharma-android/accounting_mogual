@@ -98,7 +98,7 @@ public class PosAddBillAdapter extends RecyclerView.Adapter<PosAddBillAdapter.Vi
         viewHolder.cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new EventForBillDelete(String.valueOf(position)));
+                EventBus.getDefault().post(new EventForBillDelete(String.valueOf(position) + "," + type));
             }
         });
     }
