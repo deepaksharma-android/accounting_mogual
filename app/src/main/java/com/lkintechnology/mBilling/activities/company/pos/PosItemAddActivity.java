@@ -349,6 +349,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     public void onBackPressed() {
         FirstPageActivity.posSetting = true;
         FirstPageActivity.posNotifyAdapter = true;
+        ExpandableItemListActivity.mChildCheckStates.clear();
         if (backPress) {
             FirstPageActivity.posSetting = false;
             FirstPageActivity.posNotifyAdapter = false;
@@ -363,6 +364,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             case android.R.id.home:
                 FirstPageActivity.posSetting = true;
                 FirstPageActivity.posNotifyAdapter = true;
+                ExpandableItemListActivity.mChildCheckStates.clear();
                 if (backPress) {
                     FirstPageActivity.posSetting = false;
                     FirstPageActivity.posNotifyAdapter = false;

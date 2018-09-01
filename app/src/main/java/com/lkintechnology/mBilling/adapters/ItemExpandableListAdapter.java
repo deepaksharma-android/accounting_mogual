@@ -103,30 +103,20 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
             LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
 
-           /* if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
-                ExpandableItemListActivity.mChildCheckStates = new HashMap<Integer, String[]>();
-                String pos = groupPosition + "," + childPosition;
+            if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
+
                 for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
                     String item_id_child = ExpandableItemListActivity.mListMapForItemSale.get(i).get("item_id").toString();
                     if (item_id.equals(item_id_child)) {
+                        String pos = groupPosition + "," + childPosition;
                         mQuantity.setText(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
+                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = mQuantity.getText().toString();
+                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                         mMapPosItem.put(pos, mQuantity.getText().toString());
-                        System.out.println(mMapPosItem.toString());
-                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = mQuantity.getText().toString();
-                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
-                      *//*  plus_minus_layout.setVisibility(View.VISIBLE);
-                        add_layout.setVisibility(View.GONE);*//*
-                    } else {
-                        *//*plus_minus_layout.setVisibility(View.GONE);
-                        add_layout.setVisibility(View.VISIBLE);*//*
-                        mQuantity.setText("0");
-                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = mQuantity.getText().toString();
-                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                     }
                 }
-            }*/
+            }
 
             txtListChild.setText(name + " (qty: " + quantity + ")");
             mItemAmount.setText("₹ " + sale_price_main);

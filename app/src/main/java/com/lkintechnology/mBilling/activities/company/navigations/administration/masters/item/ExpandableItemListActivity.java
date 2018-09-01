@@ -359,6 +359,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                             Preferences.getInstance(getApplicationContext()).setParty_name("");
                                             Preferences.getInstance(getApplicationContext()).setParty_id("");
                                             if (mListMapForItemSale.size()>0){
+                                                ItemExpandableListAdapter.mMapPosItem.clear();
                                                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                                                 intent.putExtra("subtotal", subtotal);
                                                 boolForAdapterSet = true;
@@ -477,14 +478,14 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
-       /* if (FirstPageActivity.posNotifyAdapter){
+        if (FirstPageActivity.posNotifyAdapter){
             System.out.println(mListMapForItemSale);
             expListView.setAdapter(listAdapter);
             listAdapter.notifyDataSetChanged();
             for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                 expListView.expandGroup(i);
             }
-        }*/
+        }
  /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
