@@ -405,7 +405,6 @@
 
                     <com.lkintechnology.mBilling.utils.BuzzEditText
                         android:id="@+id/po_number"
-                        style="@style/Gotham_Book"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -437,7 +436,6 @@
 
                     <com.lkintechnology.mBilling.utils.BuzzTextView
                         android:id="@+id/po_date"
-                        style="@style/Gotham_Book"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"

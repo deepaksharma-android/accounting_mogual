@@ -549,6 +549,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                         if (!mStore.getText().toString().equals("")) {
                                             if (!mPartyName.getText().toString().equals("")) {
                                           /*  if (!mMobileNumber.getText().toString().equals("")) {*/
+                                                if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                    Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                    return;
+                                                }
                                                 appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                                 //   appUser.gst_nature_purchase_return = gst_nature.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
@@ -703,6 +707,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                           /*  if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();

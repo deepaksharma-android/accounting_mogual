@@ -596,6 +596,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                           if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                               Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                               return;
+                                           }
                                             appUser.sale_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_mobileNumber = mMobileNumber.getText().toString();
@@ -759,6 +763,10 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.sale_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_mobileNumber = mMobileNumber.getText().toString();
