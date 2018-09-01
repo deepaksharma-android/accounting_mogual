@@ -1433,6 +1433,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.btn_cancel, (dialogInterface, i) -> {
 
                         FirstPageActivity.posSetting = false;
+                        FirstPageActivity.posNotifyAdapter = false;
                         finish();
                     })
                     .show();

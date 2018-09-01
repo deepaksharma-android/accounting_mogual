@@ -364,6 +364,7 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
                 ExpandableItemListActivity.comingFrom = 6;
                 ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
                 ExpandableItemListActivity.isDirectForItem = false;
+                FirstPageActivity.posNotifyAdapter = false;
                 Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
                 startActivity(intent);
                 finish();
@@ -378,6 +379,7 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
     public void onBackPressed() {
         if (backPress) {
             FirstPageActivity.posSetting = false;
+            FirstPageActivity.posNotifyAdapter = false;
             ExpandableItemListActivity.comingFrom = 6;
             ExpandableItemListActivity.isDirectForItem = false;
             finish();
