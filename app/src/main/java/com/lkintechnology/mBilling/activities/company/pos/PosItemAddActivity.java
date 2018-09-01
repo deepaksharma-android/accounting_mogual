@@ -119,7 +119,6 @@ public class PosItemAddActivity extends AppCompatActivity {
         // floatingActionButton.bringToFront();
         billSundryTotal = new ArrayList<>();
         mListMapForBillSale = new ArrayList();
-        hideKeyPad();
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -1436,13 +1435,15 @@ public class PosItemAddActivity extends AppCompatActivity {
         }
     }
 
+    private void hideKeyPad() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
     public Double getTotal(String total) {
         String[] arr = total.split("₹ ");
         Double a = Double.valueOf(arr[1].trim());
         return a;
     }
 
-    private void hideKeyPad() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-    }
+
 }

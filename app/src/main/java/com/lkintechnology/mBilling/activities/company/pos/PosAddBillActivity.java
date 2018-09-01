@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -277,9 +278,7 @@ public class PosAddBillActivity extends AppCompatActivity {
                     PosItemAddActivity.mListMapForBillSale.add(finalPos, mMap);
                    // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-               /* Intent intent = new Intent(getApplicationContext(), CreateSaleActivity.class);
-                intent.putExtra("is", true);
-                startActivity(intent);*/
+                hideKeyPad();
                 ExpandableItemListActivity.boolForAdapterSet = true;
                 finish();
 
@@ -379,5 +378,9 @@ public class PosAddBillActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void hideKeyPad() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 }
