@@ -421,7 +421,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.9"
                         android:background="@android:color/transparent"
-                        android:hint="Select P.O.Date"
+                        android:hint="Select P.O. Date"
                         android:textColor="#000"
                         android:textSize="16sp" />
 

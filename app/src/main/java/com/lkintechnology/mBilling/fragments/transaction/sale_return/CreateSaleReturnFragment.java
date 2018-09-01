@@ -1245,7 +1245,7 @@ public class CreateSaleReturnFragment extends Fragment {
                 mShippedTo.setText(response.getSale_return_voucher().getData().getAttributes().getShipped_to_name());
                 mMobileNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
                 mNarration.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getNarration()));
-                mPoDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getPo_number()));
+                mPoDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getPo_date()));
                 mPoNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getPo_number()));
                 if (response.getSale_return_voucher().getData().getAttributes().getSale_name() != null && response.getSale_return_voucher().getData().getAttributes().getSale_id() != null) {
                     mVoucher.setText(response.getSale_return_voucher().getData().getAttributes().getSale_name());
