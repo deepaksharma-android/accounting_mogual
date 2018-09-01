@@ -136,6 +136,12 @@ public class CreatePurchaseFragment extends Fragment {
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.gst_nature_purchase)
     Spinner mGSTNature;
+    @Bind(R.id.po_number)
+    EditText mPoNumber;
+    @Bind(R.id.po_date)
+    TextView mPoDate;
+    @Bind(R.id.po_date_icon)
+    ImageView mPoDateIcon;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
@@ -247,6 +253,8 @@ public class CreatePurchaseFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        mPoDate.setText(Preferences.getInstance(getContext()).getPoDate());
+        mPoNumber.setText(Preferences.getInstance(getContext()).getPoNumber());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -295,6 +303,39 @@ public class CreatePurchaseFragment extends Fragment {
                         Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.purchase_date = date;
                         LocalRepositories.saveAppUser(getActivity(), appUser);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDateIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -484,11 +525,18 @@ public class CreatePurchaseFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
                                             appUser.purchase_attachment = encodedString;
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
+
                                             // Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -606,11 +654,18 @@ public class CreatePurchaseFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
                                             appUser.purchase_attachment = encodedString;
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
+
                                             //  Preferences.getInstance(getApplicationContext()).setPurchase_gst_nature(mGSTNature.getSelectedItem().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -946,6 +1001,10 @@ public class CreatePurchaseFragment extends Fragment {
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getContext()).setPoDate("");
+            Preferences.getInstance(getContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
@@ -991,6 +1050,8 @@ public class CreatePurchaseFragment extends Fragment {
     public void onPause() {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+        Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+        Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -1093,6 +1154,8 @@ public class CreatePurchaseFragment extends Fragment {
                 mShippedTo.setText(response.getPurchase_voucher().getData().getAttributes().getShipped_to_name());
                 mMobileNumber.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getMobile_number()));
                 mNarration.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getNarration()));
+                mPoDate.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getPo_date()));
+                mPoNumber.setText(Helpers.mystring(response.getPurchase_voucher().getData().getAttributes().getPo_number()));
                 Preferences.getInstance(getContext()).setStore(response.getPurchase_voucher().getData().getAttributes().getMaterial_center());
                 Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getPurchase_voucher().getData().getAttributes().getMaterial_center_id()));
                 Preferences.getInstance(getContext()).setPurchase_type_name(response.getPurchase_voucher().getData().getAttributes().getPurchase_type());
@@ -1328,6 +1391,10 @@ public class CreatePurchaseFragment extends Fragment {
             appUser.mListMapForItemPurchase.clear();
             appUser.mListMapForBillPurchase.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getContext()).setPoDate("");
+            Preferences.getInstance(getContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseFragment.context).attach(AddItemPurchaseFragment.context).commit();
