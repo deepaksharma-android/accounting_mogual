@@ -54,6 +54,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     Snackbar snackbar;
     AppUser appUser;
     public static Boolean posSetting = false;
+    public static Boolean posNotifyAdapter = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

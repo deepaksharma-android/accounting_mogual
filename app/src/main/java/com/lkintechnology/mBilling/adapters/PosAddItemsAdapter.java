@@ -109,9 +109,9 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                     viewHolder.mItemTotal.setText("₹ " + s);
                     setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
                 }
-                appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
+                ExpandableItemListActivity.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                 mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
-                appUser.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
+                ExpandableItemListActivity.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
                 mListMap.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
                 LocalRepositories.saveAppUser(context, appUser);
                 //  notifyDataSetChanged();
@@ -129,7 +129,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                     mInteger = mInteger - 1;
                     viewHolder.mQuantity.setText("" + mInteger);
 
-                    if (appUser.mListMapForItemSale.size() == 1) {
+                    if (ExpandableItemListActivity.mListMapForItemSale.size() == 1) {
                         if (mInteger == 0) {
                             mBool = false;
                         }
@@ -165,15 +165,14 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                             setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
                         }
                         if (mInteger == 0) {
-                            appUser.mListMapForItemSale.remove(position);
-                            mListMap.remove(position);
+                            ExpandableItemListActivity.mListMapForItemSale.remove(position);
+                           // mListMap.remove(position);
                             notifyDataSetChanged();
                         } else {
-                            appUser.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
+                            ExpandableItemListActivity.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                             mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
-                            appUser.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
+                            ExpandableItemListActivity.mListMapForItemSale.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
                             mListMap.get(position).put("total", String.valueOf(getMultiRateTaxChange(viewHolder.mItemTotal.getText().toString())));
-
                         }
                         LocalRepositories.saveAppUser(context, appUser);
                         //  EventBus.getDefault().post(new EventForPos("true"));

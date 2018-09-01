@@ -136,8 +136,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         grand_total.setText("₹ " + String.format("%.2f", subtotal));
 
         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
-            for (int i = 0; i < appUser.mListMapForItemSale.size(); i++) {
-                Map map = appUser.mListMapForItemSale.get(i);
+            for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
+                Map map = ExpandableItemListActivity.mListMapForItemSale.get(i);
                 String item_id = (String) map.get("item_id");
                 String tax1 = (String) map.get("tax");
                 quantity = (String) map.get("quantity");
@@ -203,7 +203,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         add_bill_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (appUser.mListMapForItemSale.size() > 0) {
+                if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
                     add_bill_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 5;
                     BillSundryListActivity.isDirectForBill = false;
@@ -220,7 +220,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 appUser = LocalRepositories.getAppUser(PosItemAddActivity.this);
                 submit.startAnimation(blinkOnClick);
-                if (appUser.mListMapForItemSale.size() > 0) {
+                if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
                     if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                         new AlertDialog.Builder(getApplicationContext())
                                 .setTitle("Email")
@@ -247,7 +247,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new PosAddItemsAdapter(this, appUser.mListMapForItemSale);
+        mAdapter = new PosAddItemsAdapter(this, ExpandableItemListActivity.mListMapForItemSale);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -348,8 +348,10 @@ public class PosItemAddActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FirstPageActivity.posSetting = true;
+        FirstPageActivity.posNotifyAdapter = true;
         if (backPress) {
             FirstPageActivity.posSetting = false;
+            FirstPageActivity.posNotifyAdapter = false;
         }
         finish();
         super.onBackPressed();
@@ -360,8 +362,10 @@ public class PosItemAddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 FirstPageActivity.posSetting = true;
+                FirstPageActivity.posNotifyAdapter = true;
                 if (backPress) {
                     FirstPageActivity.posSetting = false;
+                    FirstPageActivity.posNotifyAdapter = false;
                 }
                 finish();
                 super.onBackPressed();
@@ -1350,18 +1354,18 @@ public class PosItemAddActivity extends AppCompatActivity {
         appUser.totalamount = String.valueOf(txtSplit(PosItemAddActivity.grand_total.getText().toString()));
         appUser.items_amount = String.valueOf(txtSplit(PosItemAddActivity.mSubtotal.getText().toString()));
         Double bill_sundries_amount = 0.0;
-        for (int i = 0; i < billSundryTotal.size(); i++) {
-            bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
-        }
-        appUser.bill_sundries_amount = String.valueOf(bill_sundries_amount);
         appUser.billsundrytotal.clear();
         appUser.mListMapForBillSale.clear();
-        for (int i =0; i<billSundryTotal.size();i++){
+        appUser.mListMapForItemSale.clear();
+        for (int i = 0; i < billSundryTotal.size(); i++) {
+            bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
             if (!billSundryTotal.get(i).equals("0.00")){
                 appUser.billsundrytotal.add(billSundryTotal.get(i));
                 appUser.mListMapForBillSale.add(mListMapForBillSale.get(i));
             }
         }
+        appUser.mListMapForItemSale = ExpandableItemListActivity.mListMapForItemSale;
+        appUser.bill_sundries_amount = String.valueOf(bill_sundries_amount);
         // voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         if (aBoolean) {
             appUser.email_yes_no = "true";
@@ -1399,6 +1403,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             backPress = true;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            ExpandableItemListActivity.mListMapForItemSale.clear();
             mListMapForBillSale.clear();
             appUser.arr_series.clear();
             appUser.series_details.clear();

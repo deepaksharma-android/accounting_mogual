@@ -20,6 +20,7 @@ import com.lkintechnology.mBilling.utils.EventSaleAddItem;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
-    private HashMap<Integer, String[]> mChildCheckStates;
+
     private HashMap<Integer, List<String>> listDataChildSalePriceMain;
     public static Map mMapPosItem;
     private int comingFromPOS;
@@ -40,11 +41,11 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     Double sale_price_main = 0.0;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<String>> listChildData,HashMap<Integer, List<String>> listDataChildSalePriceMain,int comingFromPOS) {
+                                     HashMap<String, List<String>> listChildData, HashMap<Integer, List<String>> listDataChildSalePriceMain, int comingFromPOS) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
-        mChildCheckStates = new HashMap<Integer, String[]>();
+        ExpandableItemListActivity.mChildCheckStates = new HashMap<Integer, String[]>();
         this.listDataChildSalePriceMain = listDataChildSalePriceMain;
         this.comingFromPOS = comingFromPOS;
     }
@@ -62,6 +63,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
     String childName;
     int mInteger = 0;
+
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -69,14 +71,15 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         final int mChildPosition = childPosition;
         mInteger = 0;
         final String childText = (String) getChild(groupPosition, childPosition);
-        String arr[]=childText.split(",");
-        String name =arr[0];
-        String quantity =arr[1];
+        String arr[] = childText.split(",");
+        String name = arr[0];
+        String quantity = arr[1];
+        String item_id = arr[3];
         total = 0.0;
         sale_price_main = 0.0;
-        if (arr[2]!=null && !arr[2].equals("")){
+        if (arr[2] != null && !arr[2].equals("")) {
             sale_price_main = Double.valueOf(arr[2]);
-        }else {
+        } else {
             sale_price_main = 0.0;
         }
         if (convertView == null) {
@@ -87,7 +90,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         LinearLayout old_layout = (LinearLayout) convertView.findViewById(R.id.old_layout);
         LinearLayout new_layout = (LinearLayout) convertView.findViewById(R.id.new_layout);
         LinearLayout mainLayout = (LinearLayout) convertView.findViewById(R.id.main_layout);
-        if (comingFromPOS==6 &&  !ExpandableItemListActivity.isDirectForItem){
+
+        if (comingFromPOS == 6 && !ExpandableItemListActivity.isDirectForItem) {
             old_layout.setVisibility(View.GONE);
             new_layout.setVisibility(View.VISIBLE);
             TextView txtListChild = (TextView) convertView.findViewById(R.id.posListItem);
@@ -98,15 +102,41 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LinearLayout add_layout = (LinearLayout) convertView.findViewById(R.id.add_layout);
             LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
             LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
-            txtListChild.setText(name+" (qty: "+quantity+")");
-            mItemAmount.setText("₹ "+sale_price_main);
+
+           /* if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
+                ExpandableItemListActivity.mChildCheckStates = new HashMap<Integer, String[]>();
+                String pos = groupPosition + "," + childPosition;
+                for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
+                    String item_id_child = ExpandableItemListActivity.mListMapForItemSale.get(i).get("item_id").toString();
+                    if (item_id.equals(item_id_child)) {
+                        mQuantity.setText(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
+                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(mMapPosItem.toString());
+                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = mQuantity.getText().toString();
+                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
+                      *//*  plus_minus_layout.setVisibility(View.VISIBLE);
+                        add_layout.setVisibility(View.GONE);*//*
+                    } else {
+                        *//*plus_minus_layout.setVisibility(View.GONE);
+                        add_layout.setVisibility(View.VISIBLE);*//*
+                        mQuantity.setText("0");
+                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = mQuantity.getText().toString();
+                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
+                    }
+                }
+            }*/
+
+            txtListChild.setText(name + " (qty: " + quantity + ")");
+            mItemAmount.setText("₹ " + sale_price_main);
             mItemTotal.setText("₹ 0.0");
-            if (mChildCheckStates.containsKey(mGroupPosition)) {
-                String getChecked[] = mChildCheckStates.get(mGroupPosition);
-                if (getChecked[mChildPosition]==null || getChecked[mChildPosition].equals("0")){
+            if (ExpandableItemListActivity.mChildCheckStates.containsKey(mGroupPosition)) {
+                String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                if (getChecked[mChildPosition] == null || getChecked[mChildPosition].equals("0")) {
                     plus_minus_layout.setVisibility(View.GONE);
                     add_layout.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mQuantity.setText(getChecked[mChildPosition]);
                     plus_minus_layout.setVisibility(View.VISIBLE);
                     add_layout.setVisibility(View.GONE);
@@ -114,7 +144,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
             } else {
                 String getChecked[] = new String[getChildrenCount(mGroupPosition)];
-                mChildCheckStates.put(mGroupPosition, getChecked);
+                ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                 //mQuantity.setText("0");
             }
 
@@ -122,7 +152,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String pos = groupPosition+","+childPosition;
+                    String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     // String pos = listDataChildId.get(mGroupPosition).get(childPosition);
                     try {
@@ -130,11 +160,11 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     } catch (Exception e) {
                         mInteger = 0;
                     }
-                    if (mInteger>0){
+                    if (mInteger > 0) {
 
                         mInteger = mInteger - 1;
                         mQuantity.setText("" + mInteger);
-                        setTotal(String.valueOf(sale_price_main),false);
+                        setTotal(String.valueOf(sale_price_main), false);
 
                         String arr = mItemTotal.getText().toString();
                         String[] arr1 = arr.split("₹ ");
@@ -142,7 +172,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         Double amount = Double.valueOf(sale_price_main);
                         String s = String.valueOf(total - amount);
                         mItemTotal.setText("₹ " + s);
-                        if (mInteger==0){
+                        if (mInteger == 0) {
                             plus_minus_layout.setVisibility(View.GONE);
                             add_layout.setVisibility(View.VISIBLE);
                             mItemTotal.setText("₹ " + 0.0);
@@ -155,16 +185,16 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         }
                     }
 
-                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
-                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
 
                 }
             });
             increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String pos = groupPosition+","+childPosition;
+                    String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     add_layout.setVisibility(View.GONE);
                     plus_minus_layout.setVisibility(View.VISIBLE);
@@ -178,7 +208,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     mQuantity.setText("" + mInteger);
 
                     //total = sale_price_main * mInteger;
-                    setTotal(String.valueOf(sale_price_main),true);
+                    setTotal(String.valueOf(sale_price_main), true);
 
                     //Item total code
                     String arr = mItemTotal.getText().toString();
@@ -188,9 +218,9 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     String s = String.valueOf(total + amount);
                     mItemTotal.setText("₹ " + s);
 
-                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
-                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                     if (!mQuantity.getText().toString().equals("")) {
                         mMapPosItem.put(pos, mQuantity.getText().toString());
                         System.out.println(mMapPosItem.toString());
@@ -201,14 +231,14 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             add_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String pos = groupPosition+","+childPosition;
+                    String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     mQuantity.setText("1");
                     mItemTotal.setText("₹ " + sale_price_main);
-                    setTotal(String.valueOf(sale_price_main),true);
-                    String getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    setTotal(String.valueOf(sale_price_main), true);
+                    String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                     getChecked[mChildPosition] = mQuantity.getText().toString();
-                    mChildCheckStates.put(mGroupPosition, getChecked);
+                    ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                     if (!mQuantity.getText().toString().equals("")) {
                         mMapPosItem.put(pos, mQuantity.getText().toString());
                         System.out.println(mMapPosItem.toString());
@@ -226,7 +256,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     EventBus.getDefault().post(new EventEditItem(id));
                 }
             });*/
-        }else {
+        } else {
             old_layout.setVisibility(View.VISIBLE);
             new_layout.setVisibility(View.GONE);
 
@@ -256,12 +286,11 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             mainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String id=groupPosition+","+childPosition;
+                    String id = groupPosition + "," + childPosition;
                     EventBus.getDefault().post(new EventSaleAddItem(id));
                 }
             });
         }
-
 
 
         return convertView;
@@ -301,7 +330,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
+        ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
 
        /* if (comingFromPOS==6 &&  !ExpandableItemListActivity.isDirectForItem){
             imageview.setVisibility(View.GONE);
@@ -315,10 +344,9 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             });
         }*/
 
-        if(isExpanded){
+        if (isExpanded) {
             imageview.setImageResource(R.drawable.up_arrow);
-        }
-        else{
+        } else {
             imageview.setImageResource(R.drawable.down_arrow);
         }
 
@@ -335,24 +363,24 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void setTotal(String amount, Boolean mBool){
+    public void setTotal(String amount, Boolean mBool) {
         Double total = 0.0;
-        if (mBool){
-            total =  getTotal() + Double.valueOf(amount);
-        }else {
+        if (mBool) {
+            total = getTotal() + Double.valueOf(amount);
+        } else {
             total = getTotal() - Double.valueOf(amount);
         }
-        ExpandableItemListActivity.mTotal.setText("Total : "+total);
+        ExpandableItemListActivity.mTotal.setText("Total : " + total);
     }
 
-    public Double getTotal(){
+    public Double getTotal() {
         String total = ExpandableItemListActivity.mTotal.getText().toString();
         String[] arr = total.split(":");
         Double a = Double.valueOf(arr[1].trim());
         return a;
     }
 
-    public  String splitString(String total) {
+    public String splitString(String total) {
         // String total = PosItemAddActivity.mSubtotal.getText().toString();
         if (total.equals("0.0")) {
             total = "₹ 0.0";

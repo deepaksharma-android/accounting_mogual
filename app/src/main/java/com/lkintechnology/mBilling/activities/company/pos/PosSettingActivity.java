@@ -110,6 +110,7 @@ public class PosSettingActivity extends AppCompatActivity {
             Preferences.getInstance(getApplicationContext()).setPos_date(date1);
         }
         FirstPageActivity.posSetting = true;
+        FirstPageActivity.posNotifyAdapter = false;
         blinkOnClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_on_click);
 
         mSaleType.setText(Preferences.getInstance(getApplicationContext()).getPos_sale_type());
@@ -334,6 +335,8 @@ public class PosSettingActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 appUser.billsundrytotal.clear();
                 appUser.mListMapForItemSale.clear();
+                ExpandableItemListActivity.mListMapForItemSale.clear();
+                PosItemAddActivity.mListMapForBillSale.clear();
                 appUser.mListMapForBillSale.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String result = data.getStringExtra("name");

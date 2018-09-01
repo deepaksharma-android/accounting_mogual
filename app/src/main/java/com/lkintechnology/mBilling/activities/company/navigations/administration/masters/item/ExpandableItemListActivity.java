@@ -103,7 +103,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     TextView mSubmit;
     @Bind(R.id.submit_layout)
     LinearLayout submit_layout;
-    ItemExpandableListAdapter listAdapter;
+    public static ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<String>> listDataChildId;
@@ -128,10 +128,10 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     HashMap<Integer, List<String>> listDataChildPurchasePriceAlternate;
     HashMap<Integer, List<String>> listDataChildPackagingPurchasePrice;
     public Map<String, String> mPurchaseVoucherItem;
-
+    public static HashMap<Integer, String[]> mChildCheckStates;
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
-
+    public static List<Map> mListMapForItemSale;
     // Boolean fromsalelist;
 
 
@@ -241,7 +241,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                         if (ItemExpandableListAdapter.mMapPosItem.size() > 0) {
                                             // Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
                                             appUser.billsundrytotal.clear();
-                                            appUser.mListMapForItemSale.clear();
+                                            mListMapForItemSale.clear();
                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                                                     R.anim.blink_on_click);
@@ -350,7 +350,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                             // mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
                                                             // mMap.put("id", itemid);
 
-                                                            appUser.mListMapForItemSale.add(mMap);
+                                                            mListMapForItemSale.add(mMap);
                                                             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                                         }
                                                     }
@@ -358,7 +358,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                             }
                                             Preferences.getInstance(getApplicationContext()).setParty_name("");
                                             Preferences.getInstance(getApplicationContext()).setParty_id("");
-                                            if ( appUser.mListMapForItemSale.size()>0){
+                                            if (mListMapForItemSale.size()>0){
                                                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                                                 intent.putExtra("subtotal", subtotal);
                                                 boolForAdapterSet = true;
@@ -452,15 +452,15 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         Boolean isConnected = ConnectivityReceiver.isConnected();
        /* if(isDirectForItem==true){*/
         if (!FirstPageActivity.posSetting) {
+            mListMapForItemSale = new ArrayList();
+            FirstPageActivity.posNotifyAdapter = false;
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.show();
-                appUser.mListMapForItemSale.clear();
                 ItemExpandableListAdapter.mMapPosItem.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_ITEM);
             } else {
                 snackbar = Snackbar
@@ -476,8 +476,15 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
-
         }
+       /* if (FirstPageActivity.posNotifyAdapter){
+            System.out.println(mListMapForItemSale);
+            expListView.setAdapter(listAdapter);
+            listAdapter.notifyDataSetChanged();
+            for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+                expListView.expandGroup(i);
+            }
+        }*/
  /*       }else{
             if (isConnected) {
                 mProgressDialog = new ProgressDialog(this);
@@ -595,7 +602,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 for (int j = 0; j < response.getOrdered_items().get(i).getData().size(); j++) {
                     name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
                             + "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getTotal_stock_quantity()
-                            + "," + response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()));
+                            + "," + response.getOrdered_items().get(i).getData().get(j).getAttributes().getSales_price_main()
+                            + "," + response.getOrdered_items().get(i).getData().get(j).getId()));
 
                     nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
                     idList.add(String.valueOf(i) + "," + String.valueOf(j));

@@ -28,6 +28,7 @@ import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.CompanyDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.MasterDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.adapters.ItemExpandableListAdapter;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -183,7 +184,6 @@ public class BaseActivityCompany extends AppCompatActivity {
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
         appUser.billsundrytotal.clear();
-        LocalRepositories.saveAppUser(getApplicationContext(), appUser);
         Preferences.getInstance(getApplicationContext()).setVoucher_number("");
         Preferences.getInstance(getApplicationContext()).setParty_id("");
         Preferences.getInstance(getApplicationContext()).setParty_name("");
