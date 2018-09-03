@@ -336,7 +336,7 @@ public class PosSettingActivity extends AppCompatActivity {
                 appUser.billsundrytotal.clear();
                 appUser.mListMapForItemSale.clear();
                 ExpandableItemListActivity.mListMapForItemSale.clear();
-                appUser.mListMapForBillSale.clear();
+                ExpandableItemListActivity.mListMapForBillSale.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");

@@ -100,7 +100,7 @@ public class PosAddBillActivity extends AppCompatActivity {
         if (frombillvoucherlist) {
             pos = getIntent().getExtras().getInt("pos");
             Map map = new HashMap<>();
-            map = PosItemAddActivity.mListMapForBillSale.get(pos);
+            map = ExpandableItemListActivity.mListMapForBillSale.get(pos);
             billSundryFedAsPercentagePrevious = (String) map.get("previous");
             billSundaryPercentage = (String) map.get("percentage_value");
             String val=(String)map.get("percentage");
@@ -270,12 +270,12 @@ public class PosAddBillActivity extends AppCompatActivity {
                     mMap.put("other", billsundryothername);
                 }
                 if (!frombillvoucherlist) {
-                    PosItemAddActivity.mListMapForBillSale.add(mMap);
+                    ExpandableItemListActivity.mListMapForBillSale.add(mMap);
                     // appUser.mListMap = mListMap;
                     //LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 } else {
-                    PosItemAddActivity.mListMapForBillSale.remove(finalPos);
-                    PosItemAddActivity.mListMapForBillSale.add(finalPos, mMap);
+                    ExpandableItemListActivity.mListMapForBillSale.remove(finalPos);
+                    ExpandableItemListActivity.mListMapForBillSale.add(finalPos, mMap);
                    // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
                 hideKeyPad();

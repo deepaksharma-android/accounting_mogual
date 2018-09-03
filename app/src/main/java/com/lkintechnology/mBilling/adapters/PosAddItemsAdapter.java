@@ -102,7 +102,6 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
                     Double gst = item_amount * taxValue / 100;
-                    System.out.println(PosItemAddActivity.billSundryTotal);
                     viewHolder.mItemTotal.setText("₹ " + s);
                     setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
                 } else {
@@ -202,7 +201,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         PosItemAddActivity.grand_total.setText("₹ " + String.format("%.2f", grandTotal));
         //setTaxChange(context, total, gst, taxValue, tax, mBool);
         //  appUser = LocalRepositories.getAppUser(context);
-        if (PosItemAddActivity.mListMapForBillSale.size() > 0) {
+        if (ExpandableItemListActivity.mListMapForBillSale.size() > 0) {
             if (taxString.contains("GST-MultiRate")) {
                 String subTotal = String.valueOf(total) + "," + String.valueOf(gst) + "," + String.valueOf(taxValue) + "," + String.valueOf(mBool);
                 EventBus.getDefault().post(new EventForPos(subTotal));

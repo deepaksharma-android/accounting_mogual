@@ -45,9 +45,9 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
-        ExpandableItemListActivity.mChildCheckStates = new HashMap<Integer, String[]>();
         this.listDataChildSalePriceMain = listDataChildSalePriceMain;
         this.comingFromPOS = comingFromPOS;
+        ExpandableItemListActivity.mChildCheckStates = new HashMap<Integer, String[]>();
     }
 
     @Override
@@ -102,25 +102,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LinearLayout add_layout = (LinearLayout) convertView.findViewById(R.id.add_layout);
             LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
             LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
-
-            if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
-
-                for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
-                    String item_id_child = ExpandableItemListActivity.mListMapForItemSale.get(i).get("item_id").toString();
-                    if (item_id.equals(item_id_child)) {
-                        String pos = groupPosition + "," + childPosition;
-                        mQuantity.setText(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
-                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = mQuantity.getText().toString();
-                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
-                        mMapPosItem.put(pos, mQuantity.getText().toString());
-                    }
-                }
-            }
-
-            txtListChild.setText(name + " (qty: " + quantity + ")");
-            mItemAmount.setText("₹ " + sale_price_main);
-            mItemTotal.setText("₹ 0.0");
             if (ExpandableItemListActivity.mChildCheckStates.containsKey(mGroupPosition)) {
                 String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                 if (getChecked[mChildPosition] == null || getChecked[mChildPosition].equals("0")) {
@@ -137,6 +118,23 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                 //mQuantity.setText("0");
             }
+            if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
+                for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
+                    String item_id_child = ExpandableItemListActivity.mListMapForItemSale.get(i).get("item_id").toString();
+                    if (item_id.equals(item_id_child)) {
+                        String pos = groupPosition + "," + childPosition;
+                        mQuantity.setText(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
+                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = mQuantity.getText().toString();
+                        ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
+                    }
+                }
+            }
+
+            txtListChild.setText(name + " (qty: " + quantity + ")");
+            mItemAmount.setText("₹ " + sale_price_main);
+            mItemTotal.setText("₹ 0.0");
 
 
             decrease.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +165,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             add_layout.setVisibility(View.VISIBLE);
                             mItemTotal.setText("₹ " + 0.0);
                             mQuantity.setText("0");
-                        }
-
-                        if (!mQuantity.getText().toString().equals("")) {
+                            mMapPosItem.put(pos, "0");
+                        }else {
                             mMapPosItem.put(pos, mQuantity.getText().toString());
                             System.out.println(mMapPosItem.toString());
                         }

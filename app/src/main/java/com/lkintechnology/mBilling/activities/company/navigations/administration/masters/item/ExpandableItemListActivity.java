@@ -132,6 +132,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public Map<String, String> mPurchaseReturnItem;
     public Map<String, String> mSaleReturnItem;
     public static List<Map> mListMapForItemSale;
+    public static List<Map<String, String>> mListMapForBillSale;
+    public static ArrayList<String> billSundryTotal;
     // Boolean fromsalelist;
 
 
@@ -174,10 +176,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
      /*   if (isFirstTime()) {
             mOverlayLayout.setVisibility(View.INVISIBLE);
         }*/
+        mListMapForBillSale = new ArrayList();
+        billSundryTotal = new ArrayList<>();
         initActionbar();
         mTotal = (TextView) findViewById(R.id.total);
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
@@ -240,9 +243,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                     if (!Preferences.getInstance(getApplicationContext()).getPos_party_name().equals("")) {
                                         if (ItemExpandableListAdapter.mMapPosItem.size() > 0) {
                                             // Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
-                                            appUser.billsundrytotal.clear();
                                             mListMapForItemSale.clear();
-                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                          //  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                                             Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                                                     R.anim.blink_on_click);
                                             v.startAnimation(animFadeIn);
@@ -410,10 +412,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     mOverlayLayout.setVisibility(View.INVISIBLE);
                     return false;
                 }
-
             });
-
-
         }
         return ranBefore;
     }
@@ -479,7 +478,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             }
         }
         if (FirstPageActivity.posNotifyAdapter){
-            System.out.println(mListMapForItemSale);
+            mChildCheckStates = new HashMap<Integer, String[]>();
             expListView.setAdapter(listAdapter);
             listAdapter.notifyDataSetChanged();
             for (int i = 0; i < listAdapter.getGroupCount(); i++) {
