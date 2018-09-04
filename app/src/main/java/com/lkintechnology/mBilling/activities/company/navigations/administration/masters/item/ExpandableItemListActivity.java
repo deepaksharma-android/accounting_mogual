@@ -1728,6 +1728,13 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             Helpers.dialogMessage(ExpandableItemListActivity.this, response.getMessage());
         }
     }
+
+    public Double getTotal() {
+        String total = ExpandableItemListActivity.mTotal.getText().toString();
+        String[] arr = total.split(":");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
+    }
 }
 
 
