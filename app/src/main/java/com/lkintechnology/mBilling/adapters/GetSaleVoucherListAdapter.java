@@ -138,11 +138,9 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                     appUser.edit_sale_voucher_id=data.get(position).getId();
                     LocalRepositories.saveAppUser(context,appUser);
                     Intent intent = new Intent(context, CreateSaleActivity.class);
-                   // Intent intent = new Intent(context, ExpandableItemListActivity.class);
+                    //Intent intent = new Intent(context, ExpandableItemListActivity.class);
                     intent.putExtra("fromsalelist",true);
                     intent.putExtra("fromdashboard",false);
-                    FirstPageActivity.comingFromUpdate = true;
-                    FirstPageActivity.comingFromUpdate = true;
                     context.startActivity(intent);
                 }
 

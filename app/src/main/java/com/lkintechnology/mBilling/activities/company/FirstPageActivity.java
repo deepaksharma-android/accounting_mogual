@@ -55,7 +55,6 @@ public class FirstPageActivity extends BaseActivityCompany {
     AppUser appUser;
     public static Boolean posSetting = false;
     public static Boolean posNotifyAdapter = false;
-    public static Boolean comingFromUpdate = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -173,12 +173,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
-        if (FirstPageActivity.comingFromUpdate){
-            ExpandableItemListActivity.comingFrom = 6;
-            ExpandableItemListActivity.isDirectForItem = false;
-            FirstPageActivity.posSetting = false;
-            ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
-        }
         mListMapForBillSale = new ArrayList();
         billSundryTotal = new ArrayList<>();
         initActionbar();

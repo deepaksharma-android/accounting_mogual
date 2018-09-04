@@ -292,7 +292,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                        // billCalculationForMultiRate(subtotal, 0.0, 0.0, true, false);
                     } else {
                         billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
-
                     }
 
                 } else {

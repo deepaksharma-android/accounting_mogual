@@ -51,6 +51,8 @@ public class PosAddBillActivity extends AppCompatActivity {
     LinearLayout mTotalLayout;
     @Bind(R.id.totalAmountLayout)
     LinearLayout mTotalAmountLayout;
+    @Bind(R.id.percentageLayout)
+    LinearLayout mPercentageLayout;
     @Bind(R.id.defaultvaluetext)
     TextView mDefaulttext;
     @Bind(R.id.submit)
@@ -160,15 +162,14 @@ public class PosAddBillActivity extends AppCompatActivity {
 
 //        Timber.i("SIZE"+appUser.arr_billSundryId.get(1));
 
-        if (/*data.getAttributes().getAmount_of_bill_sundry_fed_as()*/billSundryFedAs.equals("Percentage")) {
-            // mPercentageLayout.setVisibility(View.VISIBLE);
+        if (billSundryFedAs.equals("Percentage")) {
+            mPercentageLayout.setVisibility(View.VISIBLE);
             mTotalLayout.setVisibility(View.VISIBLE);
             //  percentage.setText(billSundaryPercentage);
         } else if(billSundryFedAs.equals("Absolute Amount")) {
             mDefaulttext.setText("Default Amount");
             mTotalAmountLayout.setVisibility(View.GONE);
-
-            //  mPercentageLayout.setVisibility(View.GONE);
+            mPercentageLayout.setVisibility(View.GONE);
             // percentage.setText("");
         }
 
