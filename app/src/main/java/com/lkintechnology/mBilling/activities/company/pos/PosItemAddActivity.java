@@ -293,7 +293,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                     } else {
                         billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
                     }
-
                 } else {
                     if (mListMapForBillSale.size() == billSundryTotal.size()) {
                         Double subtotal = txtSplit(mSubtotal.getText().toString());
@@ -1362,32 +1361,19 @@ public class PosItemAddActivity extends AppCompatActivity {
     }
 
     void apiCall(Boolean aBoolean) {
-        appUser.sale_date = Preferences.getInstance(getApplicationContext()).getPos_date();
-        appUser.sale_series = Preferences.getInstance(getApplicationContext()).getVoucherSeries();
-        appUser.sale_vchNo = Preferences.getInstance(getApplicationContext()).getVoucher_number();
-        Preferences.getInstance(getApplicationContext()).setSale_type_id(Preferences.getInstance(getApplicationContext()).getPos_sale_type_id());
-        Preferences.getInstance(getApplicationContext()).setSale_type_name(Preferences.getInstance(getApplicationContext()).getPos_sale_type());
-        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
-        Preferences.getInstance(getApplicationContext()).setStoreId(Preferences.getInstance(getApplicationContext()).getPos_store_id());
-        if (Preferences.getInstance(getApplicationContext()).getParty_id().equals("")) {
-            Preferences.getInstance(getApplicationContext()).setParty_id(Preferences.getInstance(getApplicationContext()).getPos_party_id());
-            Preferences.getInstance(getApplicationContext()).setParty_name(Preferences.getInstance(getApplicationContext()).getPos_party_name());
-            appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getPos_mobile();
-        } else {
-            appUser.sale_mobileNumber = Preferences.getInstance(getApplicationContext()).getMobile();
-        }
-
         appUser.totalamount = String.valueOf(txtSplit(PosItemAddActivity.grand_total.getText().toString()));
         appUser.items_amount = String.valueOf(txtSplit(PosItemAddActivity.mSubtotal.getText().toString()));
         Double bill_sundries_amount = 0.0;
         appUser.billsundrytotal.clear();
         appUser.mListMapForBillSale.clear();
         appUser.mListMapForItemSale.clear();
-        for (int i = 0; i < billSundryTotal.size(); i++) {
-            bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
-            if (!billSundryTotal.get(i).equals("0.00")) {
-                appUser.billsundrytotal.add(billSundryTotal.get(i));
-                appUser.mListMapForBillSale.add(mListMapForBillSale.get(i));
+        if (billSundryTotal.size()>0){
+            for (int i = 0; i < billSundryTotal.size(); i++) {
+                bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
+                if (!billSundryTotal.get(i).equals("0.00")) {
+                    appUser.billsundrytotal.add(billSundryTotal.get(i));
+                    appUser.mListMapForBillSale.add(mListMapForBillSale.get(i));
+                }
             }
         }
         appUser.mListMapForItemSale = ExpandableItemListActivity.mListMapForItemSale;
@@ -1398,6 +1384,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         } else {
             appUser.email_yes_no = "false";
         }
+        appUser.pos_identifier = true;
         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
         Boolean isConnected = ConnectivityReceiver.isConnected();
@@ -1407,7 +1394,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_SALE_VOUCHER);
+            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_POS_VOUCHER);
         } else {
             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                 @Override
@@ -1423,10 +1410,11 @@ public class PosItemAddActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void createPosSaleVoucher(CreateSaleVoucherResponse response) {
+    public void createPosVoucher(CreateSaleVoucherResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
             backPress = true;
+            appUser.pos_identifier = false;
             Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             appUser.mListMapForItemSale.clear();
             appUser.mListMapForBillSale.clear();

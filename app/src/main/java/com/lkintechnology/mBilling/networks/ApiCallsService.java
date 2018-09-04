@@ -31,6 +31,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreateIncome;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateJournalVoucher;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateMaterialCentre;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreatePOSVoucher;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreatePayment;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchase;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateReceipt;
@@ -582,6 +583,8 @@ public class ApiCallsService extends IntentService {
             handleCompanyInvoice();
         } else if (Cv.ACTION_VOUCHER_SERIES.equals(action)) {
             handleGetVoucherSeries();
+        }else if (Cv.ACTION_CREATE_POS_VOUCHER.equals(action)) {
+            handlePosVoucher();
         }
         /*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
@@ -3519,7 +3522,6 @@ public class ApiCallsService extends IntentService {
                 }
             }
         });
-
     }
 
     private void handleGetSaleVoucherList() {
@@ -4791,6 +4793,29 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<VoucherSeriesResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handlePosVoucher() {
+        api.createPosVoucher(new RequestCreatePOSVoucher(this), Preferences.getInstance(this).getCid()).enqueue(new Callback<CreateSaleVoucherResponse>() {
+            @Override
+            public void onResponse(Call<CreateSaleVoucherResponse> call, Response<CreateSaleVoucherResponse> r) {
+                if (r.code() == 200) {
+                    CreateSaleVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

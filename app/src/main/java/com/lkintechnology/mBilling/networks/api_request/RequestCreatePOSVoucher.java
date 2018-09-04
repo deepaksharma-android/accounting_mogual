@@ -8,28 +8,30 @@ import com.lkintechnology.mBilling.utils.Preferences;
 
 import java.util.HashMap;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * Created by BerylSystems on 11/23/2017.
  */
 
-public class RequestCreateSaleVoucher {
+public class RequestCreatePOSVoucher {
     public HashMap voucher;
     public HashMap items;
-    public RequestCreateSaleVoucher(Context ctx){
+    public RequestCreatePOSVoucher(Context ctx){
        AppUser appUser = LocalRepositories.getAppUser(ctx);
        voucher = new HashMap<>();
         voucher.put("pos", appUser.pos_identifier);
-        voucher.put("date", appUser.sale_date);
-        voucher.put("voucher_series", appUser.sale_series);
-        voucher.put("voucher_number", appUser.sale_vchNo);
+        voucher.put("date", Preferences.getInstance(getApplicationContext()).getPos_date());
+        voucher.put("voucher_series",Preferences.getInstance(getApplicationContext()).getVoucherSeries());
+        voucher.put("voucher_number", Preferences.getInstance(getApplicationContext()).getVoucher_number());
         voucher.put("company_id", Preferences.getInstance(ctx).getCid());
-        voucher.put("sale_type_id", Preferences.getInstance(ctx).getSale_type_id());
+        voucher.put("sale_type_id", Preferences.getInstance(getApplicationContext()).getPos_sale_type_id());
         voucher.put("payment_type", Preferences.getInstance(ctx).getCash_credit());
-        voucher.put("account_master_id",Preferences.getInstance(ctx).getParty_id());
-        voucher.put("shipped_to_id",Preferences.getInstance(ctx).getShipped_to_id());
-        voucher.put("mobile_number", appUser.sale_mobileNumber);
-        voucher.put("material_center_id",Preferences.getInstance(ctx).getStoreId());
-        voucher.put("narration", appUser.sale_narration);
+        voucher.put("account_master_id",Preferences.getInstance(ctx).getPos_party_id());
+        voucher.put("shipped_to_id","");
+        voucher.put("mobile_number", Preferences.getInstance(getApplicationContext()).getPos_mobile());
+        voucher.put("material_center_id",Preferences.getInstance(ctx).getPos_store_id());
+        voucher.put("narration", "");
         voucher.put("items", appUser.mListMapForItemSale);
         voucher.put("bill_sundry_amount",appUser.billsundrytotal);
         voucher.put("bill_sundry", appUser.mListMapForBillSale);
@@ -38,7 +40,7 @@ public class RequestCreateSaleVoucher {
         voucher.put("bill_sundries_amount", appUser.bill_sundries_amount);
         voucher.put("send_email",appUser.email_yes_no);
         //voucher.put("attachment",appUser.sale_attachment);
-        voucher.put("attachment",Preferences.getInstance(ctx).getAttachment());
+        voucher.put("attachment","");
         voucher.put("transport_details",appUser.transport_details);
         voucher.put("payment_settlement",appUser.paymentSettlementHashMap);
    }

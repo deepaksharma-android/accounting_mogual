@@ -25,6 +25,7 @@ import com.lkintechnology.mBilling.networks.api_request.RequestCreateIncome;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateJournalVoucher;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateMaterialCentre;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreateMaterialCentreGroup;
+import com.lkintechnology.mBilling.networks.api_request.RequestCreatePOSVoucher;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreatePayment;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchase;
 import com.lkintechnology.mBilling.networks.api_request.RequestCreatePurchaseReturn;
@@ -740,5 +741,8 @@ public interface Api {
 
     @GET("get_series/{id}")
     Call<VoucherSeriesResponse> getseries(@Path("id") String id, @Query("voucher_type") String type);
+
+    @POST("sale_voucher/{id}")
+    Call<CreateSaleVoucherResponse> createPosVoucher(@Body RequestCreatePOSVoucher createItem, @Path("id") String id);
 
 }

@@ -583,5 +583,6 @@ public class AppUser {
     public String grandTotal;
     public String subTotal;
     public int voucherSeriesPosition = -1;
+    public Boolean pos_identifier = false;
 
 }

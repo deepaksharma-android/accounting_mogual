@@ -9,9 +9,9 @@ public interface Cv {
 
 
 
-      String BASE_URL = "https://mbilling.in/api/v1/";
-     // String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
-       // String BASE_URL = "http://192.168.1.14:3000/api/v1/";
+     // String BASE_URL = "https://mbilling.in/api/v1/";
+      String BASE_URL = "http://accounts.geeksonrails.com/api/v1/";
+      //  String BASE_URL = "http://192.168.1.27:3000/api/v1/";
 
 
     int PERMISSIONS_BUZZ_REQUEST = 0xABC;
@@ -208,6 +208,7 @@ public interface Cv {
     String ACTION_GET_SALE_VOUCHERS_ITEM_DETAILS= "action_get_sale_voucher_item_details";
     String ACTION_GET_PURCHASE_VOUCHERS_ITEM = "action_get_purchase_vouchers_item";
     String ACTION_GET_PURCHASE_VOUCHERS_ITEM_DETAILS= "action_get_purchase_voucher_item_details";
+    String ACTION_CREATE_POS_VOUCHER = "action_create_pos_voucher";
 
     int REQUEST_CAMERA = 0xABBA;
     int REQUEST_GALLERY = 0xBABA;
