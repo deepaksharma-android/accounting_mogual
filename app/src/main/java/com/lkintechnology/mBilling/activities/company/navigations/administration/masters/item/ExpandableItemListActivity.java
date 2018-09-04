@@ -173,9 +173,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable_item_list);
         ButterKnife.bind(this);
-     /*   if (isFirstTime()) {
-            mOverlayLayout.setVisibility(View.INVISIBLE);
-        }*/
+        if (FirstPageActivity.comingFromUpdate){
+            ExpandableItemListActivity.comingFrom = 6;
+            ExpandableItemListActivity.isDirectForItem = false;
+            FirstPageActivity.posSetting = false;
+            ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
+        }
         mListMapForBillSale = new ArrayList();
         billSundryTotal = new ArrayList<>();
         initActionbar();
@@ -186,16 +189,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         long date = System.currentTimeMillis();
         String dateString = dateFormatter.format(date);
         appUser.stock_in_hand_date = dateString;
-//        fromsalelist = getIntent().getExtras().getBoolean("fromsalelist");
-
-      /*  mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
-        if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
-            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
-                mVchNumber.setEnabled(false);
-            } else {
-                mVchNumber.setEnabled(true);
-            }
-        }*/
 
         if (ExpandableItemListActivity.comingFrom == 6) {
             floatingActionButton.setVisibility(View.GONE);
@@ -785,8 +778,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             // Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(this, response.getMessage());
         }
-
-
     }
 
 

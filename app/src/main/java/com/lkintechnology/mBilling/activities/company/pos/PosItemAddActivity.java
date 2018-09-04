@@ -382,6 +382,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         FirstPageActivity.posSetting = true;
         FirstPageActivity.posNotifyAdapter = true;
         ExpandableItemListActivity.mChildCheckStates.clear();
+        ItemExpandableListAdapter.mMapPosItem.clear();
         if (backPress) {
             FirstPageActivity.posSetting = false;
             FirstPageActivity.posNotifyAdapter = false;
