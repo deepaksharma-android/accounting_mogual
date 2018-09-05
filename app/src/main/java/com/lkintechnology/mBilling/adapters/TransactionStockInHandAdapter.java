@@ -104,7 +104,7 @@ public class TransactionStockInHandAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosititon, boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String nameAmount = (String) getChild(groupPosition, childPosititon);
-        String[] strArr=nameAmount.split(",");
+        String[] strArr=nameAmount.split(":");
         String name = strArr[0];
        // String undefined=strArr[1];
         String amount = strArr[1];
