@@ -1,5 +1,6 @@
 package com.lkintechnology.mBilling.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -36,10 +37,10 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
     private ArrayList<Data> data;
     private Boolean forMainLayoutClick;
 
-    public GetSaleVoucherListAdapter(Context context, ArrayList<Data> data,Boolean forMainLayoutClick){
-        this.context=context;
-        this.data=data;
-        this.forMainLayoutClick=forMainLayoutClick;
+    public GetSaleVoucherListAdapter(Context context, ArrayList<Data> data, Boolean forMainLayoutClick) {
+        this.context = context;
+        this.data = data;
+        this.forMainLayoutClick = forMainLayoutClick;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
     public void onBindViewHolder(GetSaleVoucherListAdapter.ViewHolder viewHolder, int position) {
 
         viewHolder.bank_edit_text1.setText(data.get(position).getAttributes().account_master);
-        viewHolder.bank_edit_text2.setText(""+String.format("%.2f", data.get(position).getAttributes().total_amount));
+        viewHolder.bank_edit_text2.setText("" + String.format("%.2f", data.get(position).getAttributes().total_amount));
         viewHolder.bank_edit_text3.setText(data.get(position).getAttributes().date);
         viewHolder.bank_edit_text4.setText(data.get(position).getAttributes().getVoucher_series().getVoucher_number());
         //viewHolder.bank_edit_text3.setText(String.valueOf(data.get(position).getAttributes().amount));
@@ -61,7 +62,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String sale_voucher_id=data.get(position).getId();
+                String sale_voucher_id = data.get(position).getId();
                 EventBus.getDefault().post(new EventDeleteSaleVoucher(sale_voucher_id));
             }
         });
@@ -69,7 +70,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.icon_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String sale_voucher_id=data.get(position).getType()+","+data.get(position).getId();
+                String sale_voucher_id = data.get(position).getType() + "," + data.get(position).getId();
                 EventBus.getDefault().post(new EventShowPdf(sale_voucher_id));
                /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
@@ -85,7 +86,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
             @Override
             public void onClick(View view) {
 
-                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType()+","+data.get(position).getId()));
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType() + "," + data.get(position).getId()));
                /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
@@ -99,7 +100,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.icon_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType()+","+data.get(position).getId()));
+                EventBus.getDefault().post(new EventShowPdf(data.get(position).getType() + "," + data.get(position).getId()));
                /* if(data.get(position).getAttributes().getInvoice_html()!=null){
                     Intent intent = new Intent(context, TransactionPdfActivity.class);
                     intent.putExtra("company_report",data.get(position).getAttributes().getInvoice_html());
@@ -113,12 +114,12 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.mAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!data.get(position).getAttributes().getAttachment().equals("")){
+                if (!data.get(position).getAttributes().getAttachment().equals("")) {
                     Intent intent = new Intent(context, ImageOpenActivity.class);
-                    intent.putExtra("attachment",data.get(position).getAttributes().getAttachment());
-                    intent.putExtra("booleAttachment",true);
+                    intent.putExtra("attachment", data.get(position).getAttributes().getAttachment());
+                    intent.putExtra("booleAttachment", true);
                     context.startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(context, "Attachment not found!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -127,21 +128,32 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (forMainLayoutClick){
+                if (forMainLayoutClick) {
                     Preferences.getInstance(context).setVoucher_name("");
                     Preferences.getInstance(context).setVoucher_id("");
-                    String s=data.get(position).getAttributes().getVoucher_number()+","+data.get(position).getId();
+                    String s = data.get(position).getAttributes().getVoucher_number() + "," + data.get(position).getId();
                     EventBus.getDefault().post(new EventForVoucherClick(s));
-                }else {
-                    Preferences.getInstance(context).setUpdate("1");
-                    AppUser appUser= LocalRepositories.getAppUser(context);
-                    appUser.edit_sale_voucher_id=data.get(position).getId();
-                    LocalRepositories.saveAppUser(context,appUser);
-                    Intent intent = new Intent(context, CreateSaleActivity.class);
-                    //Intent intent = new Intent(context, ExpandableItemListActivity.class);
-                    intent.putExtra("fromsalelist",true);
-                    intent.putExtra("fromdashboard",false);
-                    context.startActivity(intent);
+                } else {
+                    if (data.get(position).getAttributes().getPos()){
+                        Preferences.getInstance(context).setUpdate("1");
+                        AppUser appUser = LocalRepositories.getAppUser(context);
+                        appUser.edit_sale_voucher_id = data.get(position).getId();
+                        LocalRepositories.saveAppUser(context, appUser);
+                        FirstPageActivity.pos = data.get(position).getAttributes().getPos();
+                        Intent intent = new Intent(context, ExpandableItemListActivity.class);
+                        context.startActivity(intent);
+                        ((Activity) context).finish();
+                    }else {
+                        Preferences.getInstance(context).setUpdate("1");
+                        AppUser appUser = LocalRepositories.getAppUser(context);
+                        appUser.edit_sale_voucher_id = data.get(position).getId();
+                        LocalRepositories.saveAppUser(context, appUser);
+                        FirstPageActivity.pos = data.get(position).getAttributes().getPos();
+                        Intent intent = new Intent(context, CreateSaleActivity.class);
+                        intent.putExtra("fromsalelist", true);
+                        intent.putExtra("fromdashboard", false);
+                        context.startActivity(intent);
+                    }
                 }
 
             }
@@ -190,7 +202,6 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
        /*
         @Bind(R.id.edit1)
         LinearLayout mEdit;*/
-
 
 
         public ViewHolder(View itemView) {

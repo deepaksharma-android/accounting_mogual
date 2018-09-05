@@ -380,7 +380,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         FirstPageActivity.posSetting = true;
         FirstPageActivity.posNotifyAdapter = true;
         ExpandableItemListActivity.mChildCheckStates.clear();
-        ItemExpandableListAdapter.mMapPosItem.clear();
+        ExpandableItemListActivity.mMapPosItem.clear();
         if (backPress) {
             FirstPageActivity.posSetting = false;
             FirstPageActivity.posNotifyAdapter = false;
@@ -1426,7 +1426,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             setBillListDataAdapter();
             setDataOnItemAdapter();
-            ItemExpandableListAdapter.mMapPosItem.clear();
+            ExpandableItemListActivity.mMapPosItem.clear();
             mSubtotal.setText("₹ 0.00");
             grand_total.setText("₹ 0.00");
             new AlertDialog.Builder(PosItemAddActivity.this)

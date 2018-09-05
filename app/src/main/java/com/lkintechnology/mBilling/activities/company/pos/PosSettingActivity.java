@@ -108,6 +108,8 @@ public class PosSettingActivity extends AppCompatActivity {
         String date1 = dateFormatter.format(newCalendar.getTime());
         if (Preferences.getInstance(getApplicationContext()).getPos_date().equals("")){
             Preferences.getInstance(getApplicationContext()).setPos_date(date1);
+        }else {
+            mDate.setText(Preferences.getInstance(getApplicationContext()).getPos_date());
         }
         FirstPageActivity.posSetting = true;
         FirstPageActivity.posNotifyAdapter = false;
@@ -119,28 +121,31 @@ public class PosSettingActivity extends AppCompatActivity {
         mPartyName.setText(Preferences.getInstance(getApplicationContext()).getPos_party_name());
         mMobileNumber.setText(Preferences.getInstance(getApplicationContext()).getPos_mobile());
 
-        Boolean isConnected = ConnectivityReceiver.isConnected();
-        if (isConnected) {
-            mProgressDialog = new ProgressDialog(PosSettingActivity.this);
-            mProgressDialog.setMessage("Info...");
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
-        } else {
-            snackbar = Snackbar
-                    .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Boolean isConnected = ConnectivityReceiver.isConnected();
-                            if (isConnected) {
-                                snackbar.dismiss();
+        if (!FirstPageActivity.pos){
+            Boolean isConnected = ConnectivityReceiver.isConnected();
+            if (isConnected) {
+                mProgressDialog = new ProgressDialog(PosSettingActivity.this);
+                mProgressDialog.setMessage("Info...");
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setCancelable(true);
+                mProgressDialog.show();
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+            } else {
+                snackbar = Snackbar
+                        .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Boolean isConnected = ConnectivityReceiver.isConnected();
+                                if (isConnected) {
+                                    snackbar.dismiss();
+                                }
                             }
-                        }
-                    });
-            snackbar.show();
+                        });
+                snackbar.show();
+            }
         }
+
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment()!=null){
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")){
                 mVchNumber.setEnabled(false);
@@ -182,7 +187,6 @@ public class PosSettingActivity extends AppCompatActivity {
                         mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
                     }
                 }
-
             }
 
             @Override
@@ -337,6 +341,7 @@ public class PosSettingActivity extends AppCompatActivity {
                 appUser.mListMapForItemSale.clear();
                 ExpandableItemListActivity.mListMapForItemSale.clear();
                 ExpandableItemListActivity.mListMapForBillSale.clear();
+                ExpandableItemListActivity.mMapPosItem.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");

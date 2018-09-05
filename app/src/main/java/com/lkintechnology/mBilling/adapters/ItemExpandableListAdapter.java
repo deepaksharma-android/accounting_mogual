@@ -35,7 +35,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> _listDataChild;
 
     private HashMap<Integer, List<String>> listDataChildSalePriceMain;
-    public static Map mMapPosItem;
     private int comingFromPOS;
     Double total = 0.0;
     Double sale_price_main = 0.0;
@@ -124,7 +123,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     if (item_id.equals(item_id_child)) {
                         String pos = groupPosition + "," + childPosition;
                         mQuantity.setText(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
-                        mMapPosItem.put(pos, mQuantity.getText().toString());
+                        ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
                         String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                         getChecked[mChildPosition] = mQuantity.getText().toString();
                         ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
@@ -165,10 +164,10 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             add_layout.setVisibility(View.VISIBLE);
                             mItemTotal.setText("₹ " + 0.0);
                             mQuantity.setText("0");
-                            mMapPosItem.put(pos, "0");
+                            ExpandableItemListActivity.mMapPosItem.put(pos, "0");
                         }else {
-                            mMapPosItem.put(pos, mQuantity.getText().toString());
-                            System.out.println(mMapPosItem.toString());
+                            ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
+                            System.out.println(ExpandableItemListActivity.mMapPosItem.toString());
                         }
                     }
 
@@ -209,8 +208,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                     if (!mQuantity.getText().toString().equals("")) {
-                        mMapPosItem.put(pos, mQuantity.getText().toString());
-                        System.out.println(mMapPosItem.toString());
+                        ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(ExpandableItemListActivity.mMapPosItem.toString());
                     }
                 }
             });
@@ -227,8 +226,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     getChecked[mChildPosition] = mQuantity.getText().toString();
                     ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                     if (!mQuantity.getText().toString().equals("")) {
-                        mMapPosItem.put(pos, mQuantity.getText().toString());
-                        System.out.println(mMapPosItem.toString());
+                        ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
+                        System.out.println(ExpandableItemListActivity.mMapPosItem.toString());
                     }
                     add_layout.setVisibility(View.GONE);
                     plus_minus_layout.setVisibility(View.VISIBLE);

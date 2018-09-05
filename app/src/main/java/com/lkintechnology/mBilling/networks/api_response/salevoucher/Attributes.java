@@ -9,6 +9,15 @@ public class Attributes {
     public Double total_amount;
     public String invoice_html;
     public String attachment;
+    public Boolean pos;
+
+    public Boolean getPos() {
+        return pos;
+    }
+
+    public void setPos(Boolean pos) {
+        this.pos = pos;
+    }
 
     public VoucherSeriesDetails getVoucher_series() {
         return voucher_series;

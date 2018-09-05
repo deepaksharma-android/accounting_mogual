@@ -188,6 +188,7 @@ public class SaleVoucherDetailsAttribute {
     }
 
     public String attachment;
+    public Boolean pos;
     public String narration;
     public String voucher_number;
 
@@ -223,5 +224,13 @@ public class SaleVoucherDetailsAttribute {
 
     public void setPayment_settlement(ArrayList<SaleVoucherDetailsPaymentSettlement> payment_settlement) {
         this.payment_settlement = payment_settlement;
+    }
+
+    public Boolean getPos() {
+        return pos;
+    }
+
+    public void setPos(Boolean pos) {
+        this.pos = pos;
     }
 }

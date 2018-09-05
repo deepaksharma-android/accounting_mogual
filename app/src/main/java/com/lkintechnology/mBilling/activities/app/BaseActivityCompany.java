@@ -205,7 +205,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         appUser.paymentSettlementHashMap.clear();
         LocalRepositories.saveAppUser(getApplicationContext(),appUser);
         ExpandableItemListActivity.comingFrom = 6;
-        ItemExpandableListAdapter.mMapPosItem = new HashMap<>();
+        ExpandableItemListActivity.mMapPosItem = new HashMap<>();
         ExpandableItemListActivity.isDirectForItem = false;
         FirstPageActivity.posSetting = false;
         Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);

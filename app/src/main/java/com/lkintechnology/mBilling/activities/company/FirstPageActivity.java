@@ -55,6 +55,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     AppUser appUser;
     public static Boolean posSetting = false;
     public static Boolean posNotifyAdapter = false;
+    public static Boolean pos = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         ButterKnife.bind(this);
         //initActionbar();
         posSetting = false;
+        pos = false;
     }
 
     private void initActionbar() {
