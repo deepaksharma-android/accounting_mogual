@@ -188,7 +188,7 @@ public class SaleVoucherDetailsAttribute {
     }
 
     public String attachment;
-    public Boolean pos;
+    public Boolean pos = true;
     public String narration;
     public String voucher_number;
 

@@ -541,7 +541,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     @Subscribe
     public void getItem(GetItemResponse response) {
-        mProgressDialog.dismiss();
+        if (ExpandableItemListActivity.comingFrom!=6){
+            mProgressDialog.dismiss();
+        }
         if (response.getStatus() == 200) {
             mTotal.setText("Total : 0.0");
             nameList = new ArrayList();
@@ -777,6 +779,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             // setting list adapter
             expListView.setAdapter(listAdapter);
             if (FirstPageActivity.pos) {
+                for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+                    expListView.expandGroup(i);
+                }
                 posVoucherDetails();
             } else {
                 if (ExpandableItemListActivity.comingFrom == 6) {
@@ -881,7 +886,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         LocalRepositories.saveAppUser(this, appUser);
 
         if (!isDirectForItem) {
-
             if (ExpandableItemListActivity.comingFrom == 0) {
                 Intent intent = new Intent(getApplicationContext(), SaleVoucherAddItemActivity.class);
                 String itemid = listDataChildId.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid));
@@ -1748,7 +1752,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void getSaleVoucherDetails(GetSaleVoucherDetails response) {
+    public void getPosVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
 
