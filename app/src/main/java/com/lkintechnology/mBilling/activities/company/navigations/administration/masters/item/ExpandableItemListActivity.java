@@ -543,7 +543,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public void getItem(GetItemResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-            ExpandableItemListActivity.mTotal.setText("Total : 0.0");
+            mTotal.setText("Total : 0.0");
             nameList = new ArrayList();
             idList = new ArrayList();
             nameList = new ArrayList();
@@ -1767,7 +1767,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             appUser.items_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getItems_amount());
             appUser.bill_sundries_amount = String.valueOf(response.getSale_voucher().getData().getAttributes().getBill_sundries_amount());
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
+            mTotal.setText("Total : "+response.getSale_voucher().getData().getAttributes().getItems_amount());
             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().size() > 0) {
                 for (int i = 0; i < response.getSale_voucher().getData().getAttributes().getVoucher_items().size(); i++) {
                     Map mMap = new HashMap<>();
