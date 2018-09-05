@@ -221,9 +221,15 @@ public class TransactionStockInHandActivity extends AppCompatActivity implements
                     else{
                         totalstockquantity=0;
                     }
-                    if(totalstockquantity!=0)
-                    {
-                        name.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName()
+                    if(totalstockquantity!=0) {
+                        String itemName = response.getOrdered_items().get(i).getData().get(j).getAttributes().getName();
+                        String replaceItem = "";
+                        if (itemName.contains(",")){
+                            replaceItem = itemName.replace(",","/");
+                        }else {
+                            replaceItem = itemName;
+                        }
+                        name.add(replaceItem
                             /*+ "," + String.valueOf(response.getOrdered_items().get(i).getData().get(j).getAttributes().getUndefined())*/
                                 + "," + String.valueOf(totalstockprice)
                                 + "," + String.valueOf(totalstockquantity)
