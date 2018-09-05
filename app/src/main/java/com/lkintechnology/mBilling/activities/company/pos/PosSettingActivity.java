@@ -144,15 +144,27 @@ public class PosSettingActivity extends AppCompatActivity {
                         });
                 snackbar.show();
             }
+        }else {
+            mSeries.setEnabled(false);
+            mVoucherAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    android.R.layout.simple_spinner_item, appUser.arr_series);
+            mVoucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSeries.setAdapter(mVoucherAdapter);
+            mSeries.setEnabled(false);
+            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
+                mVchNumber.setEnabled(false);
+            } else {
+                mVchNumber.setEnabled(true);
+            }
+            mVchNumber.setText(Preferences.getInstance(getApplicationContext()).getVoucher_number());
         }
 
         if (Preferences.getInstance(getApplicationContext()).getAuto_increment()!=null){
             if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")){
                 mVchNumber.setEnabled(false);
-               // mSeries.setEnabled(false);
+
             }else {
                 mVchNumber.setEnabled(true);
-              //  mSeries.setEnabled(true);
             }
         }
 

@@ -1759,6 +1759,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             Preferences.getInstance(getApplicationContext()).setPos_date(response.getSale_voucher().getData().getAttributes().getDate());
             FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
             appUser.arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
+            if (response.getSale_voucher().getData().getAttributes().getVoucher_series().isAuto_increment()) {
+                Preferences.getInstance(getApplicationContext()).setAuto_increment("true");
+            } else {
+                Preferences.getInstance(getApplicationContext()).setAuto_increment("false");
+            }
             Preferences.getInstance(getApplicationContext()).setVoucher_number(response.getSale_voucher().getData().getAttributes().getVoucher_series().getVoucher_number());
             Preferences.getInstance(getApplicationContext()).setPos_sale_type(response.getSale_voucher().getData().getAttributes().getSale_type());
             Preferences.getInstance(getApplicationContext()).setPos_sale_type_id("" + response.getSale_voucher().getData().getAttributes().getSale_type_id());
@@ -1899,29 +1904,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                             mMap.put("fed_as_percentage", "valuechange");
                             mMap.put("changeamount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                         }
-                      /*  if(String.valueOf(2)!=null) {*/
                         mMap.put("number_of_bill", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
                         // }
                       /*  if(String.valueOf(true)!=null) {*/
                         mMap.put("consolidated", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
-                        // }
-                      /*  if(billSundryFedAsPercentage!=null){*/
-                       /* if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getBill_sundry_of_percentage().equals("valuechange")) {
 
-                        }*/
-                        // }
-
-                  /*      if(data.getAttributes().getBill_sundry_id()String.valueOf(billSundryId)!=null) {
-                            int size=appUser.arr_billSundryId.size();
-                            for(int i=0;i<size;i++){
-                                String id=appUser.arr_billSundryId.get(i);
-                                if(id.equals(String.valueOf(data.getAttributes().getBill_sundry_id()billSundryId))){
-                                    billsundryothername=appUser.arr_billSundryName.get(i);
-                                    break;
-                                }
-                            }
-                            mMap.put("other", billsundryothername);
-                        }*/
                         //   appUser.mListMapForBillSale.add(mMap);
                         ExpandableItemListActivity.mListMapForBillSale.add(mMap);
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
