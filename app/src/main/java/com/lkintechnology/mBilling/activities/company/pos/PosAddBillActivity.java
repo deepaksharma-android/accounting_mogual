@@ -281,6 +281,7 @@ public class PosAddBillActivity extends AppCompatActivity {
                 }
                 hideKeyPad();
                 ExpandableItemListActivity.boolForAdapterSet = true;
+                ExpandableItemListActivity.boolForItemSubmit = true;
                 finish();
 
             }
