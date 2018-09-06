@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.administration
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.adapters.BillSundryListAdapter;
 import com.lkintechnology.mBilling.adapters.ItemExpandableListAdapter;
 import com.lkintechnology.mBilling.adapters.PosAddBillAdapter;
@@ -46,6 +48,7 @@ import com.lkintechnology.mBilling.networks.ApiCallsService;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.BillSundryData;
 import com.lkintechnology.mBilling.networks.api_response.bill_sundry.GetBillSundryListResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
+import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.EventForBillDelete;
@@ -122,9 +125,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(this);
         // floatingActionButton.bringToFront();
-        if(FirstPageActivity.pos){
+        if (FirstPageActivity.pos) {
             submit_txt.setText("Update");
-        }else {
+        } else {
             submit_txt.setText("Submit");
         }
         Intent intent = getIntent();
@@ -296,7 +299,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                     if (mListMapForBillSale.size() == billSundryTotal.size()) {
                         Double subtotal = txtSplit(mSubtotal.getText().toString());
                         billCalculation(subtotal, true);
-                       // billCalculationForMultiRate(subtotal, 0.0, 0.0, true, false);
+                        // billCalculationForMultiRate(subtotal, 0.0, 0.0, true, false);
                     } else {
                         billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
                     }
@@ -1374,7 +1377,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         appUser.billsundrytotal.clear();
         appUser.mListMapForBillSale.clear();
         appUser.mListMapForItemSale.clear();
-        if (billSundryTotal.size()>0){
+        if (billSundryTotal.size() > 0) {
             for (int i = 0; i < billSundryTotal.size(); i++) {
                 bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
                 if (!billSundryTotal.get(i).equals("0.00")) {
@@ -1401,7 +1404,11 @@ public class PosItemAddActivity extends AppCompatActivity {
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
-            ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_POS_VOUCHER);
+            if (FirstPageActivity.pos) {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS);
+            } else {
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_POS_VOUCHER);
+            }
         } else {
             snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                 @Override
@@ -1458,7 +1465,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                     .show();
 
         } else {
-            //Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG).show();
             Helpers.dialogMessage(PosItemAddActivity.this, response.getMessage());
         }
     }
@@ -1471,6 +1477,38 @@ public class PosItemAddActivity extends AppCompatActivity {
         String[] arr = total.split("₹ ");
         Double a = Double.valueOf(arr[1].trim());
         return a;
+    }
+
+    @Subscribe
+    public void updatePosVoucher(UpdateSaleVoucherResponse response) {
+        mProgressDialog.dismiss();
+        if (response.getStatus() == 200) {
+            snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+            Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
+            appUser.pos_identifier = false;
+            appUser.mListMapForItemSale.clear();
+            appUser.mListMapForBillSale.clear();
+            appUser.billsundrytotal.clear();
+            ExpandableItemListActivity.mListMapForItemSale.clear();
+            ExpandableItemListActivity.mListMapForBillSale.clear();
+            appUser.arr_series.clear();
+            appUser.series_details.clear();
+            billSundryTotal.clear();
+            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            setBillListDataAdapter();
+            setDataOnItemAdapter();
+            ExpandableItemListActivity.mMapPosItem.clear();
+            mSubtotal.setText("₹ 0.00");
+            grand_total.setText("₹ 0.00");
+            Intent intent = new Intent(getApplicationContext(), GetSaleVoucherListActivity.class);
+            intent.putExtra("forDate", true);
+            startActivity(intent);
+
+        } else {
+            Helpers.dialogMessage(PosItemAddActivity.this, response.getMessage());
+        }
     }
 
 
