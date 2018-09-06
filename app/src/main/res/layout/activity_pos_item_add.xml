@@ -277,6 +277,7 @@
             android:background="@drawable/solid_blue">
 
             <com.lkintechnology.mBilling.utils.BuzzTextView
+                android:id="@+id/submit_txt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

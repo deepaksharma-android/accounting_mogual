@@ -168,13 +168,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         }else {
                             ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
                             System.out.println(ExpandableItemListActivity.mMapPosItem.toString());
-                            String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
-                            getChecked[mChildPosition] = mQuantity.getText().toString();
-                            ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
                         }
                     }
 
-
+                    String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = mQuantity.getText().toString();
+                    ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
 
                 }
             });
@@ -238,7 +237,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
             if (this._listDataHeader.size()-1==mGroupPosition && this._listDataChild.get(this._listDataHeader.get(groupPosition)).size()-1==mChildPosition){
               ExpandableItemListActivity.mListMapForItemSale.clear();
-                ExpandableItemListActivity.mChildCheckStates.clear();
             }
 
             /*mainLayout.setOnClickListener(new View.OnClickListener() {

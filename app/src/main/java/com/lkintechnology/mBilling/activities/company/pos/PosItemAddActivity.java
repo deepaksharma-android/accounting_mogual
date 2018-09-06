@@ -85,6 +85,8 @@ public class PosItemAddActivity extends AppCompatActivity {
     RecyclerView mRecyclerViewBill;
     @Bind(R.id.party_name)
     TextView party_name;
+    @Bind(R.id.submit_txt)
+    TextView submit_txt;
     @Bind(R.id.add_bill_button)
     TextView add_bill_button;
     public static TextView mSubtotal;
@@ -120,6 +122,11 @@ public class PosItemAddActivity extends AppCompatActivity {
                 R.anim.blink_on_click);
         appUser = LocalRepositories.getAppUser(this);
         // floatingActionButton.bringToFront();
+        if(FirstPageActivity.pos){
+            submit_txt.setText("Update");
+        }else {
+            submit_txt.setText("Submit");
+        }
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -139,7 +146,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         if (mListMapForBillSale.size() > 0) {
             mapList = new ArrayList<>();
             billList = new ArrayList<>();
-            size = billSundryTotal.size();
+            size = mListMapForBillSale.size();
             for (int i = 0; i < size; i++) {
                 String courier_charges = mListMapForBillSale.get(i).get("courier_charges");
                 if (!courier_charges.equals("IGST") && !courier_charges.equals("CGST") && !courier_charges.equals("SGST")) {

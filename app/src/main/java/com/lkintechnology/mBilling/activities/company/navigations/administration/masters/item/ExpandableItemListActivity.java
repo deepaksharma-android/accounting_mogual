@@ -183,7 +183,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         mListMapForBillSale = new ArrayList();
         billSundryTotal = new ArrayList<>();
         initActionbar();
-
+        mChildCheckStates = new HashMap<Integer, String[]>();
         if (FirstPageActivity.pos) {
             ExpandableItemListActivity.comingFrom = 6;
             ExpandableItemListActivity.isDirectForItem = false;
@@ -446,6 +446,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        mChildCheckStates = new HashMap<Integer, String[]>();
         super.onResume();
         mSaleVoucherItem = new HashMap<>();
         mPurchaseVoucherItem = new HashMap<>();
@@ -1903,6 +1904,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         if (response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount() != 0.0) {
                             mMap.put("fed_as_percentage", "valuechange");
                             mMap.put("changeamount", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
+                            billSundryTotal.add(i, String.format("%.2f", response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getPrevious_amount()));
                         }
                         mMap.put("number_of_bill", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getNumber_of_bill_sundry()));
                         // }
@@ -1910,7 +1912,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mMap.put("consolidated", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_bill_sundries().get(i).getConsolidate_bill_sundry()));
 
                         //   appUser.mListMapForBillSale.add(mMap);
-                        ExpandableItemListActivity.mListMapForBillSale.add(mMap);
+                        mListMapForBillSale.add(mMap);
                         LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                     }
                 }
