@@ -882,7 +882,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", billSundryAmount);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -925,7 +925,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", billSundryAmount);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -968,7 +968,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", billSundryAmount);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1011,7 +1011,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", billSundryCharges);
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", billSundryAmount);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1049,340 +1049,355 @@ public class PosItemAddActivity extends AppCompatActivity {
         }
         if (taxString.contains("L/GST-MultiRate")) {
             if (gst_5 != 0) {
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_5 / 2);
-                billSundryAmount = "2.5";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "CGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("CGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_5 / 2);
+                    billSundryAmount = "2.5";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "CGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
              /*   if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                mListMapForBillSale.add(mMap);
-                //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_5 / 2);
-                billSundryAmount = "2.5";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "SGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("SGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_5 / 2);
+                    billSundryAmount = "2.5";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "SGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
                /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                  //  gst_5 = 0.0;
                 }
-                mListMapForBillSale.add(mMap);
-                //  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_5 = 0.0;
             }
             if (gst_12 != 0) {
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_12 / 2);
-                billSundryAmount = "6";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "CGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("CGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_12 / 2);
+                    billSundryAmount = "6";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "CGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
                /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                mListMapForBillSale.add(mMap);
-                // LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_12 / 2);
-                billSundryAmount = "6";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "SGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("SGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_12 / 2);
+                    billSundryAmount = "6";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "SGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
                 /*if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                  //  gst_12 = 0.0;
                 }
-                mListMapForBillSale.add(mMap);
-                //  LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_12 = 0.0;
             }
             if (gst_18 != 0) {
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_18 / 2);
-                billSundryAmount = "9";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "CGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("CGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_18 / 2);
+                    billSundryAmount = "9";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "CGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
               /*  if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                mListMapForBillSale.add(mMap);
-                //    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_18 / 2);
-                billSundryAmount = "9";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "SGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("SGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_18 / 2);
+                    billSundryAmount = "9";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "SGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
                /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                   // gst_18 = 0.0;
                 }
-                mListMapForBillSale.add(mMap);
-                //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_18 = 0.0;
             }
             if (gst_28 != 0) {
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_28 / 2);
-                billSundryAmount = "14";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "CGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("CGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_28 / 2);
+                    billSundryAmount = "14";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "CGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
                /* if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
                 }
-                mListMapForBillSale.add(mMap);
-                //   LocalRepositories.saveAppUser(getApplicationContext(), appUser);
 
-                mMap = new HashMap<>();
-                changeAmount = String.format("%.2f", gst_28 / 2);
-                billSundryAmount = "14";
-                billSundryTotal.add(changeAmount);
-                mMap.put("id", id);
-                mMap.put("courier_charges", "SGST");
-                mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval / 2);
-                mMap.put("percentage_value", billSundaryPercentage);
-                mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
-                mMap.put("fed_as", billSundryFedAs);
-                mMap.put("fed_as_percentage", billSundryFedAsPercentage);
-                mMap.put("type", billSundryType);
-                mMap.put("amount", billSundryAmount);
-                mMap.put("previous", billSundryFedAsPercentagePrevious);
-                if (String.valueOf(billSundryNumber) != null) {
-                    mMap.put("number_of_bill", String.valueOf(billSundryNumber));
-                }
-                if (String.valueOf(billSundryConsolidated) != null) {
-                    mMap.put("consolidated", String.valueOf(billSundryConsolidated));
-                }
-                mMap.put("changeamount", changeAmount);
+                if (billSundryCharges.equals("SGST")){
+                    mMap = new HashMap<>();
+                    changeAmount = String.format("%.2f", gst_28 / 2);
+                    billSundryAmount = "14";
+                    billSundryTotal.add(changeAmount);
+                    mMap.put("id", id);
+                    mMap.put("courier_charges", "SGST");
+                    mMap.put("bill_sundry_id", billSundryId);
+                    mMap.put("percentage", billSundryAmount);
+                    mMap.put("percentage_value", billSundaryPercentage);
+                    mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
+                    mMap.put("fed_as", billSundryFedAs);
+                    mMap.put("fed_as_percentage", billSundryFedAsPercentage);
+                    mMap.put("type", billSundryType);
+                    mMap.put("amount", billSundryAmount);
+                    mMap.put("previous", billSundryFedAsPercentagePrevious);
+                    if (String.valueOf(billSundryNumber) != null) {
+                        mMap.put("number_of_bill", String.valueOf(billSundryNumber));
+                    }
+                    if (String.valueOf(billSundryConsolidated) != null) {
+                        mMap.put("consolidated", String.valueOf(billSundryConsolidated));
+                    }
+                    mMap.put("changeamount", changeAmount);
               /*  if (billSundryFedAsPercentage != null) {
                     if (billSundryFedAsPercentage.equals("valuechange")) {
                         mMap.put("changeamount", changeAmount);
                     }
                 }*/
-                if (String.valueOf(billSundryId) != null) {
-                    int size = appUser.arr_billSundryId.size();
-                    for (int j = 0; j < size; j++) {
-                        String id1 = appUser.arr_billSundryId.get(j);
-                        if (id1.equals(String.valueOf(billSundryId))) {
-                            billsundryothername = appUser.arr_billSundryName.get(j);
-                            break;
+                    if (String.valueOf(billSundryId) != null) {
+                        int size = appUser.arr_billSundryId.size();
+                        for (int j = 0; j < size; j++) {
+                            String id1 = appUser.arr_billSundryId.get(j);
+                            if (id1.equals(String.valueOf(billSundryId))) {
+                                billsundryothername = appUser.arr_billSundryName.get(j);
+                                break;
+                            }
                         }
+                        mMap.put("other", billsundryothername);
                     }
-                    mMap.put("other", billsundryothername);
+                    mListMapForBillSale.add(mMap);
+                    LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                    gst_28 = 0.0;
                 }
-                mListMapForBillSale.add(mMap);
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
-                gst_28 = 0.0;
             }
         }
 

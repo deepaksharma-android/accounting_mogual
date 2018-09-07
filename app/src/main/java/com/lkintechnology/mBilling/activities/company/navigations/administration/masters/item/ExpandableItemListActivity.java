@@ -177,6 +177,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static Boolean boolForItemSubmit = false;
     ArrayList<String> mUnitList;
     public static Map mMapPosItem;
+    String dateString;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -199,11 +200,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         appUser = LocalRepositories.getAppUser(this);
         dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         long date = System.currentTimeMillis();
-        String dateString = dateFormatter.format(date);
+        dateString = dateFormatter.format(date);
         appUser.stock_in_hand_date = dateString;
-        if (Preferences.getInstance(getApplicationContext()).getPos_date().equals("")) {
-            Preferences.getInstance(getApplicationContext()).setPos_date(dateString);
-        }
 
         if (ExpandableItemListActivity.comingFrom == 6) {
             floatingActionButton.setVisibility(View.GONE);
@@ -451,6 +449,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
      //   mChildCheckStates = new HashMap<Integer, String[]>();
+        if (Preferences.getInstance(getApplicationContext()).getPos_date().equals("")) {
+            Preferences.getInstance(getApplicationContext()).setPos_date(dateString);
+        }
         super.onResume();
         mSaleVoucherItem = new HashMap<>();
         mPurchaseVoucherItem = new HashMap<>();
@@ -1789,7 +1790,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
 
             Preferences.getInstance(getApplicationContext()).setPos_date(response.getSale_voucher().getData().getAttributes().getDate());
-            FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
+           // FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
             appUser.arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
             if (response.getSale_voucher().getData().getAttributes().getVoucher_series().isAuto_increment()) {
                 Preferences.getInstance(getApplicationContext()).setAuto_increment("true");

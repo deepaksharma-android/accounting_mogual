@@ -337,7 +337,7 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
             }
         } else {
             if (backPress) {
-                appUser.mListMapForItemSale.clear();
+               /* appUser.mListMapForItemSale.clear();
                 appUser.mListMapForBillSale.clear();
                 appUser.billsundrytotal.clear();
                 LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -367,7 +367,11 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
                 ExpandableItemListActivity.isDirectForItem = false;
                 FirstPageActivity.posNotifyAdapter = false;
                 Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                FirstPageActivity.posSetting = false;
+                FirstPageActivity.posNotifyAdapter = false;
+                ExpandableItemListActivity.comingFrom = 6;
+                ExpandableItemListActivity.isDirectForItem = false;
                 finish();
             } else {
                 finish();
