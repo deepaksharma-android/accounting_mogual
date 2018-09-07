@@ -521,6 +521,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        FirstPageActivity.posSetting = true;
+        FirstPageActivity.posNotifyAdapter = false;
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -1767,6 +1769,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             } else {
                 Preferences.getInstance(getApplicationContext()).setAuto_increment("false");
             }
+            Preferences.getInstance(getApplicationContext()).setVoucherSeries(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
             Preferences.getInstance(getApplicationContext()).setVoucher_number(response.getSale_voucher().getData().getAttributes().getVoucher_series().getVoucher_number());
             Preferences.getInstance(getApplicationContext()).setPos_sale_type(response.getSale_voucher().getData().getAttributes().getSale_type());
             Preferences.getInstance(getApplicationContext()).setPos_sale_type_id("" + response.getSale_voucher().getData().getAttributes().getSale_type_id());

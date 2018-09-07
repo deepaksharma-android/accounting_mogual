@@ -218,10 +218,10 @@ public class PosItemAddActivity extends AppCompatActivity {
                 snackbar.show();
             }
         } else {
-            if (mapList.size()>0){
+            if (mapList.size() > 0) {
                 mListMapForBillSale = mapList;
                 billSundryTotal = billList;
-                for(int i=0;i<billSundryTotal.size();i++){
+                for (int i = 0; i < billSundryTotal.size(); i++) {
                     grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
                 }
                 grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
@@ -265,19 +265,23 @@ public class PosItemAddActivity extends AppCompatActivity {
                 appUser = LocalRepositories.getAppUser(PosItemAddActivity.this);
                 submit.startAnimation(blinkOnClick);
                 if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
-                    if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
-                        new AlertDialog.Builder(getApplicationContext())
-                                .setTitle("Email")
-                                .setMessage(R.string.btn_send_email)
-                                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
-                                    apiCall(true);
-                                })
-                                .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
-                                    apiCall(false);
-                                })
-                                .show();
+                    if (!Preferences.getInstance(getApplicationContext()).getVoucher_number().equals("")) {
+                        if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
+                            new AlertDialog.Builder(getApplicationContext())
+                                    .setTitle("Email")
+                                    .setMessage(R.string.btn_send_email)
+                                    .setPositiveButton(R.string.btn_yes, (dialogInterface, i) -> {
+                                        apiCall(true);
+                                    })
+                                    .setNegativeButton(R.string.btn_no, (dialogInterface, i) -> {
+                                        apiCall(false);
+                                    })
+                                    .show();
+                        } else {
+                            apiCall(false);
+                        }
                     } else {
-                        apiCall(false);
+                        Snackbar.make(coordinatorLayout, "Voucher number is blank", Snackbar.LENGTH_LONG).show();
                     }
                 } else {
                     Snackbar.make(coordinatorLayout, "Please add item", Snackbar.LENGTH_LONG).show();
@@ -377,9 +381,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                 if (ParameterConstant.handleAutoCompleteTextView == 1) {
                     party_name.setText(ParameterConstant.name);
                     // mMobileNumber.setText(ParameterConstant.mobile);
-                    Preferences.getInstance(getApplicationContext()).setParty_id(ParameterConstant.id);
-                    Preferences.getInstance(getApplicationContext()).setParty_name(ParameterConstant.name);
-                    Preferences.getInstance(getApplicationContext()).setMobile(ParameterConstant.mobile);
+                    Preferences.getInstance(getApplicationContext()).setPos_party_id(ParameterConstant.id);
+                    Preferences.getInstance(getApplicationContext()).setPos_party_name(ParameterConstant.name);
+                    Preferences.getInstance(getApplicationContext()).setPos_mobile(ParameterConstant.mobile);
                     appUser.sale_partyEmail = ParameterConstant.email;
 
                 } else {
@@ -391,9 +395,9 @@ public class PosItemAddActivity extends AppCompatActivity {
                     party_name.setText(strArr[0]);
                     // mMobileNumber.setText(mobile);
                     appUser.sale_partyEmail = strArr[3];
-                    Preferences.getInstance(getApplicationContext()).setParty_id(id);
-                    Preferences.getInstance(getApplicationContext()).setParty_name(strArr[0]);
-                    Preferences.getInstance(getApplicationContext()).setMobile(mobile);
+                    Preferences.getInstance(getApplicationContext()).setPos_party_id(id);
+                    Preferences.getInstance(getApplicationContext()).setPos_party_name(strArr[0]);
+                    Preferences.getInstance(getApplicationContext()).setPos_mobile(mobile);
                     return;
                 }
             }
@@ -565,13 +569,13 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
                             billSundryTotal.set(i, String.format("%.2f", total));
                         } else {
-                            if (itemName.equals("IGST") || itemName.equals("CGST") || itemName.equals("SGST")){
+                            if (itemName.equals("IGST") || itemName.equals("CGST") || itemName.equals("SGST")) {
                                 if (type.equals("Additive")) {
                                     grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
                                 } else {
                                     grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
                                 }
-                            }else {
+                            } else {
                                 total = (grandTotal * Double.valueOf(amount)) / 100;
                                 if (type.equals("Additive")) {
                                     grandTotal = grandTotal + total;
@@ -853,7 +857,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 // billSundryTotal.add("" + Double.valueOf(changeAmount));
                 grandTotal = grandTotal + Double.valueOf(changeAmount);
                 // LocalRepositories.saveAppUser(PosItemAddActivity.this,appUser);
-                taxval = taxval/2;
+                taxval = taxval / 2;
             }
         }
 
@@ -1040,7 +1044,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1081,7 +1085,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1124,7 +1128,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1165,7 +1169,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1208,7 +1212,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1249,7 +1253,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1292,7 +1296,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1333,7 +1337,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval/2);
+                mMap.put("percentage", "" + taxval / 2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1446,6 +1450,7 @@ public class PosItemAddActivity extends AppCompatActivity {
             mProgressDialog.show();
             if (FirstPageActivity.pos) {
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS);
+                ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_POS_VOUCHER_DETAILS);
             } else {
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_POS_VOUCHER);
             }
@@ -1478,6 +1483,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             appUser.series_details.clear();
             billSundryTotal.clear();
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+            Preferences.getInstance(getApplicationContext()).setPos_date("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_number("");
             setBillListDataAdapter();
             setDataOnItemAdapter();
             ExpandableItemListActivity.mMapPosItem.clear();
@@ -1500,6 +1507,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                         FirstPageActivity.posSetting = false;
                         FirstPageActivity.posNotifyAdapter = false;
                         ExpandableItemListActivity.isDirectForItem = false;
+                        ExpandableItemListActivity.comingFrom = 6;
                         finish();
                     })
                     .show();
@@ -1525,7 +1533,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
             snackbar = Snackbar.make(coordinatorLayout, response.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
-
+            Preferences.getInstance(getApplicationContext()).setPos_date("");
+            Preferences.getInstance(getApplicationContext()).setVoucher_number("");
             Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
             appUser.pos_identifier = false;
             appUser.mListMapForItemSale.clear();

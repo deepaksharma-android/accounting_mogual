@@ -186,6 +186,7 @@ public interface Cv {
     String ACTION_GET_GST_REPORT = "action_get_gst_report";
     String ACTION_GET_GST_REPORT_PURCHASE= "action_get_gst_report_purchase";
     String ACTION_UPDATE_SALE_VOUCHER_DETAILS = "action_update_sale_voucher_details";
+    String ACTION_UPDATE_POS_VOUCHER_DETAILS = "action_update_pos_voucher_update";
     String ACTION_UPDATE_SALE_RETURN_VOUCHER_DETAILS = "action_update_sale_return_voucher_details";
     String ACTION_UPDATE_PURCHASE_VOUCHER_DETAILS = "action_update_purchase_voucher_details";
     String ACTION_UPDATE_PURCHASE_RETURN_VOUCHER_DETAILS = "action_update_purchase_return_voucher_details";

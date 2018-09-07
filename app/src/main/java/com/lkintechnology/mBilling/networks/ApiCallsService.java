@@ -583,15 +583,17 @@ public class ApiCallsService extends IntentService {
             handleCompanyInvoice();
         } else if (Cv.ACTION_VOUCHER_SERIES.equals(action)) {
             handleGetVoucherSeries();
-        }else if (Cv.ACTION_CREATE_POS_VOUCHER.equals(action)) {
+        } else if (Cv.ACTION_CREATE_POS_VOUCHER.equals(action)) {
             handlePosVoucher();
+        } else if (Cv.ACTION_UPDATE_POS_VOUCHER_DETAILS.equals(action)) {
+            handleUpdatePosVoucher();
         }
         /*else if(Cv.ACTION_UPDATE_STOCK_TRANSFER.equals(action));{
             handleUpdateStockTransfer();
         }*/
 
 
-}
+    }
 
     private void handleGetItemGroupDetails() {
         AppUser appUser = LocalRepositories.getAppUser(this);
@@ -4780,7 +4782,7 @@ public class ApiCallsService extends IntentService {
 
     private void handleGetVoucherSeries() {
         AppUser appUser = LocalRepositories.getAppUser(this);
-        api.getseries(Preferences.getInstance(getApplicationContext()).getCid(),"Sales").enqueue(new Callback<VoucherSeriesResponse>() {
+        api.getseries(Preferences.getInstance(getApplicationContext()).getCid(), "Sales").enqueue(new Callback<VoucherSeriesResponse>() {
             @Override
             public void onResponse(Call<VoucherSeriesResponse> call, Response<VoucherSeriesResponse> r) {
                 if (r.code() == 200) {
@@ -4816,6 +4818,30 @@ public class ApiCallsService extends IntentService {
 
             @Override
             public void onFailure(Call<CreateSaleVoucherResponse> call, Throwable t) {
+                try {
+                    EventBus.getDefault().post(t.getMessage());
+                } catch (Exception ex) {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+        });
+    }
+
+    private void handleUpdatePosVoucher() {
+        AppUser appUser = LocalRepositories.getAppUser(this);
+        api.updatePosVoucher(new RequestCreatePOSVoucher(this), appUser.edit_sale_voucher_id).enqueue(new Callback<UpdateSaleVoucherResponse>() {
+            @Override
+            public void onResponse(Call<UpdateSaleVoucherResponse> call, Response<UpdateSaleVoucherResponse> r) {
+                if (r.code() == 200) {
+                    UpdateSaleVoucherResponse body = r.body();
+                    EventBus.getDefault().post(body);
+                } else {
+                    EventBus.getDefault().post(Cv.TIMEOUT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateSaleVoucherResponse> call, Throwable t) {
                 try {
                     EventBus.getDefault().post(t.getMessage());
                 } catch (Exception ex) {

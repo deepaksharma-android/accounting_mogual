@@ -745,4 +745,7 @@ public interface Api {
     @POST("sale_voucher/{id}")
     Call<CreateSaleVoucherResponse> createPosVoucher(@Body RequestCreatePOSVoucher createItem, @Path("id") String id);
 
+    @PATCH("sale_voucher/{id}")
+    Call<UpdateSaleVoucherResponse> updatePosVoucher(@Body RequestCreatePOSVoucher payload, @Path("id") String id);
+
 }
