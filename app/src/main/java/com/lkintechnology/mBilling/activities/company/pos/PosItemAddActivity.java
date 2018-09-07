@@ -130,6 +130,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         } else {
             submit_txt.setText("Submit");
         }
+        mapList = new ArrayList<>();
+        billList = new ArrayList<>();
         Intent intent = getIntent();
         Double subtotal = intent.getDoubleExtra("subtotal", 0.0);
         mSubtotal = (TextView) findViewById(R.id.subtotal);
@@ -159,8 +161,8 @@ public class PosItemAddActivity extends AppCompatActivity {
             }
             mListMapForBillSale.clear();
             billSundryTotal.clear();
-            mListMapForBillSale = mapList;
-            billSundryTotal = billList;
+           /* mListMapForBillSale = mapList;
+            billSundryTotal = billList;*/
             System.out.println(mListMapForBillSale);
             System.out.println(mListMapForBillSale);
         }
@@ -214,6 +216,16 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
                         });
                 snackbar.show();
+            }
+        } else {
+            if (mapList.size()>0){
+                mListMapForBillSale = mapList;
+                billSundryTotal = billList;
+                for(int i=0;i<billSundryTotal.size();i++){
+                    grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
+                }
+                grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
+                setBillListDataAdapter();
             }
         }
 
@@ -296,20 +308,23 @@ public class PosItemAddActivity extends AppCompatActivity {
             view.setVisibility(View.VISIBLE);
             if (ExpandableItemListActivity.boolForAdapterSet) {
                 if (taxString.contains("GST-MultiRate")) {
-                    if (mListMapForBillSale.size() == billSundryTotal.size()) {
+                   /* if (mListMapForBillSale.size() == billSundryTotal.size()) {
                         Double subtotal = txtSplit(mSubtotal.getText().toString());
                         billCalculation(subtotal, true);
-                        // billCalculationForMultiRate(subtotal, 0.0, 0.0, true, false);
-                    } else {
-                        billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
-                    }
+                       // billCalculationForMultiRate(subtotal, 0.0, 0.0, true, false);
+                    } else {*/
+                    billCalculationForMultiRate(0.0, 0.0, 0.0, false, false);
+                    // if (ExpandableItemListActivity.boolForItemSubmit){
+                    setBillListDataAdapter();
+                    // }
+                    // }
                 } else {
-                    if (mListMapForBillSale.size() == billSundryTotal.size()) {
+                   /* if (mListMapForBillSale.size() == billSundryTotal.size()) {
                         Double subtotal = txtSplit(mSubtotal.getText().toString());
                         billCalculation(subtotal, true);
-                    } else {
-                        billCalculation(0.0, false);
-                    }
+                    } else {*/
+                    billCalculation(0.0, false, false);
+                    //   }
                     setBillListDataAdapter();
                 }
             }
@@ -442,7 +457,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 billCalculationForMultiRate(total, gst, taxValue, true, mBool);
                 setBillListDataAdapter();
             } else {
-                billCalculation(Double.valueOf(response.getPosition()), true);
+                billCalculation(Double.valueOf(response.getPosition()), true, false);
                 setBillListDataAdapter();
             }
         }
@@ -489,7 +504,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         notifyDataSetChanged();
     }
 
-    public void billCalculation(Double subtotal, Boolean aBoolean) {
+    public void billCalculation(Double subtotal, Boolean aBoolean, Boolean backBool) {
         Double grandTotal = 0.0;
         if (aBoolean) {
             grandTotal = subtotal;
@@ -541,13 +556,21 @@ public class PosItemAddActivity extends AppCompatActivity {
                             billSundryTotal.add(i, String.format("%.2f", total));
                         }
                     } else {
-                        total = (grandTotal * Double.valueOf(amount)) / 100;
-                        if (type.equals("Additive")) {
-                            grandTotal = grandTotal + total;
+                        if (!backBool) {
+                            total = (grandTotal * Double.valueOf(amount)) / 100;
+                            if (type.equals("Additive")) {
+                                grandTotal = grandTotal + total;
+                            } else {
+                                grandTotal = grandTotal - total;
+                            }
+                            billSundryTotal.set(i, String.format("%.2f", total));
                         } else {
-                            grandTotal = grandTotal - total;
+                            if (type.equals("Additive")) {
+                                grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
+                            } else {
+                                grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
+                            }
                         }
-                        billSundryTotal.set(i, String.format("%.2f", total));
                     }
                 }
             }
@@ -605,14 +628,14 @@ public class PosItemAddActivity extends AppCompatActivity {
                                     grandTotal = grandTotal - total;
                                 }
                                 billSundryTotal.add(i, String.format("%.2f", total));
-                            } else {
+                            } /*else {
                                 if (type.equals("Additive")) {
                                     grandTotal = grandTotal + total;
                                 } else {
                                     grandTotal = grandTotal - total;
                                 }
                                 billSundryTotal.set(i, String.format("%.2f", total));
-                            }
+                            }*/
                         }
                     } else {
                         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().equals("I/GST-MultiRate")) {
@@ -714,7 +737,6 @@ public class PosItemAddActivity extends AppCompatActivity {
                         if (response.getBill_sundries().getData().get(i).getAttributes().getName().equals("IGST")) {
                             data = response.getBill_sundries().getData().get(i);
                             gstBillSundryCalculation(data);
-                            break;
                         }
                     } else if (taxString.contains("L/GST-MultiRate")) {
                         if (response.getBill_sundries().getData().get(i).getAttributes().getName().equals("CGST")
@@ -727,14 +749,21 @@ public class PosItemAddActivity extends AppCompatActivity {
             }
            /*     }
             }, 1);*/
-            grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
-           /* if (taxString.contains("GST-MultiRate")){
-                for (int i=0;i<billList.size();i++){
-                    mListMapForBillSale.add(mapList.get(0));
+
+            if (billList.size() > 0) {
+                int size = billSundryTotal.size() + billList.size();
+                int billSize = billSundryTotal.size();
+                for (int i = 0; i < billList.size(); i++) {
+                    mListMapForBillSale.add(mapList.get(i));
                     billSundryTotal.add(billList.get(i));
                 }
-            }*/
-            setBillListDataAdapter();
+                Double subtotal = txtSplit(mSubtotal.getText().toString());
+                billCalculation(subtotal, true, true);
+                setBillListDataAdapter();
+            } else {
+                grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
+                setBillListDataAdapter();
+            }
 
         } else {
             Helpers.dialogMessage(this, response.getMessage());

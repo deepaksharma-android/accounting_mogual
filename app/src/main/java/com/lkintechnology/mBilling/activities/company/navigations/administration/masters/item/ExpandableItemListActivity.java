@@ -172,6 +172,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private SimpleDateFormat dateFormatter;
     public static Boolean boolForAdapterSet = false;
+    public static Boolean boolForItemSubmit = false;
     ArrayList<String> mUnitList;
     public static Map mMapPosItem;
 
@@ -369,7 +370,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                 mMapPosItem.clear();
                                                 Intent intent = new Intent(getApplicationContext(), PosItemAddActivity.class);
                                                 intent.putExtra("subtotal", subtotal);
-                                                boolForAdapterSet = true;
+                                               // boolForAdapterSet = true;
+                                                boolForItemSubmit = false;
                                                 startActivity(intent);
                                             } else {
                                                 Toast.makeText(ExpandableItemListActivity.this, "Please add item!!!", Toast.LENGTH_SHORT).show();

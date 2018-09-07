@@ -139,6 +139,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ExpandableItemListActivity.mListMapForItemSale.clear();
                     String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     // String pos = listDataChildId.get(mGroupPosition).get(childPosition);
@@ -180,6 +181,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ExpandableItemListActivity.mListMapForItemSale.clear();
                     String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     add_layout.setVisibility(View.GONE);
@@ -217,6 +219,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             add_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ExpandableItemListActivity.mListMapForItemSale.clear();
                     String pos = groupPosition + "," + childPosition;
                     Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
                     mQuantity.setText("1");
