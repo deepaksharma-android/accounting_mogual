@@ -221,6 +221,12 @@ public class PosItemAddActivity extends AppCompatActivity {
             if (mapList.size() > 0) {
                 mListMapForBillSale = mapList;
                 billSundryTotal = billList;
+                Double subtotal1 = txtSplit(mSubtotal.getText().toString());
+                billCalculation(subtotal, true, true);
+                setBillListDataAdapter();
+
+               /* mListMapForBillSale = mapList;
+                billSundryTotal = billList;
                 for (int i = 0; i < mListMapForBillSale.size(); i++) {
                     Map map = mListMapForBillSale.get(i);
                     String type = (String) map.get("type");
@@ -231,7 +237,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                     }
                 }
                 grand_total.setText("₹ " + (String.format("%.2f", txtSplit(grand_total.getText().toString()) + grandTotal)));
-                setBillListDataAdapter();
+                setBillListDataAdapter();*/
             }
         }
 

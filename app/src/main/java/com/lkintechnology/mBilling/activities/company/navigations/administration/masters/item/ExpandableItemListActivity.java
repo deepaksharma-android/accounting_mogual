@@ -450,7 +450,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        mChildCheckStates = new HashMap<Integer, String[]>();
+     //   mChildCheckStates = new HashMap<Integer, String[]>();
         super.onResume();
         mSaleVoucherItem = new HashMap<>();
         mPurchaseVoucherItem = new HashMap<>();
@@ -789,21 +789,23 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
-                if (!ExpandableItemListActivity.forSaleType){
+                posVoucherDetails();
+               /* if (!ExpandableItemListActivity.forSaleType){
                     posVoucherDetails();
                 }else {
                     mProgressDialog.dismiss();
-                }
+                }*/
             } else {
                 if (ExpandableItemListActivity.comingFrom == 6) {
                     for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                         expListView.expandGroup(i);
                     }
-                    if (!ExpandableItemListActivity.forSaleType){
+                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+                   /* if (!ExpandableItemListActivity.forSaleType){
                         ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
                     }else {
                         mProgressDialog.dismiss();
-                    }
+                    }*/
                 }
             }
 
