@@ -135,6 +135,12 @@ public class CreateSaleReturnFragment extends Fragment {
     ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.po_number)
+    EditText mPoNumber;
+    @Bind(R.id.po_date)
+    TextView mPoDate;
+    @Bind(R.id.po_date_icon)
+    ImageView mPoDateIcon;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
@@ -249,6 +255,8 @@ public class CreateSaleReturnFragment extends Fragment {
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         mVoucher.setText(Preferences.getInstance(getContext()).getVoucher_name());
+        mPoDate.setText(Preferences.getInstance(getContext()).getPoDate());
+        mPoNumber.setText(Preferences.getInstance(getContext()).getPoNumber());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -294,6 +302,39 @@ public class CreateSaleReturnFragment extends Fragment {
                         Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.sale_return_date = mDate.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(), appUser);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDateIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -418,7 +459,7 @@ public class CreateSaleReturnFragment extends Fragment {
                             intent.putExtra("fromedit", fromedit);
                             startActivity(intent);
                         } else {
-                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                            Helpers.dialogMessage(getContext(), "You can't settle payment for this account type");
                         }
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");
@@ -501,11 +542,17 @@ public class CreateSaleReturnFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.sale_return_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_return_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
                                             appUser.sale_return_narration = mNarration.getText().toString();
                                             appUser.sale_return_attachment = encodedString;
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
@@ -651,11 +698,17 @@ public class CreateSaleReturnFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.sale_return_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_return_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_return_mobileNumber = mMobileNumber.getText().toString();
                                             appUser.sale_return_narration = mNarration.getText().toString();
                                             appUser.sale_return_attachment = encodedString;
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
@@ -1023,6 +1076,7 @@ public class CreateSaleReturnFragment extends Fragment {
             mNarration.setText("");
             mVoucher.setText("");
             encodedString = "";
+            ParameterConstant.forPaymentSettlement="";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
             Preferences.getInstance(getContext()).setVoucher_name("");
@@ -1032,6 +1086,10 @@ public class CreateSaleReturnFragment extends Fragment {
             appUser.mListMapForItemSaleReturn.clear();
             appUser.mListMapForBillSaleReturn.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getApplicationContext()).setPoDate("");
+            Preferences.getInstance(getApplicationContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             ApiCallsService.action(getApplicationContext(), Cv.ACTION_GET_VOUCHER_NUMBERS);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -1082,6 +1140,8 @@ public class CreateSaleReturnFragment extends Fragment {
     public void onPause() {
         Preferences.getInstance(getContext()).setVoucher_number(mVchNumber.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
+        Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+        Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -1185,6 +1245,8 @@ public class CreateSaleReturnFragment extends Fragment {
                 mShippedTo.setText(response.getSale_return_voucher().getData().getAttributes().getShipped_to_name());
                 mMobileNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getMobile_number()));
                 mNarration.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getNarration()));
+                mPoDate.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getPo_date()));
+                mPoNumber.setText(Helpers.mystring(response.getSale_return_voucher().getData().getAttributes().getPo_number()));
                 if (response.getSale_return_voucher().getData().getAttributes().getSale_name() != null && response.getSale_return_voucher().getData().getAttributes().getSale_id() != null) {
                     mVoucher.setText(response.getSale_return_voucher().getData().getAttributes().getSale_name());
                     Preferences.getInstance(getContext()).setVoucher_name(response.getSale_return_voucher().getData().getAttributes().getSale_name());
@@ -1406,6 +1468,10 @@ public class CreateSaleReturnFragment extends Fragment {
             appUser.mListMapForItemSaleReturn.clear();
             appUser.mListMapForBillSaleReturn.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getApplicationContext()).setPoDate("");
+            Preferences.getInstance(getApplicationContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemSaleReturnFragment.context).attach(AddItemSaleReturnFragment.context).commit();

@@ -51,14 +51,13 @@ public class Preferences {
     private static final String SERIAL = "serial";
     private static final String STOCK_SERIAL = "stock_serial";
     private static final String PURCHASE_TAX_TYPE = "purchase_tax_type";
-    private static final String UPDATE="update";
-    private static final String REASON="reason";
-    private static final String FIRST="first";
-    private static final String VOUCHER_SERIES="voucher_series";
+    private static final String UPDATE = "update";
+    private static final String REASON = "reason";
+    private static final String FIRST = "first";
+    private static final String VOUCHER_SERIES = "voucher_series";
 
 
-
-    private static final String bill_sundry_amount_of_bill_sundry_fed_as_percent="bill_sundry_amount_of_bill_sundry_fed_as_percent";
+    private static final String bill_sundry_amount_of_bill_sundry_fed_as_percent = "bill_sundry_amount_of_bill_sundry_fed_as_percent";
     private static final String bill_sundry_amount_of_bill_sundry_fed_as = "bill_sundry_amount_of_bill_sundry_fed_as";
     private static final String bill_sundry_of_percentage = "bill_sundry_of_percentage";
     private static final String bill_sundry_number_of_bill_sundry = "bill_sundry_number_of_bill_sundry";
@@ -103,7 +102,6 @@ public class Preferences {
     private static final String item_stock_amount = "item_stock_amount";
     private static final String item_stock_value = "item_stock_value";
     private static final String business_type = "business_type";
-
     private static final String item_alternate_unit_name="item_alternate_unit_name";
     private static final String item_alternate_unit_id="item_alternate_unit_id";
     private static final String item_conversion_factor="item_conversion_factor";
@@ -182,6 +180,9 @@ public class Preferences {
     private static final String pos_party_name="pos_party_name";
     private static final String pos_party_id="pos_party_id";
     private static final String pos_mobile="pos_mobile";
+    private static final String poNumber = "po_number";
+    private static final String poDate = "po_date";
+
 
     private Preferences(Context context) {
         this._context = context;
@@ -213,7 +214,7 @@ public class Preferences {
     }
 
     public String getFirst() {
-        return pref.getString(FIRST,"false");
+        return pref.getString(FIRST, "false");
     }
 
 
@@ -524,6 +525,7 @@ public class Preferences {
     public String getbill_sundry_amount_of_bill_sundry_fed_as() {
         return pref.getString(bill_sundry_amount_of_bill_sundry_fed_as, "");
     }
+
     public void setbill_sundry_amount_of_bill_sundry_fed_as_percent(String billsundryamountofbillsundryfedaspercent) {
         editor.putString(bill_sundry_amount_of_bill_sundry_fed_as_percent, billsundryamountofbillsundryfedaspercent);
         editor.commit();
@@ -867,6 +869,7 @@ public class Preferences {
     public String getItem_stock_value() {
         return pref.getString(item_stock_value, "");
     }
+
     public void setBusiness_type(String businessType) {
         editor.putString(business_type, businessType);
         editor.commit();
@@ -884,6 +887,7 @@ public class Preferences {
     public String getitem_alternate_unit_id() {
         return pref.getString(item_alternate_unit_id, "");
     }
+
     public void setitem_alternate_unit_name(String itemalternateunitname) {
         editor.putString(item_alternate_unit_name, itemalternateunitname);
         editor.commit();
@@ -937,6 +941,7 @@ public class Preferences {
     public String getitem_price_info_purchase_price_applied_on() {
         return pref.getString(item_price_info_purchase_price_applied_on, "");
     }
+
     public void setitem_price_info_sales_price_edittext(String itempriceinfosalespriceedittext) {
         editor.putString(item_price_info_sales_price_edittext, itempriceinfosalespriceedittext);
         editor.commit();
@@ -945,6 +950,7 @@ public class Preferences {
     public String getitem_price_info_sales_price_edittext() {
         return pref.getString(item_price_info_sales_price_edittext, "");
     }
+
     public void setitem_price_info_sale_price_alt_unit_edittext(String itempriceinfosalepricealtunitedittext) {
         editor.putString(item_price_info_sale_price_alt_unit_edittext, itempriceinfosalepricealtunitedittext);
         editor.commit();
@@ -953,6 +959,7 @@ public class Preferences {
     public String getitem_price_info_sale_price_alt_unit_edittext() {
         return pref.getString(item_price_info_sale_price_alt_unit_edittext, "");
     }
+
     public void setitem_price_info_purchase_price_min_edittext(String itempriceinfopurchasepriceminedittext) {
         editor.putString(item_price_info_purchase_price_min_edittext, itempriceinfopurchasepriceminedittext);
         editor.commit();
@@ -961,6 +968,7 @@ public class Preferences {
     public String getitem_price_info_purchase_price_min_edittext() {
         return pref.getString(item_price_info_purchase_price_min_edittext, "");
     }
+
     public void setitem_price_info_purchase_price_alt_edittext(String itempriceinfopurchasepricealtedittext) {
         editor.putString(item_price_info_purchase_price_alt_edittext, itempriceinfopurchasepricealtedittext);
         editor.commit();
@@ -969,6 +977,7 @@ public class Preferences {
     public String getitem_price_info_purchase_price_alt_edittext() {
         return pref.getString(item_price_info_purchase_price_alt_edittext, "");
     }
+
     public void setitem_price_mrp(String itempricemrp) {
         editor.putString(item_price_mrp, itempricemrp);
         editor.commit();
@@ -977,6 +986,7 @@ public class Preferences {
     public String getitem_price_mrp() {
         return pref.getString(item_price_mrp, "");
     }
+
     public void setitem_price_info_min_sale_price_main_edittext(String itempriceinfominsalepricemainedittext) {
         editor.putString(item_price_info_min_sale_price_main_edittext, itempriceinfominsalepricemainedittext);
         editor.commit();
@@ -985,6 +995,7 @@ public class Preferences {
     public String getitem_price_info_min_sale_price_main_edittext() {
         return pref.getString(item_price_info_min_sale_price_main_edittext, "");
     }
+
     public void setitem_price_info_min_sale_price_alt_edittext(String itempriceinfominsalepricealtedittext) {
         editor.putString(item_price_info_min_sale_price_alt_edittext, itempriceinfominsalepricealtedittext);
         editor.commit();
@@ -1002,6 +1013,7 @@ public class Preferences {
     public String getitem_price_info_self_val_price() {
         return pref.getString(item_price_info_self_val_price, "");
     }
+
     public void setitem_package_unit_detail_id(String itempackageunitdetailid) {
         editor.putString(item_package_unit_detail_id, itempackageunitdetailid);
         editor.commit();
@@ -1010,6 +1022,7 @@ public class Preferences {
     public String getitem_package_unit_detail_id() {
         return pref.getString(item_package_unit_detail_id, "");
     }
+
     public void setitem_package_unit_detail_name(String itempackageunitdetailname) {
         editor.putString(item_package_unit_detail_name, itempackageunitdetailname);
         editor.commit();
@@ -1018,6 +1031,7 @@ public class Preferences {
     public String getitem_package_unit_detail_name() {
         return pref.getString(item_package_unit_detail_name, "");
     }
+
     public void setitem_conversion_factor_pkg_unit(String itemconversionfactorpkg_unit) {
         editor.putString(item_conversion_factor_pkg_unit, itemconversionfactorpkg_unit);
         editor.commit();
@@ -1026,6 +1040,7 @@ public class Preferences {
     public String getitem_conversion_factor_pkg_unit() {
         return pref.getString(item_conversion_factor_pkg_unit, "");
     }
+
     public void setitem_salse_price(String itemsalseprice) {
         editor.putString(item_salse_price, itemsalseprice);
         editor.commit();
@@ -1034,6 +1049,7 @@ public class Preferences {
     public String getitem_salse_price() {
         return pref.getString(item_salse_price, "");
     }
+
     public void setitem_purchase_price(String itempurchaseprice) {
         editor.putString(item_purchase_price, itempurchaseprice);
         editor.commit();
@@ -1042,6 +1058,7 @@ public class Preferences {
     public String getitem_purchase_price() {
         return pref.getString(item_purchase_price, "");
     }
+
     public void setitem_default_unit_for_sales(String itemdefaultunitforsales) {
         editor.putString(item_default_unit_for_sales, itemdefaultunitforsales);
         editor.commit();
@@ -1050,6 +1067,7 @@ public class Preferences {
     public String getitem_default_unit_for_sales() {
         return pref.getString(item_default_unit_for_sales, "");
     }
+
     public void setitem_default_unit_for_purchase(String itemdefaultunitforpurchase) {
         editor.putString(item_default_unit_for_purchase, itemdefaultunitforpurchase);
         editor.commit();
@@ -1058,6 +1076,7 @@ public class Preferences {
     public String getitem_default_unit_for_purchase() {
         return pref.getString(item_default_unit_for_purchase, "");
     }
+
     public void setitem_setting_critical_min_level_qty(String itemsettingcriticalminlevelqty) {
         editor.putString(item_setting_critical_min_level_qty, itemsettingcriticalminlevelqty);
         editor.commit();
@@ -1066,6 +1085,7 @@ public class Preferences {
     public String getitem_setting_critical_min_level_qty() {
         return pref.getString(item_setting_critical_min_level_qty, "");
     }
+
     public void setitem_setting_critical_recorded_level_qty(String itemsettingcriticalrecordedlevelqty) {
         editor.putString(item_setting_critical_recorded_level_qty, itemsettingcriticalrecordedlevelqty);
         editor.commit();
@@ -1074,6 +1094,7 @@ public class Preferences {
     public String getitem_setting_critical_recorded_level_qty() {
         return pref.getString(item_setting_critical_recorded_level_qty, "");
     }
+
     public void setitem_setting_critical_max_level_qty(String itemsettingcriticalmaxlevelqty) {
         editor.putString(item_setting_critical_max_level_qty, itemsettingcriticalmaxlevelqty);
         editor.commit();
@@ -1091,13 +1112,16 @@ public class Preferences {
     public String getitem_setting_critical_min_level_days() {
         return pref.getString(item_setting_critical_min_level_days, "");
     }
+
     public void setitem_setting_critical_recorded_level_days(String itemsettingcriticalrecordedleveldays) {
         editor.putString(item_setting_critical_recorded_level_days, itemsettingcriticalrecordedleveldays);
         editor.commit();
     }
+
     public String getitem_setting_critical_recorded_level_days() {
         return pref.getString(item_setting_critical_recorded_level_days, "");
     }
+
     public void setitem_setting_critical_max_level_days(String itemsettingcriticalmaxleveldays) {
         editor.putString(item_setting_critical_max_level_days, itemsettingcriticalmaxleveldays);
         editor.commit();
@@ -1106,6 +1130,7 @@ public class Preferences {
     public String getitem_setting_critical_max_level_days() {
         return pref.getString(item_setting_critical_max_level_days, "");
     }
+
     public void setitem_set_critical_level(String itemsetcriticallevel) {
         editor.putString(item_set_critical_level, itemsetcriticallevel);
         editor.commit();
@@ -1114,6 +1139,7 @@ public class Preferences {
     public String getitem_set_critical_level() {
         return pref.getString(item_set_critical_level, "");
     }
+
     public void setitem_serial_number_wise_detail(String itemserialnumberwisedetail) {
         editor.putString(item_serial_number_wise_detail, itemserialnumberwisedetail);
         editor.commit();
@@ -1122,6 +1148,7 @@ public class Preferences {
     public String getitem_serial_number_wise_detail() {
         return pref.getString(item_serial_number_wise_detail, "");
     }
+
     public void setitem_batch_wise_detail(String itembatchwisedetail) {
         editor.putString(item_batch_wise_detail, itembatchwisedetail);
         editor.commit();
@@ -1130,6 +1157,7 @@ public class Preferences {
     public String getitem_batch_wise_detail() {
         return pref.getString(item_batch_wise_detail, "");
     }
+
     public void setitem_specify_sales_account(String itemspecifysalesaccount) {
         editor.putString(item_specify_sales_account, itemspecifysalesaccount);
         editor.commit();
@@ -1138,6 +1166,7 @@ public class Preferences {
     public String getitem_specify_sales_account() {
         return pref.getString(item_specify_sales_account, "");
     }
+
     public void setitem_specify_purchase_account(String itemspecifypurchaseaccount) {
         editor.putString(item_specify_purchase_account, itemspecifypurchaseaccount);
         editor.commit();
@@ -1146,6 +1175,7 @@ public class Preferences {
     public String getitem_specify_purchase_account() {
         return pref.getString(item_specify_purchase_account, "");
     }
+
     public void setitem_dont_maintain_stock_balance(String itemdontmaintainstockbalance) {
         editor.putString(item_dont_maintain_stock_balance, itemdontmaintainstockbalance);
         editor.commit();
@@ -1154,6 +1184,7 @@ public class Preferences {
     public String getitem_dont_maintain_stock_balance() {
         return pref.getString(item_dont_maintain_stock_balance, "");
     }
+
     public void setitem_settings_alternate_unit(String itemsettingsalternateunit) {
         editor.putString(item_settings_alternate_unit, itemsettingsalternateunit);
         editor.commit();
@@ -1162,6 +1193,7 @@ public class Preferences {
     public String getitem_settings_alternate_unit() {
         return pref.getString(item_settings_alternate_unit, "");
     }
+
     public void setitem_description(String itemdescription) {
         editor.putString(item_description, itemdescription);
         editor.commit();
@@ -1179,6 +1211,7 @@ public class Preferences {
     public String getSale_type_id() {
         return pref.getString(sale_type_id, "");
     }
+
     public void setSale_type_id(String Saletypeid) {
         editor.putString(sale_type_id, Saletypeid);
         editor.commit();
@@ -1189,9 +1222,6 @@ public class Preferences {
     }
 
 
-
-
-
     public void setVoucher_date(String voucherdate) {
         editor.putString(voucher_date, voucherdate);
         editor.commit();
@@ -1200,6 +1230,7 @@ public class Preferences {
     public String getVoucher_date() {
         return pref.getString(voucher_date, "");
     }
+
     public void setVoucher_number(String vouchernumber) {
         editor.putString(voucher_number, vouchernumber);
         editor.commit();
@@ -1250,39 +1281,40 @@ public class Preferences {
     }
 
 
-
-
-
-
     public void setStoreId(String storeid) {
         editor.putString(store_id, storeid);
         editor.commit();
     }
-    public void setStore_to(String storeto){
-        editor.putString(store_to,storeto);
+
+    public void setStore_to(String storeto) {
+        editor.putString(store_to, storeto);
         editor.commit();
     }
-    public String getStore_to(){
-        return pref.getString(store_to,"");
+
+    public String getStore_to() {
+        return pref.getString(store_to, "");
     }
 
     public String getStoreId() {
         return pref.getString(store_id, "");
     }
-    public void setStore_to_id(String storetoid){
-        editor.putString(store_to_id,storetoid);
+
+    public void setStore_to_id(String storetoid) {
+        editor.putString(store_to_id, storetoid);
         editor.commit();
-    }
-    public String getStore_to_id(){
-        return pref.getString(store_to_id,"");
     }
 
-    public void setStore_id_for_item(String storeidforitem){
-        editor.putString(store_id_for_item,storeidforitem);
+    public String getStore_to_id() {
+        return pref.getString(store_to_id, "");
+    }
+
+    public void setStore_id_for_item(String storeidforitem) {
+        editor.putString(store_id_for_item, storeidforitem);
         editor.commit();
     }
-    public String getStore_id_for_item(){
-        return pref.getString(store_id_for_item,"");
+
+    public String getStore_id_for_item() {
+        return pref.getString(store_id_for_item, "");
     }
 
     public void setParty_name(String partyname) {
@@ -1302,6 +1334,7 @@ public class Preferences {
     public String getShipped_to() {
         return pref.getString(shipped_to, "");
     }
+
     public void setShipped_to_id(String shippedToId) {
         editor.putString(shipped_to_id, shippedToId);
         editor.commit();
@@ -1310,7 +1343,6 @@ public class Preferences {
     public String getShipped_to_id() {
         return pref.getString(shipped_to_id, "");
     }
-
 
 
     public void setParty_id(String partyid) {
@@ -1425,12 +1457,11 @@ public class Preferences {
     }
 
 
-
-
     public void setPurchase_type_name(String Saletypename) {
         editor.putString(purchase_type_name, Saletypename);
         editor.commit();
     }
+
     public String getPurchase_type_name() {
         return pref.getString(purchase_type_name, "");
     }
@@ -1440,6 +1471,7 @@ public class Preferences {
         editor.putString(voucher_name, voucherName);
         editor.commit();
     }
+
     public String getVoucher_name() {
         return pref.getString(voucher_name, "");
     }
@@ -1448,14 +1480,34 @@ public class Preferences {
         editor.putString(voucher_id, voucherId);
         editor.commit();
     }
+
     public String getVoucher_id() {
         return pref.getString(voucher_id, "");
+    }
+
+    public void setPoNumber(String voucherId) {
+        editor.putString(poNumber, voucherId);
+        editor.commit();
+    }
+
+    public String getPoNumber() {
+        return pref.getString(poNumber, "");
+    }
+
+    public void setPoDate(String voucherId) {
+        editor.putString(poDate, voucherId);
+        editor.commit();
+    }
+
+    public String getPoDate() {
+        return pref.getString(poDate, "");
     }
 
     public void setPurchase_gst_nature(String gstnature) {
         editor.putString(purchase_gst_nature, gstnature);
         editor.commit();
     }
+
     public String getPurchase_gst_nature() {
         return pref.getString(purchase_gst_nature, "");
     }
@@ -1464,6 +1516,7 @@ public class Preferences {
         editor.putString(purchase_type_id, Saletypeid);
         editor.commit();
     }
+
     public String getPurchase_type_id() {
         return pref.getString(purchase_type_id, "");
     }
@@ -1472,6 +1525,7 @@ public class Preferences {
         editor.putString(UPDATE, update);
         editor.commit();
     }
+
     public String getUpdate() {
         return pref.getString(UPDATE, "");
     }
@@ -1480,13 +1534,16 @@ public class Preferences {
         editor.putString(purchase_return_gst_nature, gstnature);
         editor.commit();
     }
+
     public String getPurchase_return_gst_nature() {
         return pref.getString(purchase_return_gst_nature, "");
     }
+
     public void setReason(String reason) {
         editor.putString(REASON, reason);
         editor.commit();
     }
+
     public String getReason() {
         return pref.getString(REASON, "");
     }

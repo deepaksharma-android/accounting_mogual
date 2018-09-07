@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.company.navigations.AboutActivity;
+import com.lkintechnology.mBilling.activities.user.PackageActivity;
 import com.lkintechnology.mBilling.activities.user.UpdateUserActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
@@ -156,6 +157,15 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),AboutActivity.class);
         startActivity(intent);
     }
+
+    public void buy(View v){
+        drawerLayout.closeDrawers();
+        Intent intent=new Intent(getApplicationContext(),PackageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+//        finish();
+    }
+
     public void logout(View v){
         new AlertDialog.Builder(BaseActivity.this)
                 .setTitle(getString(R.string.dialog_titel_logout))

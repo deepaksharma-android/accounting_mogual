@@ -10,15 +10,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.ScrollingTabContainerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
-import com.lkintechnology.mBilling.activities.app.SplashActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.TransactionPdfActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.account.ExpandableAccountListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
@@ -56,15 +56,11 @@ import com.lkintechnology.mBilling.activities.company.transaction.TransportActiv
 import com.lkintechnology.mBilling.activities.company.transaction.sale.PaymentSettlementActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.networks.ApiCallsService;
-import com.lkintechnology.mBilling.networks.api_response.GetVoucherNumbersResponse;
 import com.lkintechnology.mBilling.networks.api_response.PaymentSettleModel;
-import com.lkintechnology.mBilling.networks.api_response.materialcentre.MaterialCentre;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.CreateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.GetSaleVoucherDetails;
-import com.lkintechnology.mBilling.networks.api_response.salevoucher.SaleVoucherDetailsData;
 import com.lkintechnology.mBilling.networks.api_response.salevoucher.UpdateSaleVoucherResponse;
 import com.lkintechnology.mBilling.networks.api_response.voucherseries.VoucherSeriesResponse;
-import com.lkintechnology.mBilling.utils.BluPrinterHelper;
 import com.lkintechnology.mBilling.utils.Cv;
 import com.lkintechnology.mBilling.utils.Helpers;
 import com.lkintechnology.mBilling.utils.ImagePicker;
@@ -135,6 +131,14 @@ public class CreateSaleVoucherFragment extends Fragment {
     LinearLayout mSaleTypeLayout;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.po_number)
+    EditText mPoNumber;
+    @Bind(R.id.po_date)
+    TextView mPoDate;
+    @Bind(R.id.po_date_icon)
+    ImageView mPoDateIcon;
+
+
     ProgressDialog mProgressDialog;
     String encodedString;
     AppUser appUser;
@@ -160,6 +164,7 @@ public class CreateSaleVoucherFragment extends Fragment {
         super.onStart();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sales_create_voucher, container, false);
@@ -232,11 +237,11 @@ public class CreateSaleVoucherFragment extends Fragment {
                 snackbar.show();
             }
         }
-        if (Preferences.getInstance(getApplicationContext()).getAuto_increment()!=null){
-            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")){
+        if (Preferences.getInstance(getApplicationContext()).getAuto_increment() != null) {
+            if (Preferences.getInstance(getApplicationContext()).getAuto_increment().equals("true")) {
                 mVchNumber.setEnabled(false);
                 mSeries.setEnabled(false);
-            }else {
+            } else {
                 mVchNumber.setEnabled(true);
                 mSeries.setEnabled(true);
             }
@@ -299,6 +304,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         mVchNumber.setText(Preferences.getInstance(getContext()).getVoucher_number());
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
+        mPoDate.setText(Preferences.getInstance(getContext()).getPoDate());
+        mPoNumber.setText(Preferences.getInstance(getContext()).getPoNumber());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -347,6 +354,39 @@ public class CreateSaleVoucherFragment extends Fragment {
                         Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.sale_date = mDate.getText().toString();
                         LocalRepositories.saveAppUser(getActivity(), appUser);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDateIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -488,7 +528,7 @@ public class CreateSaleVoucherFragment extends Fragment {
                             System.out.println("pcccc fragment " + appUser.paymentSettlementList.size());
                             startActivity(intent);
                         } else {
-                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                            Helpers.dialogMessage(getContext(), "You can't settle payment for this account type");
                         }
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");
@@ -558,11 +598,17 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                           if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                               Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                               return;
+                                           }
                                             appUser.sale_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_mobileNumber = mMobileNumber.getText().toString();
                                             appUser.sale_narration = mNarration.getText().toString();
                                             appUser.sale_attachment = encodedString;
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
 
@@ -719,12 +765,18 @@ public class CreateSaleVoucherFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                            /* if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.sale_series = mSeries.getSelectedItem().toString();
                                             appUser.sale_vchNo = mVchNumber.getText().toString();
                                             appUser.sale_mobileNumber = mMobileNumber.getText().toString();
                                             appUser.sale_narration = mNarration.getText().toString();
                                             appUser.sale_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
 
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
@@ -849,6 +901,8 @@ public class CreateSaleVoucherFragment extends Fragment {
         Preferences.getInstance(getContext()).setVoucher_date(mDate.getText().toString());
         Preferences.getInstance(getContext()).setNarration(mNarration.getText().toString());
         Preferences.getInstance(getContext()).setMobile(mMobileNumber.getText().toString());
+        Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+        Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -1094,7 +1148,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             mNarration.setText("");
             encodedString = "";
             mVchNumber.setText("");
-            //mShippedTo.setText("");
+            mShippedTo.setText("");
+
             mSelectedImage.setImageDrawable(null);
             mSelectedImage.setVisibility(View.GONE);
             appUser.mListMapForItemSale.clear();
@@ -1102,8 +1157,13 @@ public class CreateSaleVoucherFragment extends Fragment {
             appUser.transport_details.clear();
             appUser.arr_series.clear();
             appUser.series_details.clear();
+            ParameterConstant.forPaymentSettlement = "";
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getContext()).setPoDate("");
+            Preferences.getInstance(getContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getActivity(), appUser);
             ApiCallsService.action(getActivity(), Cv.ACTION_VOUCHER_SERIES);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -1329,6 +1389,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             mShippedTo.setText(response.getSale_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getSale_voucher().getData().getAttributes().getNarration()));
+            mPoDate.setText(response.getSale_voucher().getData().getAttributes().getPo_date());
+            mPoNumber.setText(response.getSale_voucher().getData().getAttributes().getPo_number());
             Preferences.getInstance(getContext()).setStore(response.getSale_voucher().getData().getAttributes().getMaterial_center());
             Preferences.getInstance(getContext()).setStoreId(String.valueOf(response.getSale_voucher().getData().getAttributes().getMaterial_center_id()));
             Preferences.getInstance(getContext()).setSale_type_name(response.getSale_voucher().getData().getAttributes().getSale_type());
@@ -1553,6 +1615,8 @@ public class CreateSaleVoucherFragment extends Fragment {
             Preferences.getInstance(getContext()).setMobile("");
             Preferences.getInstance(getContext()).setNarration("");
             Preferences.getInstance(getContext()).setAttachment("");
+            Preferences.getInstance(getContext()).setPoNumber("");
+            Preferences.getInstance(getContext()).setPoDate("");
             Preferences.getInstance(getContext()).setUrlAttachment("");
             Preferences.getInstance(getApplicationContext()).setAuto_increment(null);
             mPartyName.setText("");

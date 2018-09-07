@@ -10,6 +10,24 @@ public class SaleVoucherDetailsAttribute {
     public int sale_type_id;
     public String sale_type;
     public String shipped_to_id;
+    String po_date;
+    String po_number;
+
+    public String getPo_date() {
+        return po_date;
+    }
+
+    public void setPo_date(String po_date) {
+        this.po_date = po_date;
+    }
+
+    public String getPo_number() {
+        return po_number;
+    }
+
+    public void setPo_number(String po_number) {
+        this.po_number = po_number;
+    }
 
     public VoucherSeriesDetails getVoucher_series() {
         return voucher_series;

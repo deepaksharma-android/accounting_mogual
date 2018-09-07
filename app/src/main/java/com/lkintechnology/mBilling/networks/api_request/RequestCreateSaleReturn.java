@@ -40,5 +40,7 @@ public class RequestCreateSaleReturn {
         voucher.put("transport_details",appUser.transport_details);
         voucher.put("sale_id",Preferences.getInstance(ctx).getVoucher_id());
         voucher.put("payment_settlement",appUser.paymentSettlementHashMap);
+        voucher.put("po_date",Preferences.getInstance(ctx).getPoDate());
+        voucher.put("po_number",Preferences.getInstance(ctx).getPoNumber());
    }
 }

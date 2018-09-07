@@ -14,6 +14,8 @@ import com.lkintechnology.mBilling.utils.EventAccountChildClicked;
 import com.lkintechnology.mBilling.utils.EventDeleteAccount;
 import com.lkintechnology.mBilling.utils.EventEditAccount;
 import com.lkintechnology.mBilling.utils.EventSelectAccountPurchase;
+import com.lkintechnology.mBilling.utils.ParameterConstant;
+
 import org.greenrobot.eventbus.EventBus;
 import java.util.HashMap;
 import java.util.List;
@@ -131,16 +133,35 @@ public class AccountExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
+       /* if(!ParameterConstant.forPaymentSettlement.equals("")&&headerTitle.equals("Sundry Debtors")){
+
+        }*/
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-        ImageView imageview=(ImageView)convertView.findViewById(R.id.image);
-        if(isExpanded){
-            imageview.setImageResource(R.drawable.up_arrow);
+        if(ParameterConstant.forPaymentSettlement!=null) {
+            if (!ParameterConstant.forPaymentSettlement.equals("")) {
+                if (headerTitle.equals("Sundry Debtors")) {
+                    ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+                    imageview.setVisibility(View.GONE);
+                } else {
+                    ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+                    if (isExpanded) {
+                        imageview.setImageResource(R.drawable.up_arrow);
+                    } else {
+                        imageview.setImageResource(R.drawable.down_arrow);
+                    }
+                }
+            }
         }
         else{
-            imageview.setImageResource(R.drawable.down_arrow);
+            ImageView imageview = (ImageView) convertView.findViewById(R.id.image);
+            if (isExpanded) {
+                imageview.setImageResource(R.drawable.up_arrow);
+            } else {
+                imageview.setImageResource(R.drawable.down_arrow);
+            }
         }
 
         return convertView;

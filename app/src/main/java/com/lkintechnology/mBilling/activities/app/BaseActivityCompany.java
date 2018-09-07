@@ -30,6 +30,7 @@ import com.lkintechnology.mBilling.activities.company.navigations.dashboard.Mast
 import com.lkintechnology.mBilling.activities.company.navigations.dashboard.TransactionDashboardActivity;
 import com.lkintechnology.mBilling.activities.company.pos.PosItemAddActivity;
 import com.lkintechnology.mBilling.adapters.ItemExpandableListAdapter;
+import com.lkintechnology.mBilling.activities.user.PackageActivity;
 import com.lkintechnology.mBilling.entities.AppUser;
 import com.lkintechnology.mBilling.utils.LocalRepositories;
 import com.bumptech.glide.Glide;
@@ -242,6 +243,14 @@ public class BaseActivityCompany extends AppCompatActivity {
     public void about(View v){
         drawerLayout.closeDrawers();
         Intent intent=new Intent(getApplicationContext(),CompanyAboutActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
+        startActivity(intent);
+        finish();
+    }
+
+    public void buy(View v){
+        drawerLayout.closeDrawers();
+        Intent intent=new Intent(getApplicationContext(),PackageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);//***Change Here***
         startActivity(intent);
         finish();

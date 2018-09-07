@@ -16,7 +16,7 @@ android {
         applicationId "com.lkintechnology.mBilling"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 38
+        versionCode 43
         versionName "4.3"
     }
 

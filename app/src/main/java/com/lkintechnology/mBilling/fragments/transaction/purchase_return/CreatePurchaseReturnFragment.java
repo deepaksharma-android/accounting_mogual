@@ -139,6 +139,12 @@ public class CreatePurchaseReturnFragment extends Fragment {
     ImageView mSelectedImage;
     @Bind(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.po_number)
+    EditText mPoNumber;
+    @Bind(R.id.po_date)
+    TextView mPoDate;
+    @Bind(R.id.po_date_icon)
+    ImageView mPoDateIcon;
     ProgressDialog mProgressDialog;
     AppUser appUser;
     private SimpleDateFormat dateFormatter;
@@ -248,6 +254,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
         mMobileNumber.setText(Preferences.getInstance(getContext()).getMobile());
         mNarration.setText(Preferences.getInstance(getContext()).getNarration());
         mVoucher.setText(Preferences.getInstance(getContext()).getVoucher_name());
+        mPoDate.setText(Preferences.getInstance(getContext()).getPoDate());
+        mPoNumber.setText(Preferences.getInstance(getContext()).getPoNumber());
         if (!Preferences.getInstance(getContext()).getAttachment().equals("")) {
             mSelectedImage.setImageBitmap(Helpers.base64ToBitmap(Preferences.getInstance(getContext()).getAttachment()));
             mSelectedImage.setVisibility(View.VISIBLE);
@@ -291,6 +299,39 @@ public class CreatePurchaseReturnFragment extends Fragment {
                         Preferences.getInstance(getContext()).setVoucher_date(date);
                         appUser.purchase_date = date;
                         LocalRepositories.saveAppUser(getActivity(), appUser);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+                    }
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+        mPoDateIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appUser = LocalRepositories.getAppUser(getActivity());
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new android.app.DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        String date = dateFormatter.format(newDate.getTime());
+                        mPoDate.setText(date);
+
                     }
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -423,7 +464,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
                             Intent intent = new Intent(getApplicationContext(), PaymentSettlementActivity.class);
                             startActivity(intent);
                         } else {
-                            Helpers.dialogMessage(getContext(), "You can't settled payment");
+                            Helpers.dialogMessage(getContext(), "You can't settle payment for this account type");
                         }
                     } else {
                         Helpers.dialogMessage(getContext(), "Please select party name");
@@ -508,6 +549,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                         if (!mStore.getText().toString().equals("")) {
                                             if (!mPartyName.getText().toString().equals("")) {
                                           /*  if (!mMobileNumber.getText().toString().equals("")) {*/
+                                                if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                    Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                    return;
+                                                }
                                                 appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                                 //   appUser.gst_nature_purchase_return = gst_nature.getSelectedItem().toString();
                                                 appUser.purchase_voucher_number = mVchNumber.getText().toString();
@@ -516,6 +561,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                                 appUser.purchase_return_attachment = encodedString;
                                                 LocalRepositories.saveAppUser(getActivity(), appUser);
                                                 Boolean isConnected = ConnectivityReceiver.isConnected();
+                                                Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                                Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
 
                                                 if (appUser.sale_partyEmail != null && !appUser.sale_partyEmail.equalsIgnoreCase("null") && !appUser.sale_partyEmail.equals("")) {
                                                     new AlertDialog.Builder(getActivity())
@@ -660,12 +707,18 @@ public class CreatePurchaseReturnFragment extends Fragment {
                                     if (!mStore.getText().toString().equals("")) {
                                         if (!mPartyName.getText().toString().equals("")) {
                                           /*  if (!mMobileNumber.getText().toString().equals("")) {*/
+                                            if (!mPoNumber.getText().toString().equals("")&&mPoDate.getText().toString().equals("")){
+                                                Snackbar.make(coordinatorLayout,"Please Select P.O. Date",Snackbar.LENGTH_SHORT).show();
+                                                return;
+                                            }
                                             appUser.purchase_voucher_series = mSeries.getSelectedItem().toString();
                                             appUser.purchase_voucher_number = mVchNumber.getText().toString();
                                             appUser.purchase_mobile_number = mMobileNumber.getText().toString();
                                             appUser.purchase_narration = mNarration.getText().toString();
                                             appUser.purchase_return_attachment = encodedString;
                                             LocalRepositories.saveAppUser(getActivity(), appUser);
+                                            Preferences.getInstance(getContext()).setPoDate(mPoDate.getText().toString());
+                                            Preferences.getInstance(getContext()).setPoNumber(mPoNumber.getText().toString());
                                             Boolean isConnected = ConnectivityReceiver.isConnected();
                                             new AlertDialog.Builder(getActivity())
                                                     .setTitle("Email")
@@ -991,6 +1044,7 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mNarration.setText("");
             encodedString = "";
             mVchNumber.setText("");
+            ParameterConstant.forPaymentSettlement="";
             mVoucher.setText("");
             Preferences.getInstance(getContext()).setAttachment("");
             Preferences.getInstance(getApplicationContext()).setUrlAttachment("");
@@ -999,6 +1053,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             appUser.mListMapForItemPurchaseReturn.clear();
             appUser.mListMapForBillPurchaseReturn.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getContext()).setPoDate("");
+            Preferences.getInstance(getContext()).setPoNumber("");
             Preferences.getInstance(getContext()).setVoucher_name("");
             Preferences.getInstance(getContext()).setVoucher_id("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
@@ -1208,6 +1266,8 @@ public class CreatePurchaseReturnFragment extends Fragment {
             mShippedTo.setText(response.getPurchase_return_voucher().getData().getAttributes().getShipped_to_name());
             mMobileNumber.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getMobile_number()));
             mNarration.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getNarration()));
+            mPoDate.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getPo_date()));
+            mPoNumber.setText(Helpers.mystring(response.getPurchase_return_voucher().getData().getAttributes().getPo_number()));
             if (response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name() != null && response.getPurchase_return_voucher().getData().getAttributes().getPurchase_id() != null) {
                 mVoucher.setText(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
                 Preferences.getInstance(getContext()).setVoucher_name(response.getPurchase_return_voucher().getData().getAttributes().getPurchase_name());
@@ -1436,6 +1496,10 @@ public class CreatePurchaseReturnFragment extends Fragment {
             appUser.mListMapForItemPurchaseReturn.clear();
             appUser.mListMapForBillPurchaseReturn.clear();
             appUser.transport_details.clear();
+            mPoDate.setText("");
+            mPoNumber.setText("");
+            Preferences.getInstance(getContext()).setPoDate("");
+            Preferences.getInstance(getContext()).setPoNumber("");
             LocalRepositories.saveAppUser(getApplicationContext(), appUser);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(AddItemPurchaseReturnFragment.context).attach(AddItemPurchaseReturnFragment.context).commit();
