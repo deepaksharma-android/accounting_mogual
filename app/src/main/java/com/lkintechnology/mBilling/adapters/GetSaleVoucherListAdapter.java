@@ -139,6 +139,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                         AppUser appUser = LocalRepositories.getAppUser(context);
                         appUser.edit_sale_voucher_id = data.get(position).getId();
                         LocalRepositories.saveAppUser(context, appUser);
+                        FirstPageActivity.posSetting = false;
                         FirstPageActivity.pos = data.get(position).getAttributes().getPos();
                         Intent intent = new Intent(context, ExpandableItemListActivity.class);
                         context.startActivity(intent);

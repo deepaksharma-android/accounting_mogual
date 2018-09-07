@@ -271,7 +271,7 @@ public class PosSettingActivity extends AppCompatActivity {
                                         Preferences.getInstance(getApplicationContext()).setPos_mobile(mMobileNumber.getText().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
-                                        if (ExpandableItemListActivity.forSaleType){
+                                       /* if (ExpandableItemListActivity.forSaleType){
                                             ExpandableItemListActivity.forSaleType = false;
                                             ExpandableItemListActivity.mListMapForItemSale.clear();
                                             ExpandableItemListActivity.mListMapForBillSale.clear();
@@ -283,9 +283,9 @@ public class PosSettingActivity extends AppCompatActivity {
                                             FirstPageActivity.posNotifyAdapter = false;
                                             ExpandableItemListActivity.isDirectForItem = false;
                                             finish();
-                                        }else {
+                                        }else {*/
                                             finish();
-                                        }
+                                      //  }
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                     }
