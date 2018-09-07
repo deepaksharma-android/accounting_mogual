@@ -95,7 +95,7 @@ public class PosSettingActivity extends AppCompatActivity {
     Snackbar snackbar;
     ArrayList<String> arr_series;
     ArrayAdapter<String> mVoucherAdapter;
-
+    Boolean forSaleType = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -272,7 +272,20 @@ public class PosSettingActivity extends AppCompatActivity {
                                         Preferences.getInstance(getApplicationContext()).setPos_mobile(mMobileNumber.getText().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucherSeries(mSeries.getSelectedItem().toString());
                                         Preferences.getInstance(getApplicationContext()).setVoucher_number(mVchNumber.getText().toString());
-                                        finish();
+                                        if (forSaleType){
+                                            appUser.billsundrytotal.clear();
+                                            appUser.mListMapForItemSale.clear();
+                                            ExpandableItemListActivity.mListMapForItemSale.clear();
+                                            ExpandableItemListActivity.mListMapForBillSale.clear();
+                                            ExpandableItemListActivity.mMapPosItem.clear();
+                                            LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                                            FirstPageActivity.posSetting = false;
+                                            FirstPageActivity.posNotifyAdapter = false;
+                                            ExpandableItemListActivity.isDirectForItem = false;
+                                            finish();
+                                        }else {
+                                            finish();
+                                        }
                                     } else {
                                         Snackbar.make(coordinatorLayout, "Please select party name", Snackbar.LENGTH_LONG).show();
                                     }
@@ -349,12 +362,7 @@ public class PosSettingActivity extends AppCompatActivity {
 
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
-                appUser.billsundrytotal.clear();
-                appUser.mListMapForItemSale.clear();
-                ExpandableItemListActivity.mListMapForItemSale.clear();
-                ExpandableItemListActivity.mListMapForBillSale.clear();
-                ExpandableItemListActivity.mMapPosItem.clear();
-                LocalRepositories.saveAppUser(getApplicationContext(), appUser);
+                forSaleType = true;
                 String result = data.getStringExtra("name");
                 String id = data.getStringExtra("id");
                 mSaleType.setText(result);
