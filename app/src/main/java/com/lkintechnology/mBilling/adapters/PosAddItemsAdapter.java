@@ -150,7 +150,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                             String tax = (String) map.get("tax");
                             Double taxValue = taxSplit(tax);
                             Double item_tax = (item_amount * taxValue) / 100;
-                            Double taxInclude = total - item_tax;
+                            String taxInclude = String.format("%.2f", (total - item_tax));
                             viewHolder.mItemTotal.setText("₹ " + taxInclude);
                             setTotal(String.valueOf(item_tax), false, 0.0, 0.0, tax);
                         } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
