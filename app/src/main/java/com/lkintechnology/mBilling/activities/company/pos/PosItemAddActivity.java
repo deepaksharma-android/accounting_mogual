@@ -565,10 +565,20 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
                             billSundryTotal.set(i, String.format("%.2f", total));
                         } else {
-                            if (type.equals("Additive")) {
-                                grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
-                            } else {
-                                grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
+                            if (itemName.equals("IGST") || itemName.equals("CGST") || itemName.equals("SGST")){
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
+                                } else {
+                                    grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
+                                }
+                            }else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                billSundryTotal.set(i, String.format("%.2f", total));
                             }
                         }
                     }
