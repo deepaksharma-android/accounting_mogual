@@ -841,6 +841,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 // billSundryTotal.add("" + Double.valueOf(changeAmount));
                 grandTotal = grandTotal + Double.valueOf(changeAmount);
                 // LocalRepositories.saveAppUser(PosItemAddActivity.this,appUser);
+                taxval = taxval/2;
             }
         }
 
@@ -1027,7 +1028,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1068,7 +1069,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1111,7 +1112,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1152,7 +1153,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1195,7 +1196,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1236,7 +1237,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1279,7 +1280,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "CGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
@@ -1320,7 +1321,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 mMap.put("id", id);
                 mMap.put("courier_charges", "SGST");
                 mMap.put("bill_sundry_id", billSundryId);
-                mMap.put("percentage", "" + taxval);
+                mMap.put("percentage", "" + taxval/2);
                 mMap.put("percentage_value", billSundaryPercentage);
                 mMap.put("default_unit", String.valueOf(billSundryDefaultValue));
                 mMap.put("fed_as", billSundryFedAs);
