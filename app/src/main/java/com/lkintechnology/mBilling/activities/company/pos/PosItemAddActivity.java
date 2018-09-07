@@ -1421,8 +1421,8 @@ public class PosItemAddActivity extends AppCompatActivity {
         appUser.billsundrytotal.clear();
         appUser.mListMapForBillSale.clear();
         appUser.mListMapForItemSale.clear();
-        if (billSundryTotal.size() > 0) {
-            for (int i = 0; i < billSundryTotal.size(); i++) {
+        if (mListMapForBillSale.size() > 0) {
+            for (int i = 0; i < mListMapForBillSale.size(); i++) {
                 bill_sundries_amount = bill_sundries_amount + Double.valueOf(billSundryTotal.get(i));
                 if (!billSundryTotal.get(i).equals("0.00")) {
                     appUser.billsundrytotal.add(billSundryTotal.get(i));
@@ -1449,7 +1449,6 @@ public class PosItemAddActivity extends AppCompatActivity {
             mProgressDialog.setCancelable(true);
             mProgressDialog.show();
             if (FirstPageActivity.pos) {
-                ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_SALE_VOUCHER_DETAILS);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_UPDATE_POS_VOUCHER_DETAILS);
             } else {
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_CREATE_POS_VOUCHER);

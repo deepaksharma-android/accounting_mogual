@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.PurchaseAddBillActivity;
@@ -86,6 +87,7 @@ public class AddItemPurchaseFragment extends Fragment {
                         Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                         ExpandableItemListActivity.comingFrom = 1;
                         ExpandableItemListActivity.isDirectForItem = false;
+                        FirstPageActivity.posSetting = false;
                         intent.putExtra("bool", true);
                         startActivity(intent);
                         getActivity().finish();

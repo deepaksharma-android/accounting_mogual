@@ -88,6 +88,7 @@ public class AddItemVoucherFragment extends Fragment {
                         ExpandableItemListActivity.comingFrom = 0;
                         ExpandableItemListActivity.isDirectForItem = false;
                         FirstPageActivity.posNotifyAdapter = false;
+                        FirstPageActivity.posSetting = false;
                         Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                        /* if(CreateSaleActivity.fromsalelist){
                             intent.putExtra("fromsalelist", true);

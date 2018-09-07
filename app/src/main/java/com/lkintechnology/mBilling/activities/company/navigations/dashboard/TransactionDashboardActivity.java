@@ -114,6 +114,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_transaction);
         ButterKnife.bind(this);
+        FirstPageActivity.pos = false;
         context = TransactionDashboardActivity.this;
         SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
         PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;

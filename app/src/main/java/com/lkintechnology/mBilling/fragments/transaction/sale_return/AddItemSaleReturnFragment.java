@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.billsundry.BillSundryListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddBillActivity;
@@ -83,6 +85,7 @@ public class AddItemSaleReturnFragment extends Fragment {
                     add_item_button.startAnimation(blinkOnClick);
                     ExpandableItemListActivity.comingFrom = 2;
                     ExpandableItemListActivity.isDirectForItem = false;
+                    FirstPageActivity.posSetting = false;
                     Intent intent = new Intent(getContext(), ExpandableItemListActivity.class);
                     intent.putExtra("bool", true);
                     startActivity(intent);

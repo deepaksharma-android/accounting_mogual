@@ -44,6 +44,7 @@ import com.lkintechnology.mBilling.activities.company.transaction.purchase.Purch
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.CreatePurchaseReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase_return.PurchaseReturnAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.CreateSaleActivity;
+import com.lkintechnology.mBilling.activities.company.transaction.sale.GetSaleVoucherListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale.SaleVoucherAddItemActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.CreateSaleReturnActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.sale_return.SaleReturnAddItemActivity;
@@ -140,6 +141,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static List<Map> mListMapForItemSale;
     public static List<Map<String, String>> mListMapForBillSale;
     public static ArrayList<String> billSundryTotal;
+    public static Boolean forSaleType = false;
     // Boolean fromsalelist;
 
 
@@ -787,13 +789,21 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                     expListView.expandGroup(i);
                 }
-                posVoucherDetails();
+                if (!ExpandableItemListActivity.forSaleType){
+                    posVoucherDetails();
+                }else {
+                    mProgressDialog.dismiss();
+                }
             } else {
                 if (ExpandableItemListActivity.comingFrom == 6) {
                     for (int i = 0; i < listAdapter.getGroupCount(); i++) {
                         expListView.expandGroup(i);
                     }
-                    ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+                    if (!ExpandableItemListActivity.forSaleType){
+                        ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
+                    }else {
+                        mProgressDialog.dismiss();
+                    }
                 }
             }
 
@@ -1308,10 +1318,17 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             } else if (ExpandableItemListActivity.comingFrom == 5) {
                 finish();
             } else if (ExpandableItemListActivity.comingFrom == 6) {
-                Intent intent = new Intent(this, FirstPageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                if (FirstPageActivity.pos){
+                    Intent intent = new Intent(this, GetSaleVoucherListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(this, FirstPageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 Intent intent = new Intent(this, MasterDashboardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -1364,10 +1381,18 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                     } else if (ExpandableItemListActivity.comingFrom == 5) {
                         finish();
                     } else if (ExpandableItemListActivity.comingFrom == 6) {
-                        Intent intent = new Intent(this, FirstPageActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
+                        if (FirstPageActivity.pos){
+                            Intent intent = new Intent(this, GetSaleVoucherListActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Intent intent = new Intent(this, FirstPageActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+
                     } else {
                         Intent intent = new Intent(this, MasterDashboardActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
