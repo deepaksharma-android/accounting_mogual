@@ -139,7 +139,7 @@ public class PosItemAddActivity extends AppCompatActivity {
         grand_total.setText("₹ " + String.format("%.2f", subtotal));
 
         if (mListMapForBillSale.size() > 0) {
-            size = billSundryTotal.size();
+            size = mListMapForBillSale.size();
             for (int i = 0; i < size; i++) {
                 String courier_charges = mListMapForBillSale.get(i).get("courier_charges");
                 if (!courier_charges.equals("IGST") && !courier_charges.equals("CGST") && !courier_charges.equals("SGST")) {
@@ -553,10 +553,20 @@ public class PosItemAddActivity extends AppCompatActivity {
                             }
                             billSundryTotal.set(i, String.format("%.2f", total));
                         } else {
-                            if (type.equals("Additive")) {
-                                grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
-                            } else {
-                                grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
+                            if (itemName.equals("IGST") || itemName.equals("CGST") || itemName.equals("SGST")){
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + Double.valueOf(billSundryTotal.get(i));
+                                } else {
+                                    grandTotal = grandTotal - Double.valueOf(billSundryTotal.get(i));
+                                }
+                            }else {
+                                total = (grandTotal * Double.valueOf(amount)) / 100;
+                                if (type.equals("Additive")) {
+                                    grandTotal = grandTotal + total;
+                                } else {
+                                    grandTotal = grandTotal - total;
+                                }
+                                billSundryTotal.set(i, String.format("%.2f", total));
                             }
                         }
                     }
