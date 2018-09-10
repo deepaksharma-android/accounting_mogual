@@ -122,7 +122,7 @@ public class PosSettingActivity extends AppCompatActivity {
 
         if (!FirstPageActivity.pos){
             Boolean isConnected = ConnectivityReceiver.isConnected();
-            if (isConnected) {
+        if (isConnected) {
                 mProgressDialog = new ProgressDialog(PosSettingActivity.this);
                 mProgressDialog.setMessage("Info...");
                 mProgressDialog.setIndeterminate(false);
