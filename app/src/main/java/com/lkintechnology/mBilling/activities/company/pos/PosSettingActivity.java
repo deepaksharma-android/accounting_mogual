@@ -128,6 +128,9 @@ public class PosSettingActivity extends AppCompatActivity {
                 mProgressDialog.setIndeterminate(false);
                 mProgressDialog.setCancelable(true);
                 mProgressDialog.show();
+                appUser.arr_series.clear();
+                appUser.series_details.clear();
+                LocalRepositories.saveAppUser(getApplicationContext(),appUser);
                 ApiCallsService.action(getApplicationContext(), Cv.ACTION_VOUCHER_SERIES);
             } else {
                 snackbar = Snackbar
