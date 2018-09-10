@@ -431,6 +431,7 @@ public class TransactionPdfActivity extends AppCompatActivity implements IAemCar
 
     public void apiCall() {
         Boolean isConnected = ConnectivityReceiver.isConnected();
+
         if (isConnected) {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Info...");

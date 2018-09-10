@@ -192,6 +192,7 @@ public class BaseActivityCompany extends AppCompatActivity {
         Preferences.getInstance(getApplicationContext()).setShipped_to("");
         Preferences.getInstance(getApplicationContext()).setMobile("");
         Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setPos_date("");
         appUser.sale_date = "";
         appUser.sale_date = "";
         appUser.sale_series = "";

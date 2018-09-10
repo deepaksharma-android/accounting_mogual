@@ -9,7 +9,7 @@ public class Attributes {
     public Double total_amount;
     public String invoice_html;
     public String attachment;
-    public Boolean pos =true;
+    public Boolean pos;
 
     public Boolean getPos() {
         return pos;

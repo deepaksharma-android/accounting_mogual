@@ -1790,7 +1790,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         if (response.getStatus() == 200) {
 
             Preferences.getInstance(getApplicationContext()).setPos_date(response.getSale_voucher().getData().getAttributes().getDate());
-           // FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
+            FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
             appUser.arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
             if (response.getSale_voucher().getData().getAttributes().getVoucher_series().isAuto_increment()) {
                 Preferences.getInstance(getApplicationContext()).setAuto_increment("true");

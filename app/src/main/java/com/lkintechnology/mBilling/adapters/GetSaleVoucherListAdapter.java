@@ -134,7 +134,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                     String s = data.get(position).getAttributes().getVoucher_number() + "," + data.get(position).getId();
                     EventBus.getDefault().post(new EventForVoucherClick(s));
                 } else {
-                    /*if (data.get(position).getAttributes().getPos()){
+                    if (data.get(position).getAttributes().getPos()) {
                         Preferences.getInstance(context).setUpdate("1");
                         AppUser appUser = LocalRepositories.getAppUser(context);
                         appUser.edit_sale_voucher_id = data.get(position).getId();
@@ -144,7 +144,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                         Intent intent = new Intent(context, ExpandableItemListActivity.class);
                         context.startActivity(intent);
                         ((Activity) context).finish();
-                    }else {*/
+                    } else {
                         Preferences.getInstance(context).setUpdate("1");
                         AppUser appUser = LocalRepositories.getAppUser(context);
                         appUser.edit_sale_voucher_id = data.get(position).getId();
@@ -154,7 +154,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                         intent.putExtra("fromsalelist", true);
                         intent.putExtra("fromdashboard", false);
                         context.startActivity(intent);
-                  //  }
+                    }
                 }
 
             }
