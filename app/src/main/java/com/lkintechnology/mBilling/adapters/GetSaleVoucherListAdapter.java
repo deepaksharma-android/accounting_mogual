@@ -128,35 +128,35 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
         viewHolder.mMainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (forMainLayoutClick) {
-                    Preferences.getInstance(context).setVoucher_name("");
-                    Preferences.getInstance(context).setVoucher_id("");
-                    String s = data.get(position).getAttributes().getVoucher_number() + "," + data.get(position).getId();
-                    EventBus.getDefault().post(new EventForVoucherClick(s));
-                } else {
-                    if (data.get(position).getAttributes().getPos()) {
-                        Preferences.getInstance(context).setUpdate("1");
-                        AppUser appUser = LocalRepositories.getAppUser(context);
-                        appUser.edit_sale_voucher_id = data.get(position).getId();
-                        LocalRepositories.saveAppUser(context, appUser);
-                        FirstPageActivity.posSetting = false;
-                        FirstPageActivity.pos = data.get(position).getAttributes().getPos();
-                        Intent intent = new Intent(context, ExpandableItemListActivity.class);
-                        context.startActivity(intent);
-                        ((Activity) context).finish();
-                    } else {
-                        Preferences.getInstance(context).setUpdate("1");
-                        AppUser appUser = LocalRepositories.getAppUser(context);
-                        appUser.edit_sale_voucher_id = data.get(position).getId();
-                        LocalRepositories.saveAppUser(context, appUser);
-                        FirstPageActivity.pos = data.get(position).getAttributes().getPos();
-                        Intent intent = new Intent(context, CreateSaleActivity.class);
-                        intent.putExtra("fromsalelist", true);
-                        intent.putExtra("fromdashboard", false);
-                        context.startActivity(intent);
-                    }
-                }
 
+                    if (forMainLayoutClick) {
+                        Preferences.getInstance(context).setVoucher_name("");
+                        Preferences.getInstance(context).setVoucher_id("");
+                        String s = data.get(position).getAttributes().getVoucher_number() + "," + data.get(position).getId();
+                        EventBus.getDefault().post(new EventForVoucherClick(s));
+                    } else {
+                        if (data.get(position).getAttributes().getPos()) {
+                            Preferences.getInstance(context).setUpdate("1");
+                            AppUser appUser = LocalRepositories.getAppUser(context);
+                            appUser.edit_sale_voucher_id = data.get(position).getId();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            FirstPageActivity.posSetting = false;
+                            FirstPageActivity.pos = data.get(position).getAttributes().getPos();
+                            Intent intent = new Intent(context, ExpandableItemListActivity.class);
+                            context.startActivity(intent);
+                            ((Activity) context).finish();
+                        } else {
+                            Preferences.getInstance(context).setUpdate("1");
+                            AppUser appUser = LocalRepositories.getAppUser(context);
+                            appUser.edit_sale_voucher_id = data.get(position).getId();
+                            LocalRepositories.saveAppUser(context, appUser);
+                            FirstPageActivity.pos = data.get(position).getAttributes().getPos();
+                            Intent intent = new Intent(context, CreateSaleActivity.class);
+                            intent.putExtra("fromsalelist", true);
+                            intent.putExtra("fromdashboard", false);
+                            context.startActivity(intent);
+                        }
+                    }
             }
         });
 
