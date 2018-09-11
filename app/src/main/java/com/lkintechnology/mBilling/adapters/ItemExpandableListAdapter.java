@@ -3,6 +3,8 @@ package com.lkintechnology.mBilling.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +50,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     Double total = 0.0;
     Double sale_price_main = 0.0;
     public Dialog dialog;
+    Double finalCal = 0.00;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
                                      HashMap<String, List<String>> listChildData, HashMap<Integer, List<String>> listDataChildSalePriceMain, int comingFromPOS) {
@@ -112,19 +115,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
             LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
             LinearLayout add_price_layout = (LinearLayout) convertView.findViewById(R.id.add_price_layout);
-            if (FirstPageActivity.fromPos2){
-                add_price_layout.setVisibility(View.VISIBLE);
-                add_price_layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String pos = groupPosition + "," + childPosition;
-                        mItemAmount.setText("₹ " + showpopup(pos,sale_price_main));
-                    }
-                });
-            }else {
-                mItemAmount.setText("₹ " + sale_price_main);
-                add_price_layout.setVisibility(View.GONE);
-            }
             if (ExpandableItemListActivity.mChildCheckStates.containsKey(mGroupPosition)) {
                 String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                 if (getChecked[mChildPosition] == null || getChecked[mChildPosition].equals("0")) {
@@ -156,6 +146,24 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
 
             txtListChild.setText(name + " (qty: " + quantity + ")");
+            if (FirstPageActivity.fromPos2){
+                mItemAmount.setText("₹ " + sale_price_main);
+                add_price_layout.setVisibility(View.VISIBLE);
+                add_price_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String pos = groupPosition + "," + childPosition;
+                        Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
+                        Double itemPrice = showpopup(pos,sale_price_main);
+                        if (itemPrice!=0){
+                            mItemAmount.setText("₹ " + itemPrice);
+                        }
+                    }
+                });
+            }else {
+                mItemAmount.setText("₹ " + sale_price_main);
+                add_price_layout.setVisibility(View.GONE);
+            }
             mItemTotal.setText("₹ 0.0");
 
 
@@ -415,8 +423,10 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         EditText mRate = (EditText) dialog.findViewById(R.id.rate);
         EditText mDiscount = (EditText) dialog.findViewById(R.id.discount);
         EditText mDiscount_value = (EditText) dialog.findViewById(R.id.discount_value);
+        EditText mTotal_amount = (EditText) dialog.findViewById(R.id.total_amount);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        mRate.setText(""+sale_price_main);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -427,6 +437,48 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+       /* mDiscount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mDiscount.getText().toString().isEmpty()) {
+
+                } else {
+                    mDiscount_value.setText("0.0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mDiscount_value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mDiscount.getText().toString().isEmpty()) {
+
+                } else {
+                    mDiscount.setText("0.0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });*/
+
         // if button is clicked, close the custom dialog
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -435,12 +487,32 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
+                Double rate = Double.valueOf(mRate.getText().toString());
+                Double discount = Double.valueOf(mDiscount.getText().toString());
+                Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
+                if (rate==0){
+                    finalCal = sale_price_main;
+                }else {
+                    if (discount!=0){
+                        finalCal = rate*discount/100;
+                    }
+                    if (discount_value!=0){
+                        finalCal = rate - discount_value;
+                    }
+                    if (discount!=0 && discount_value!=0 ){
+                        finalCal = sale_price_main;
+                    }
+                }
                 dialog.dismiss();
             }
         });
 
         dialog.show();
 
-        return 0.00;
+        if (finalCal==0){
+            return sale_price_main;
+        }else {
+            return finalCal;
+        }
     }
 }

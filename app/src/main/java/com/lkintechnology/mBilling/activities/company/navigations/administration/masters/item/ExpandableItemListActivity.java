@@ -489,6 +489,8 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             }
         }
         if (FirstPageActivity.posNotifyAdapter) {
+            Double total = getTotal(PosItemAddActivity.mSubtotal.getText().toString());
+            mTotal.setText("Total : "+total);
             mChildCheckStates = new HashMap<Integer, String[]>();
             expListView.setAdapter(listAdapter);
             listAdapter.notifyDataSetChanged();
