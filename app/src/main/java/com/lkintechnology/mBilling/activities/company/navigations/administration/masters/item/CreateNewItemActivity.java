@@ -28,6 +28,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.lkintechnology.mBilling.R;
 import com.lkintechnology.mBilling.activities.app.ConnectivityReceiver;
 import com.lkintechnology.mBilling.activities.app.RegisterAbstractActivity;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item_group.ItemGroupListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.materialcentre.MaterialCentreListActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.taxcategory.TaxCategoryeListActivity;
@@ -881,6 +882,8 @@ public class CreateNewItemActivity extends RegisterAbstractActivity {
     public void getedititem(GetItemDetailsResponse response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
+            FirstPageActivity.posSetting=false;
+            FirstPageActivity.posNotifyAdapter = false;
             appUser.edit_item_id = String.valueOf(response.getItem().getData().getAttributes().getId());
             LocalRepositories.saveAppUser(this, appUser);
 
