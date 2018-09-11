@@ -1967,7 +1967,11 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
     }
 
-
+    public Double getTotal(String total) {
+        String[] arr = total.split("₹ ");
+        Double a = Double.valueOf(arr[1].trim());
+        return a;
+    }
 }
 
 

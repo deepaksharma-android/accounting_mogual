@@ -394,7 +394,7 @@
                             android:clickable="true"
                             android:gravity="center_vertical"
                             android:onClick="pos2"
-                            android:text="POS"
+                            android:text="POS-2"
                             android:textColor="#cc000000"
                             android:textSize="16sp" />
 

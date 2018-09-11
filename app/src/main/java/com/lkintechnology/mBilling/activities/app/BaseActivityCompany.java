@@ -182,6 +182,7 @@ public class BaseActivityCompany extends AppCompatActivity {
 
     public void pos(View v){
         drawerLayout.closeDrawers();
+        FirstPageActivity.fromPos2 = false;
         appUser.mListMapForItemSale.clear();
         appUser.mListMapForBillSale.clear();
         appUser.billsundrytotal.clear();

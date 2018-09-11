@@ -119,6 +119,7 @@ public class TransactionDashboardActivity extends BaseActivityCompany {
         SaleVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
         PurchaseVouchersItemDetailsListActivity.isFromTransactionSaleActivity = false;
         appUser = LocalRepositories.getAppUser(context);
+        FirstPageActivity.fromPos2 = false;
         appUser.transport_details.clear();
         appUser.sale_item_serial_arr.clear();
         appUser.purchase_item_serail_arr.clear();

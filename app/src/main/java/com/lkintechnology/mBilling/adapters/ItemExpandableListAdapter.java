@@ -117,10 +117,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 add_price_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        String pos = groupPosition + "," + childPosition;
+                        mItemAmount.setText("₹ " + showpopup(pos,sale_price_main));
                     }
                 });
             }else {
+                mItemAmount.setText("₹ " + sale_price_main);
                 add_price_layout.setVisibility(View.GONE);
             }
             if (ExpandableItemListActivity.mChildCheckStates.containsKey(mGroupPosition)) {
@@ -154,7 +156,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
 
             txtListChild.setText(name + " (qty: " + quantity + ")");
-            mItemAmount.setText("₹ " + sale_price_main);
             mItemTotal.setText("₹ 0.0");
 
 
@@ -405,7 +406,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return a;
     }
 
-    public void showpopup(int pos){
+    public Double showpopup(String pos,Double sale_price_main){
         dialog = new Dialog(_context);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_pos2_discount);
@@ -413,7 +414,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         // set the custom dialog components - text, image and button
         EditText mRate = (EditText) dialog.findViewById(R.id.rate);
         EditText mDiscount = (EditText) dialog.findViewById(R.id.discount);
-        CheckBox mDiscount_value = (CheckBox) dialog.findViewById(R.id.discount_value);
+        EditText mDiscount_value = (EditText) dialog.findViewById(R.id.discount_value);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
         close.setOnClickListener(new View.OnClickListener() {
@@ -434,10 +435,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
-
+                dialog.dismiss();
             }
         });
 
         dialog.show();
+
+        return 0.00;
     }
 }

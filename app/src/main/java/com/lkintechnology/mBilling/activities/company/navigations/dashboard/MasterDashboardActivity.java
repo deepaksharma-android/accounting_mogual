@@ -58,6 +58,7 @@ public class MasterDashboardActivity extends BaseActivityCompany {
         setContentView(R.layout.activity_generic_grid);
         ButterKnife.bind(this);
         appUser = LocalRepositories.getAppUser(this);
+        FirstPageActivity.fromPos2 = false;
         TypedArray ta = getResources().obtainTypedArray(R.array.rainbow);
         int[] colors = new int[ta.length()];
         for (int i = 0; i < ta.length(); i++) {
