@@ -1,22 +1,31 @@
 package com.lkintechnology.mBilling.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
 
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.utils.EventDeleteItem;
 import com.lkintechnology.mBilling.utils.EventEditItem;
+import com.lkintechnology.mBilling.utils.EventOpenCompany;
 import com.lkintechnology.mBilling.utils.EventSaleAddItem;
+import com.lkintechnology.mBilling.utils.LocalRepositories;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,6 +47,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     private int comingFromPOS;
     Double total = 0.0;
     Double sale_price_main = 0.0;
+    public Dialog dialog;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
                                      HashMap<String, List<String>> listChildData, HashMap<Integer, List<String>> listDataChildSalePriceMain, int comingFromPOS) {
@@ -101,6 +111,18 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             LinearLayout add_layout = (LinearLayout) convertView.findViewById(R.id.add_layout);
             LinearLayout decrease = (LinearLayout) convertView.findViewById(R.id.decrease);
             LinearLayout increase = (LinearLayout) convertView.findViewById(R.id.increase);
+            LinearLayout add_price_layout = (LinearLayout) convertView.findViewById(R.id.add_price_layout);
+            if (FirstPageActivity.fromPos2){
+                add_price_layout.setVisibility(View.VISIBLE);
+                add_price_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }else {
+                add_price_layout.setVisibility(View.GONE);
+            }
             if (ExpandableItemListActivity.mChildCheckStates.containsKey(mGroupPosition)) {
                 String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                 if (getChecked[mChildPosition] == null || getChecked[mChildPosition].equals("0")) {
@@ -381,5 +403,41 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         String[] arr = total.split("₹ ");
         String a = arr[1].trim();
         return a;
+    }
+
+    public void showpopup(int pos){
+        dialog = new Dialog(_context);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_pos2_discount);
+        dialog.setCancelable(true);
+        // set the custom dialog components - text, image and button
+        EditText mRate = (EditText) dialog.findViewById(R.id.rate);
+        EditText mDiscount = (EditText) dialog.findViewById(R.id.discount);
+        CheckBox mDiscount_value = (CheckBox) dialog.findViewById(R.id.discount_value);
+        LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
+        LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+                dialog.dismiss();
+            }
+        });
+
+        // if button is clicked, close the custom dialog
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+            }
+        });
+
+        dialog.show();
     }
 }

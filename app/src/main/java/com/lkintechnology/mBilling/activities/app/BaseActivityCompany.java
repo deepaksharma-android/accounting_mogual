@@ -214,6 +214,43 @@ public class BaseActivityCompany extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void pos2(View v){
+        drawerLayout.closeDrawers();
+        FirstPageActivity.fromPos2 = true;
+        appUser.mListMapForItemSale.clear();
+        appUser.mListMapForBillSale.clear();
+        appUser.billsundrytotal.clear();
+        Preferences.getInstance(getApplicationContext()).setVoucher_number("");
+        Preferences.getInstance(getApplicationContext()).setParty_id("");
+        Preferences.getInstance(getApplicationContext()).setParty_name("");
+        Preferences.getInstance(getApplicationContext()).setShipped_to_id("");
+        Preferences.getInstance(getApplicationContext()).setShipped_to("");
+        Preferences.getInstance(getApplicationContext()).setMobile("");
+        Preferences.getInstance(getApplicationContext()).setAttachment("");
+        Preferences.getInstance(getApplicationContext()).setPos_date("");
+        appUser.sale_date = "";
+        appUser.sale_date = "";
+        appUser.sale_series = "";
+        appUser.sale_vchNo = "";
+        appUser.sale_mobileNumber = "";
+        appUser.sale_narration = "";
+        appUser.totalamount = "0.0";
+        appUser.items_amount = "0.0";
+        appUser.bill_sundries_amount = "0.0";
+        appUser.email_yes_no = "";
+        appUser.transport_details.clear();
+        appUser.paymentSettlementHashMap.clear();
+        LocalRepositories.saveAppUser(getApplicationContext(),appUser);
+        ExpandableItemListActivity.comingFrom = 6;
+        ExpandableItemListActivity.mMapPosItem = new HashMap<>();
+        ExpandableItemListActivity.isDirectForItem = false;
+        FirstPageActivity.posSetting = false;
+        Intent intent = new Intent(getApplicationContext(), ExpandableItemListActivity.class);
+        startActivity(intent);
+    }
+
+
+
     public void help(View v){
         drawerLayout.closeDrawers();
         Intent email = new Intent(Intent.ACTION_SENDTO);

@@ -56,6 +56,7 @@ public class FirstPageActivity extends BaseActivityCompany {
     public static Boolean posSetting = false;
     public static Boolean posNotifyAdapter = false;
     public static Boolean pos = false;
+    public static Boolean fromPos2 = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class FirstPageActivity extends BaseActivityCompany {
         //initActionbar();
         posSetting = false;
         pos = false;
+        fromPos2 = false;
     }
 
     private void initActionbar() {
