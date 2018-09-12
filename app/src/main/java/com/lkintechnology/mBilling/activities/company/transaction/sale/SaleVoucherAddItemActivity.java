@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lkintechnology.mBilling.R;
+import com.lkintechnology.mBilling.activities.company.FirstPageActivity;
 import com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.barcode.CheckBoxVoucherBarcodeActivity;
 import com.lkintechnology.mBilling.activities.company.transaction.purchase.CreatePurchaseActivity;
@@ -1218,9 +1219,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
-        {
+        mRate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1234,9 +1233,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
-        {
+        mDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1250,9 +1247,7 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             }
         });
 
-        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
-        {
+        mValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -1304,6 +1299,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
             finish();
         } else {
             Intent intent2 = new Intent(this, ExpandableItemListActivity.class);
+            FirstPageActivity.posSetting = false;
+            FirstPageActivity.posNotifyAdapter = false;
             startActivity(intent2);
             finish();
         }
@@ -1375,6 +1372,8 @@ public class SaleVoucherAddItemActivity extends AppCompatActivity implements ZBa
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, ExpandableItemListActivity.class);
+                FirstPageActivity.posSetting = false;
+                FirstPageActivity.posNotifyAdapter = false;
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

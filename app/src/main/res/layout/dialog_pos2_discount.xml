@@ -33,13 +33,13 @@
                     android:gravity="center"
                     android:weightSum="1">
                     <com.lkintechnology.mBilling.utils.BuzzTextView
+                        android:id="@+id/dialog_title"
                         style="@style/Gotham_Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.8"
                         android:gravity="center"
                         android:layout_marginLeft="40dp"
-                        android:text="Add Discount"
                         android:textColor="#000"
                         android:textSize="18sp" />
 

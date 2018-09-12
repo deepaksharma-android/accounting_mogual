@@ -52,6 +52,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
     Double sale_price_main = 0.0;
     public Dialog dialog;
     Double finalCal = 0.00;
+    Double first = 0.0, second = 0.0, third = 0.0;
 
     public ItemExpandableListAdapter(Context context, List<String> listDataHeader,
                                      HashMap<String, List<String>> listChildData, HashMap<Integer, List<String>> listDataChildSalePriceMain, int comingFromPOS) {
@@ -149,17 +150,17 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             txtListChild.setText(name + " (qty: " + quantity + ")");
             //mItemAmount.performClick();
             mItemAmount.setText("₹ " + sale_price_main);
-            if (FirstPageActivity.fromPos2){
+            if (FirstPageActivity.fromPos2) {
                 add_price_layout.setVisibility(View.VISIBLE);
                 add_price_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String pos = groupPosition + "," + childPosition;
                         Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
-                       showpopup(groupPosition,childPosition,sale_price_main);
+                        showpopup(groupPosition, childPosition, sale_price_main);
                     }
                 });
-            }else {
+            } else {
                 add_price_layout.setVisibility(View.GONE);
             }
             mItemTotal.setText("₹ 0.0");
@@ -195,7 +196,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             mItemTotal.setText("₹ " + 0.0);
                             mQuantity.setText("0");
                             ExpandableItemListActivity.mMapPosItem.put(pos, "0");
-                        }else {
+                        } else {
                             ExpandableItemListActivity.mMapPosItem.put(pos, mQuantity.getText().toString());
                             System.out.println(ExpandableItemListActivity.mMapPosItem.toString());
                         }
@@ -267,8 +268,8 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             });
 
-            if (this._listDataHeader.size()-1==mGroupPosition && this._listDataChild.get(this._listDataHeader.get(groupPosition)).size()-1==mChildPosition){
-              ExpandableItemListActivity.mListMapForItemSale.clear();
+            if (this._listDataHeader.size() - 1 == mGroupPosition && this._listDataChild.get(this._listDataHeader.get(groupPosition)).size() - 1 == mChildPosition) {
+                ExpandableItemListActivity.mListMapForItemSale.clear();
             }
 
             /*mainLayout.setOnClickListener(new View.OnClickListener() {
@@ -412,7 +413,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return a;
     }
 
-    public void showpopup(int groupPosition, int childPosition, Double sale_price_main){
+    public void showpopup(int groupPosition, int childPosition, Double sale_price_main) {
         dialog = new Dialog(_context);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_pos2_discount);
@@ -424,65 +425,63 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         EditText mTotal_amount = (EditText) dialog.findViewById(R.id.total_amount);
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
-        mRate.setText(""+sale_price_main);
+        TextView mDialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+
+        mRate.setText("" + sale_price_main);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
                 dialog.dismiss();
             }
         });
 
-        // if button is clicked, close the custom dialog
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
-
-                Double rate = Double.valueOf(mRate.getText().toString());
-                Double discount = Double.valueOf(mDiscount.getText().toString());
-                Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
                 Double finalCal = 0.0;
-                if (rate==0){
-                    finalCal = sale_price_main;
-                }else {
-                    if (discount!=0){
-                        finalCal = rate - ((rate*discount)/100);
-                    }
-                    if (discount_value!=0){
-                        finalCal = rate - discount_value;
-                    }
-                    if (discount!=0 && discount_value!=0 ){
-                        finalCal = sale_price_main;
+                Double finalRate = 0.0;
+                finalCal = Double.valueOf(mTotal_amount.getText().toString());
+                finalCal = Double.valueOf(mRate.getText().toString());
+                if (finalCal != 0) {
+                    if (finalCal!=finalRate){
+                        String childText = (String) getChild(groupPosition, childPosition);
+                        String arr[] = childText.split(",");
+                        List<String> list = new ArrayList<>();
+                        List<String> listSalePrice = new ArrayList<>();
+                        list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+                        listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
+                        list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
+                        listSalePrice.set(childPosition, String.valueOf(finalCal));
+                        listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                        ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                        ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
+                        notifyDataSetChanged();
                     }
                 }
-                String childText = (String) getChild(groupPosition, childPosition);
-                String arr[] = childText.split(",");
-                List<String> list = new ArrayList<>();
-                List<String> listSalePrice = new ArrayList<>();
-                list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
-                listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
-                if (finalCal==0){
-                    list.set(childPosition, arr[0]+","+arr[1]+","+arr[2]+","+arr[3]);
-                    listSalePrice.set(childPosition,arr[2]);
-                }else {
-                    list.set(childPosition, arr[0]+","+arr[1]+","+finalCal+","+arr[3]);
-                    listSalePrice.set(childPosition,String.valueOf(finalCal));
+
+               /* if (finalCal == 0) {
+                    list.set(childPosition, arr[0] + "," + arr[1] + "," + arr[2] + "," + arr[3]);
+                    listSalePrice.set(childPosition, arr[2]);
+                } else {
+                    list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
+                    listSalePrice.set(childPosition, String.valueOf(finalCal));
                 }
-                listDataChildSalePriceMain.put(groupPosition,listSalePrice);
-                ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition,listSalePrice);
+                listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
                 ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
-                notifyDataSetChanged();
+                notifyDataSetChanged();*/
                 dialog.dismiss();
             }
         });
 
-        /* mDiscount.addTextChangedListener(new TextWatcher() {
+        mDiscount.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -491,9 +490,40 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mDiscount.getText().toString().isEmpty()) {
+                    if (!mDiscount.getText().toString().equals("")) {
+                        Double rate = Double.valueOf(mRate.getText().toString());
+                        Double discount = Double.valueOf(mDiscount.getText().toString());
+                        Double discount_value = 0.0;
+                        if (!mDiscount_value.getText().toString().isEmpty()) {
+                            discount_value = Double.valueOf(mDiscount_value.getText().toString());
+                        }
 
+                        if (rate == 0) {
+                            finalCal = sale_price_main;
+                        } else {
+                            if (discount != 0) {
+                                finalCal = rate - ((rate * discount) / 100);
+                            }
+                            if (discount_value != 0) {
+                                finalCal = rate - discount_value;
+                            }
+                            if (discount != 0 && discount_value != 0) {
+                                finalCal = sale_price_main;
+                            }
+                        }
+                        mTotal_amount.setText("" + finalCal);
+                    }
                 } else {
                     mDiscount_value.setText("0.0");
+                    if (!mRate.getText().toString().isEmpty()) {
+                        if (!mRate.getText().toString().equals("")) {
+                            mTotal_amount.setText(mRate.getText().toString());
+                        } else {
+                            mTotal_amount.setText("0.0");
+                        }
+                    } else {
+                        mTotal_amount.setText("0.0");
+                    }
                 }
             }
 
@@ -511,10 +541,40 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mDiscount.getText().toString().isEmpty()) {
-
+                if (!mDiscount_value.getText().toString().isEmpty()) {
+                    if (!mDiscount_value.getText().toString().equals("")) {
+                        Double rate = Double.valueOf(mRate.getText().toString());
+                        Double discount = 0.0;
+                        if (!mDiscount.getText().toString().isEmpty()) {
+                            discount = Double.valueOf(mDiscount.getText().toString());
+                        }
+                        Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
+                        if (rate == 0) {
+                            finalCal = sale_price_main;
+                        } else {
+                            if (discount != 0) {
+                                finalCal = rate - ((rate * discount) / 100);
+                            }
+                            if (discount_value != 0) {
+                                finalCal = rate - discount_value;
+                            }
+                            if (discount != 0 && discount_value != 0) {
+                                finalCal = sale_price_main;
+                            }
+                        }
+                        mTotal_amount.setText("" + finalCal);
+                    }
                 } else {
                     mDiscount.setText("0.0");
+                    if (!mRate.getText().toString().isEmpty()) {
+                        if (!mRate.getText().toString().equals("")) {
+                            mTotal_amount.setText(mRate.getText().toString());
+                        } else {
+                            mTotal_amount.setText("0.0");
+                        }
+                    } else {
+                        mTotal_amount.setText("0.0");
+                    }
                 }
             }
 
@@ -522,18 +582,31 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             public void afterTextChanged(Editable s) {
 
             }
-        });*/
+        });
 
+        mRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mRate.getText().toString().isEmpty()) {
+                    if (!mRate.getText().toString().equals("")) {
+                        mTotal_amount.setText(mRate.getText().toString());
+                    }
+
+                } else {
+                    mTotal_amount.setText("0.0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         dialog.show();
-
-      /*  if (finalCal==0){
-            return sale_price_main;
-        }else {
-            return finalCal;
-        }*/
-    }
-
-    void setSalePriceMain(String a){
-
     }
 }
