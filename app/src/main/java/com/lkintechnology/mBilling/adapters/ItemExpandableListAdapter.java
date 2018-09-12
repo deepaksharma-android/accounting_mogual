@@ -157,7 +157,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                     public void onClick(View v) {
                         String pos = groupPosition + "," + childPosition;
                         Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
-                        showpopup(groupPosition, childPosition, sale_price_main);
+                        showpopup(groupPosition, childPosition, sale_price_main,mQuantity.getText().toString());
                     }
                 });
             } else {
@@ -413,7 +413,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return a;
     }
 
-    public void showpopup(int groupPosition, int childPosition, Double sale_price_main) {
+    public void showpopup(int groupPosition, int childPosition, Double sale_price_main,String quantity) {
         dialog = new Dialog(_context);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_pos2_discount);
@@ -454,13 +454,27 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         String arr[] = childText.split(",");
                         List<String> list = new ArrayList<>();
                         List<String> listSalePrice = new ArrayList<>();
-                        list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+
                         listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
-                        list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
                         listSalePrice.set(childPosition, String.valueOf(finalCal));
                         listDataChildSalePriceMain.put(groupPosition, listSalePrice);
                         ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+
+                        list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+                        list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
+                        _listDataChild.put(_listDataHeader.get(groupPosition), list);
                         ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
+
+                        if (quantity!=null){
+                            if (!quantity.equals("")){
+                                Double mQuantity = Double.valueOf(quantity);
+                                if (mQuantity!=0){
+                                    Double a = getTotal() - (Double.valueOf(arr[2])*mQuantity);
+                                    Double total = a + (finalCal*mQuantity);
+                                    ExpandableItemListActivity.mTotal.setText("Total : " + total);
+                                }
+                            }
+                        }
                         notifyDataSetChanged();
                     }
                 }
