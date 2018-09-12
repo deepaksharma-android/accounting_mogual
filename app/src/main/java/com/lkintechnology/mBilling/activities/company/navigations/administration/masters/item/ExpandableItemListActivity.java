@@ -117,7 +117,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     HashMap<Integer, List<String>> listDataChildDesc;
     HashMap<Integer, List<String>> listDataChildUnit;
     HashMap<Integer, List<String>> listDataChildAlternateUnit;
-    HashMap<Integer, List<String>> listDataChildSalePriceMain;
+    public static HashMap<Integer, List<String>> listDataChildSalePriceMain;
     HashMap<Integer, List<String>> listDataChildSalePriceAlternate;
     HashMap<Integer, List<Boolean>> listDataChildSerialWise;
     HashMap<Integer, List<Boolean>> listDataChildBatchWise;

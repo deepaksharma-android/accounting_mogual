@@ -466,15 +466,16 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 List<String> list = new ArrayList<>();
                 List<String> listSalePrice = new ArrayList<>();
                 list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
-                listSalePrice = listDataChildSalePriceMain.get(_listDataHeader.get(groupPosition));
+                listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
                 if (finalCal==0){
                     list.set(childPosition, arr[0]+","+arr[1]+","+arr[2]+","+arr[3]);
-                   // listSalePrice.set(childPosition,arr[2]);
+                    listSalePrice.set(childPosition,arr[2]);
                 }else {
                     list.set(childPosition, arr[0]+","+arr[1]+","+finalCal+","+arr[3]);
-                   // listSalePrice.set(childPosition,String.valueOf(finalCal));
+                    listSalePrice.set(childPosition,String.valueOf(finalCal));
                 }
-               // listDataChildSalePriceMain.put(groupPosition,listSalePrice);
+                listDataChildSalePriceMain.put(groupPosition,listSalePrice);
+                ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition,listSalePrice);
                 ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
                 notifyDataSetChanged();
                 dialog.dismiss();
