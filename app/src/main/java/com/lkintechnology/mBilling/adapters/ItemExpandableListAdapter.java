@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity.expListView;
+import static com.lkintechnology.mBilling.activities.company.navigations.administration.masters.item.ExpandableItemListActivity.listAdapter;
 
 public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -146,22 +147,19 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
 
             txtListChild.setText(name + " (qty: " + quantity + ")");
+            //mItemAmount.performClick();
+            mItemAmount.setText("₹ " + sale_price_main);
             if (FirstPageActivity.fromPos2){
-                mItemAmount.setText("₹ " + sale_price_main);
                 add_price_layout.setVisibility(View.VISIBLE);
                 add_price_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String pos = groupPosition + "," + childPosition;
                         Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
-                        Double itemPrice = showpopup(pos,sale_price_main);
-                        if (itemPrice!=0){
-                            mItemAmount.setText("₹ " + itemPrice);
-                        }
+                       showpopup(groupPosition,childPosition,sale_price_main);
                     }
                 });
             }else {
-                mItemAmount.setText("₹ " + sale_price_main);
                 add_price_layout.setVisibility(View.GONE);
             }
             mItemTotal.setText("₹ 0.0");
@@ -414,7 +412,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return a;
     }
 
-    public Double showpopup(String pos,Double sale_price_main){
+    public void showpopup(int groupPosition, int childPosition, Double sale_price_main){
         dialog = new Dialog(_context);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_pos2_discount);
@@ -437,7 +435,53 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
-       /* mDiscount.addTextChangedListener(new TextWatcher() {
+        // if button is clicked, close the custom dialog
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                Double rate = Double.valueOf(mRate.getText().toString());
+                Double discount = Double.valueOf(mDiscount.getText().toString());
+                Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
+                Double finalCal = 0.0;
+                if (rate==0){
+                    finalCal = sale_price_main;
+                }else {
+                    if (discount!=0){
+                        finalCal = rate - ((rate*discount)/100);
+                    }
+                    if (discount_value!=0){
+                        finalCal = rate - discount_value;
+                    }
+                    if (discount!=0 && discount_value!=0 ){
+                        finalCal = sale_price_main;
+                    }
+                }
+                String childText = (String) getChild(groupPosition, childPosition);
+                String arr[] = childText.split(",");
+                List<String> list = new ArrayList<>();
+                List<String> listSalePrice = new ArrayList<>();
+                list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+                listSalePrice = listDataChildSalePriceMain.get(_listDataHeader.get(groupPosition));
+                if (finalCal==0){
+                    list.set(childPosition, arr[0]+","+arr[1]+","+arr[2]+","+arr[3]);
+                   // listSalePrice.set(childPosition,arr[2]);
+                }else {
+                    list.set(childPosition, arr[0]+","+arr[1]+","+finalCal+","+arr[3]);
+                   // listSalePrice.set(childPosition,String.valueOf(finalCal));
+                }
+               // listDataChildSalePriceMain.put(groupPosition,listSalePrice);
+                ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
+                notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+
+        /* mDiscount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -479,40 +523,16 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });*/
 
-        // if button is clicked, close the custom dialog
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager inputManager = (InputMethodManager)_context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(v.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-
-                Double rate = Double.valueOf(mRate.getText().toString());
-                Double discount = Double.valueOf(mDiscount.getText().toString());
-                Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
-                if (rate==0){
-                    finalCal = sale_price_main;
-                }else {
-                    if (discount!=0){
-                        finalCal = rate*discount/100;
-                    }
-                    if (discount_value!=0){
-                        finalCal = rate - discount_value;
-                    }
-                    if (discount!=0 && discount_value!=0 ){
-                        finalCal = sale_price_main;
-                    }
-                }
-                dialog.dismiss();
-            }
-        });
-
         dialog.show();
 
-        if (finalCal==0){
+      /*  if (finalCal==0){
             return sale_price_main;
         }else {
             return finalCal;
-        }
+        }*/
+    }
+
+    void setSalePriceMain(String a){
+
     }
 }

@@ -112,7 +112,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     LinearLayout submit_layout;
     public static ItemExpandableListAdapter listAdapter;
     List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    public static HashMap<String, List<String>> listDataChild;
     HashMap<Integer, List<String>> listDataChildId;
     HashMap<Integer, List<String>> listDataChildDesc;
     HashMap<Integer, List<String>> listDataChildUnit;
