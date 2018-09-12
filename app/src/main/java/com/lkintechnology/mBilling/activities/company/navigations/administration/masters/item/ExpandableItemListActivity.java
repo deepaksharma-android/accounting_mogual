@@ -345,7 +345,6 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                             mMap.put("mrp", mrp);
                                                             mMap.put("sr_no", "");
                                                             mMap.put("serial_number", sale_item_serial_arr);
-
                                                             mMap.put("rate", appUser.sale_item_serial_arr);
                                                             mMap.put("discount", "0");
                                                             mMap.put("value", "0.0");
