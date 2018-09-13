@@ -142,7 +142,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static List<Map<String, String>> mListMapForBillSale;
     public static ArrayList<String> billSundryTotal;
     public static Boolean forSaleType = false;
-    public static List<Map<String,String>> listDiscountValue;
+    public static HashMap<Integer, List<String>> listDiscount;
+    public static HashMap<Integer, List<String>> listValue;
+    public static HashMap<Integer, List<String>> listRate;
     // Boolean fromsalelist;
 
 
@@ -150,6 +152,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     AppUser appUser;
     Snackbar snackbar;
     List<String> name;
+    List<String> discount;
+    List<String> rate;
+    List<String> value;
     List<String> id;
     List<String> description;
     List<String> unit;
@@ -285,7 +290,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                         Double sales_price_main = Double.valueOf(listDataChildSalePriceMain.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
                                                         String quantity = mMapPosItem.get(pos).toString();
                                                         total = sales_price_main * Double.valueOf(quantity);
-
+                                                        Double mDicount = Double.valueOf(listDiscount.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                                                        Double value = Double.valueOf(listValue.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
+                                                        Double rate = Double.valueOf(listRate.get(Integer.parseInt(groupid)).get(Integer.parseInt(childid)));
                                                         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
                                                             Double item_tax = (Double.valueOf(total) * taxSplit(tax)) / 100;
                                                             Double taxInclude = Double.valueOf(total) + item_tax;
@@ -346,13 +353,12 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                             mMap.put("mrp", mrp);
                                                             mMap.put("sr_no", "");
                                                             mMap.put("serial_number", sale_item_serial_arr);
-                                                            mMap.put("rate", appUser.sale_item_serial_arr);
-                                                            mMap.put("discount", "0");
-                                                            mMap.put("value", "0.0");
                                                             mMap.put("sale_unit", main_unit);
                                                             mMap.put("unit", "Main Unit");
-                                                            mMap.put("rate", sales_price_main);
                                                             mMap.put("unit_list", mUnitList);
+                                                            mMap.put("rate", rate);
+                                                            mMap.put("discount",mDicount);
+                                                            mMap.put("value",value);
 
 
                                                             // mMap.put("unit", mSpinnerUnit.getSelectedItem().toString());
@@ -585,6 +591,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             listDataChildId = new HashMap<Integer, List<String>>();
             listDataChildMrp = new HashMap<Integer, List<String>>();
             listDataTax = new HashMap<Integer, List<String>>();
+            listDiscount = new HashMap<>();
+            listValue = new HashMap<>();
+            listRate = new HashMap<>();
             if (response.getOrdered_items().size() == 0) {
                 expListView.setVisibility(View.GONE);
                 error_layout.setVisibility(View.VISIBLE);
@@ -595,6 +604,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
             for (int i = 0; i < response.getOrdered_items().size(); i++) {
                 listDataHeader.add(response.getOrdered_items().get(i).getGroup_name());
                 name = new ArrayList<>();
+                discount = new ArrayList<>();
+                value = new ArrayList<>();
+                rate = new ArrayList<>();
                 description = new ArrayList<>();
                 unit = new ArrayList<>();
                 salesPriceMain = new ArrayList<>();
@@ -624,7 +636,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
 
                     nameList.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getName());
                     idList.add(String.valueOf(i) + "," + String.valueOf(j));
-
+                    discount.add("0.0");
+                    value.add("0.0");
+                    rate.add("0.0");
                     if (response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description() != null) {
                         description.add(response.getOrdered_items().get(i).getData().get(j).getAttributes().getItem_description());
                     } else {
@@ -783,6 +797,9 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                 listDataChildMrp.put(i, mrp);
                 listDataTax.put(i, tax);
                 listDataBarcode.put(i, barcode);
+                listDiscount.put(i,discount);
+                listValue.put(i,value);
+                listRate.put(i,rate);
             }
             listAdapter = new ItemExpandableListAdapter(this, listDataHeader, listDataChild, listDataChildSalePriceMain, ExpandableItemListActivity.comingFrom);
 

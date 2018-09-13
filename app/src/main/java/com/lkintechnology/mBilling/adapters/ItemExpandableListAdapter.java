@@ -156,9 +156,20 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 add_price_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String pos = groupPosition + "," + childPosition;
-                        Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
-                        showpopup(groupPosition, childPosition, sale_price_main, mQuantity.getText().toString());
+
+                        if (!mQuantity.getText().toString().equals("") && !mQuantity.getText().toString().equals("0")) {
+                            final String childText = (String) getChild(groupPosition, childPosition);
+                            String arr[] = childText.split(",");
+                            String name = arr[0];
+                            String quantity = arr[1];
+                            String item_id = arr[3];
+                           // Double sale_price_main = Double.valueOf(listDataChildSalePriceMain.get(groupPosition).get(childPosition));
+                            Double sale_price_main = Double.valueOf(arr[2]);
+                            showpopup(groupPosition, childPosition, sale_price_main, mQuantity.getText().toString(), name);
+                        } else {
+                            Toast.makeText(_context, "Please item add quantity!!!", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
             } else {
@@ -415,7 +426,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         return a;
     }
 
-    public void showpopup(int groupPosition, int childPosition, Double sale_price_main, String quantity) {
+    public void showpopup(int groupPosition, int childPosition, Double sale_price_main, String quantity, String item_name) {
         dialog = new Dialog(_context);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_pos2_discount);
@@ -428,16 +439,29 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
         LinearLayout submit = (LinearLayout) dialog.findViewById(R.id.submit);
         LinearLayout close = (LinearLayout) dialog.findViewById(R.id.close);
         TextView mDialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+        mDialog_title.setText("Item Name : " + item_name);
+        String discount = ExpandableItemListActivity.listDiscount.get(groupPosition).get(childPosition);
+        String mValue = ExpandableItemListActivity.listValue.get(groupPosition).get(childPosition);
+        String rate = ExpandableItemListActivity.listRate.get(groupPosition).get(childPosition);
+        mDiscount.setText(discount);
+        mDiscount_value.setText(mValue);
+        mTotal_amount.setText(""+sale_price_main);
+        if (Double.valueOf(rate)!=0){
+            mRate.setText(rate);
+        }else {
+            mRate.setText(""+sale_price_main);
+        }
 
-        mRate.setText("" + sale_price_main);
-        mTotal_amount.setText("" + sale_price_main);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                InputMethodManager inputManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-                dialog.dismiss();
+            public void onClick(View v) {
+                {
+                    InputMethodManager inputManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    dialog.dismiss();
+
+                }
             }
         });
 
@@ -455,39 +479,51 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                 finalRate = Double.valueOf(mRate.getText().toString());
                 discount_value = Double.valueOf(mDiscount_value.getText().toString());
                 discount = Double.valueOf(mDiscount.getText().toString());
+                String pos = groupPosition + "," + childPosition;
                 if (finalCal != 0) {
-                   // if (finalCal != finalRate) {
-                        String childText = (String) getChild(groupPosition, childPosition);
-                        String arr[] = childText.split(",");
-                        List<String> list = new ArrayList<>();
-                        List<String> listSalePrice = new ArrayList<>();
-                        ExpandableItemListActivity.listDiscountValue = new ArrayList<>();
-                        listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
-                        listSalePrice.set(childPosition, String.valueOf(finalCal));
-                        listDataChildSalePriceMain.put(groupPosition, listSalePrice);
-                        ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                    // if (finalCal != finalRate) {
+                    String childText = (String) getChild(groupPosition, childPosition);
+                    String arr[] = childText.split(",");
+                    List<String> list = new ArrayList<>();
+                    List<String> listSalePrice = new ArrayList<>();
+                    List<String> listDiscount = new ArrayList<>();
+                    List<String> listValue = new ArrayList<>();
+                    List<String> listRate = new ArrayList<>();
 
-                        list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
-                        list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
-                        _listDataChild.put(_listDataHeader.get(groupPosition), list);
-                        ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
+                    listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
+                    listSalePrice.set(childPosition, String.valueOf(finalCal));
+                    listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                    ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
 
-                       /* Map map = new HashMap();
-                            map.put("discount",discount);
-                            map.put("value",discount);*/
+                    list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+                    list.set(childPosition, arr[0] + "," + arr[1] + "," + finalCal + "," + arr[3]);
+                    _listDataChild.put(_listDataHeader.get(groupPosition), list);
+                    ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
 
-                        if (quantity != null) {
-                            if (!quantity.equals("")) {
-                                Double mQuantity = Double.valueOf(quantity);
-                                if (mQuantity != 0) {
-                                    Double a = getTotal() - (Double.valueOf(arr[2]) * mQuantity);
-                                    Double total = a + (finalCal * mQuantity);
-                                    ExpandableItemListActivity.mTotal.setText("Total : " + String.format("%.2f", total));
-                                }
+                    listDiscount = ExpandableItemListActivity.listDiscount.get(groupPosition);
+                    listDiscount.set(childPosition, String.valueOf(discount));
+                    ExpandableItemListActivity.listDiscount.put(groupPosition, listDiscount);
+
+                    listValue = ExpandableItemListActivity.listValue.get(groupPosition);
+                    listValue.set(childPosition, String.valueOf(discount_value));
+                    ExpandableItemListActivity.listValue.put(groupPosition, listValue);
+
+                    listRate = ExpandableItemListActivity.listRate.get(groupPosition);
+                    listRate.set(childPosition, String.valueOf(finalRate));
+                    ExpandableItemListActivity.listRate.put(groupPosition, listRate);
+
+                    if (quantity != null) {
+                        if (!quantity.equals("")) {
+                            Double mQuantity = Double.valueOf(quantity);
+                            if (mQuantity != 0) {
+                                Double a = getTotal() - (Double.valueOf(arr[2]) * mQuantity);
+                                Double total = a + (finalCal * mQuantity);
+                                ExpandableItemListActivity.mTotal.setText("Total : " + String.format("%.2f", total));
                             }
                         }
-                        notifyDataSetChanged();
-                  //  }
+                    }
+                    notifyDataSetChanged();
+                    //  }
                 }
 
                /* if (finalCal == 0) {
@@ -525,9 +561,10 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
 
                         if (discount != 0) {
                             finalCal = rate - ((rate * discount) / 100);
-                            mDiscount_value.setText(""+(rate * discount) / 100);
+                            mDiscount_value.setText("" + (rate * discount) / 100);
+                            mTotal_amount.setText("" + finalCal);
                         }
-                        mTotal_amount.setText("" + finalCal);
+
                       /*  if (rate == 0) {
                             finalCal = sale_price_main;
                         } else {
@@ -580,8 +617,9 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         Double discount_value = Double.valueOf(mDiscount_value.getText().toString());
                         if (discount_value != 0) {
                             finalCal = rate - discount_value;
+                            mTotal_amount.setText("" + finalCal);
                         }
-                        mTotal_amount.setText("" + finalCal);
+
                        /* if (rate == 0) {
                             finalCal = sale_price_main;
                         } else {
@@ -629,6 +667,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         mTotal_amount.setText(mRate.getText().toString());
                         mDiscount.setText("0.0");
                         mDiscount_value.setText("0.0");
+                        finalCal = Double.valueOf(mTotal_amount.getText().toString());
                     }
                 } else {
                     mTotal_amount.setText("0.0");
