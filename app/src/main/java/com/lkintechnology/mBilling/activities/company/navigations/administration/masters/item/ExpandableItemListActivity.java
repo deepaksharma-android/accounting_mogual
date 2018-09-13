@@ -142,6 +142,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static List<Map<String, String>> mListMapForBillSale;
     public static ArrayList<String> billSundryTotal;
     public static Boolean forSaleType = false;
+    public static List<Map<String,String>> listDiscountValue;
     // Boolean fromsalelist;
 
 
