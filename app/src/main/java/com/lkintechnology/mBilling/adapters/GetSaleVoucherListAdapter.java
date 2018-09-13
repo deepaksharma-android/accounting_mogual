@@ -136,6 +136,7 @@ public class GetSaleVoucherListAdapter extends RecyclerView.Adapter<GetSaleVouch
                         EventBus.getDefault().post(new EventForVoucherClick(s));
                     } else {
                         if (data.get(position).getAttributes().getPos()) {
+                            FirstPageActivity.fromPos2 = true;
                             Preferences.getInstance(context).setUpdate("1");
                             AppUser appUser = LocalRepositories.getAppUser(context);
                             appUser.edit_sale_voucher_id = data.get(position).getId();

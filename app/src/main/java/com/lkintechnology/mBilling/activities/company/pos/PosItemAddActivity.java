@@ -418,6 +418,7 @@ public class PosItemAddActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        ExpandableItemListActivity.pos2Edit = false;
         FirstPageActivity.posSetting = true;
         FirstPageActivity.posNotifyAdapter = true;
         ExpandableItemListActivity.mChildCheckStates.clear();
@@ -434,6 +435,7 @@ public class PosItemAddActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                ExpandableItemListActivity.pos2Edit = false;
                 FirstPageActivity.posSetting = true;
                 FirstPageActivity.posNotifyAdapter = true;
                 ExpandableItemListActivity.mChildCheckStates.clear();

@@ -144,6 +144,38 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                         getChecked[mChildPosition] = mQuantity.getText().toString();
                         ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
+
+
+                        if (ExpandableItemListActivity.pos2Edit){
+                            List<String> list = new ArrayList<>();
+                            List<String> listSalePrice = new ArrayList<>();
+                            List<String> listDiscount = new ArrayList<>();
+                            List<String> listValue = new ArrayList<>();
+                            List<String> listRate = new ArrayList<>();
+
+                            sale_price_main = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("sales_price_main").toString());
+                            listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
+                            listSalePrice.set(childPosition, ""+sale_price_main);
+                            listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                            ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+
+                            list = ExpandableItemListActivity.listDataChild.get(_listDataHeader.get(groupPosition));
+                            list.set(childPosition, arr[0] + "," + arr[1] + "," + String.valueOf(sale_price_main) + "," + arr[3]);
+                            _listDataChild.put(_listDataHeader.get(groupPosition), list);
+                            ExpandableItemListActivity.listDataChild.put(_listDataHeader.get(groupPosition), list);
+
+                            listDiscount = ExpandableItemListActivity.listDiscount.get(groupPosition);
+                            listDiscount.set(childPosition, String.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("discount").toString()));
+                            ExpandableItemListActivity.listDiscount.put(groupPosition, listDiscount);
+
+                            listValue = ExpandableItemListActivity.listValue.get(groupPosition);
+                            listValue.set(childPosition, String.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("value").toString()));
+                            ExpandableItemListActivity.listValue.put(groupPosition, listValue);
+
+                            listRate = ExpandableItemListActivity.listRate.get(groupPosition);
+                            listRate.set(childPosition, String.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("rate").toString()));
+                            ExpandableItemListActivity.listRate.put(groupPosition, listRate);
+                        }
                     }
                 }
             }

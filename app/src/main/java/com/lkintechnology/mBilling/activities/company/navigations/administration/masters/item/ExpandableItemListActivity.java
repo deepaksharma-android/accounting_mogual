@@ -145,6 +145,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public static HashMap<Integer, List<String>> listDiscount;
     public static HashMap<Integer, List<String>> listValue;
     public static HashMap<Integer, List<String>> listRate;
+    public static boolean pos2Edit;
     // Boolean fromsalelist;
 
 
@@ -194,6 +195,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
         billSundryTotal = new ArrayList<>();
         initActionbar();
         mChildCheckStates = new HashMap<Integer, String[]>();
+        pos2Edit = false;
         if (FirstPageActivity.pos) {
             ExpandableItemListActivity.comingFrom = 6;
             ExpandableItemListActivity.isDirectForItem = false;
@@ -1807,7 +1809,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
     public void getPosVoucherDetails(GetSaleVoucherDetails response) {
         mProgressDialog.dismiss();
         if (response.getStatus() == 200) {
-
+            pos2Edit = true;
             Preferences.getInstance(getApplicationContext()).setPos_date(response.getSale_voucher().getData().getAttributes().getDate());
             FirstPageActivity.pos = response.getSale_voucher().getData().getAttributes().getPos();
             appUser.arr_series.add(response.getSale_voucher().getData().getAttributes().getVoucher_series().getName());
@@ -1886,7 +1888,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                         mUnitList.add("Packaging Unit :" + Helpers.mystring(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPackaging_unit()));
                     }
                     mMap.put("total", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getPrice_after_discount()));
-                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit() != null) {
+                   /* if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit() != null) {
                         if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSale_unit().equals(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getItem_unit())) {
                             if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
                                 if (!String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()).equals("")) {
@@ -1917,6 +1919,19 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                 mMap.put("rate", "0.0");
                             }
                             mMap.put("price_selected_unit", "main");
+                        }
+                    }*/
+                    if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item() != null) {
+                        if (!String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()).equals("")) {
+                            mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getRate_item()));
+                        } else {
+                            mMap.put("rate", "0.0");
+                        }
+                    } else {
+                        if (response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main() != null) {
+                            mMap.put("rate", String.valueOf(response.getSale_voucher().getData().getAttributes().getVoucher_items().get(i).getSales_price_main()));
+                        } else {
+                            mMap.put("rate", "0.0");
                         }
                     }
 
