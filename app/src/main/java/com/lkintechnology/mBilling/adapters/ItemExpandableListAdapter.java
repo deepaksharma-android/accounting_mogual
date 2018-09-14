@@ -189,7 +189,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             }
 
             List<String> listRate = new ArrayList<>();
-            listRate = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
+            listRate = ExpandableItemListActivity.listRate.get(groupPosition);
             if (Double.valueOf(listRate.get(childPosition))!=0){
                 sale_price_main = Double.valueOf(listRate.get(childPosition));
             }
