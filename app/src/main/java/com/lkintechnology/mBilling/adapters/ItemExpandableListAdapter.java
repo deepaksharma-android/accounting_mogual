@@ -718,7 +718,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!mRate.getText().toString().isEmpty()) {
                     if (!mRate.getText().toString().equals("")) {
-                        mTotal_amount.setText(mRate.getText().toString());
+                        mTotal_amount.setText(""+Double.valueOf(mRate.getText().toString())*quantity);
                         mDiscount.setText("0.0");
                         mDiscount_value.setText("0.0");
                         finalCal = Double.valueOf(mTotal_amount.getText().toString());
