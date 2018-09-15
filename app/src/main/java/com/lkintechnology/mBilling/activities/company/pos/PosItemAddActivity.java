@@ -168,8 +168,6 @@ public class PosItemAddActivity extends AppCompatActivity {
         }
 
         if (Preferences.getInstance(getApplicationContext()).getPos_sale_type().contains("GST-MultiRate")) {
-
-
             for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
                 Map map = ExpandableItemListActivity.mListMapForItemSale.get(i);
                 String item_id = (String) map.get("item_id");
