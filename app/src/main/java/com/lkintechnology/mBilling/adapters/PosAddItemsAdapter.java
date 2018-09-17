@@ -165,7 +165,9 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                         Double rate = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("rate").toString());
                         if (mInteger==0){
                             if (discount==0){
-                                item_amount = rate - value;
+                                if (value!=0){
+                                    item_amount = rate - value;
+                                }
                             }
                         }else {
                             if (discount == 0){

@@ -322,11 +322,13 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#e2e2e2" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/pos_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
