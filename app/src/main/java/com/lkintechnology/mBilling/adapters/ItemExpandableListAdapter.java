@@ -140,6 +140,7 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
             if (ExpandableItemListActivity.mListMapForItemSale.size() > 0) {
                 for (int i = 0; i < ExpandableItemListActivity.mListMapForItemSale.size(); i++) {
                     String item_id_child = ExpandableItemListActivity.mListMapForItemSale.get(i).get("item_id").toString();
+                    String temp_sale_price = ExpandableItemListActivity.mListMapForItemSale.get(i).get("sales_price_main").toString();
                     if (item_id.equals(item_id_child)) {
                         int itemQuantity = Integer.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("quantity").toString());
                         String pos = groupPosition + "," + childPosition;
@@ -148,6 +149,13 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                         String getChecked[] = ExpandableItemListActivity.mChildCheckStates.get(mGroupPosition);
                         getChecked[mChildPosition] = mQuantity.getText().toString();
                         ExpandableItemListActivity.mChildCheckStates.put(mGroupPosition, getChecked);
+                        List<String> listSalePrice = new ArrayList<>();
+                        if (!ExpandableItemListActivity.pos2Edit){
+                            listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
+                            listSalePrice.set(childPosition, temp_sale_price);
+                            ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
+                        }
+
 
 
                         if (ExpandableItemListActivity.pos2Edit) {
@@ -155,7 +163,6 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             List<String> listDiscount = new ArrayList<>();
                             List<String> listValue = new ArrayList<>();
                             List<String> listRate = new ArrayList<>();
-                            List<String> listSalePrice = new ArrayList<>();
 
                             value = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("value").toString());
                             discount = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(i).get("discount").toString());
@@ -176,13 +183,12 @@ public class ItemExpandableListAdapter extends BaseExpandableListAdapter {
                             Double sale_price = 0.0;
                             listSalePrice = ExpandableItemListActivity.listDataChildSalePriceMain.get(groupPosition);
                             if (discount == 0) {
-                                sale_price = rate;
+                                sale_price = ((rate*itemQuantity)-value)/itemQuantity;
                             } else {
                                 sale_price = rate - ((rate * discount) / 100);
                             }
                             listSalePrice.set(childPosition, String.valueOf(sale_price));
                             ExpandableItemListActivity.listDataChildSalePriceMain.put(groupPosition, listSalePrice);
-
                         }
                     }
                 }

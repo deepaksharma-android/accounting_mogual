@@ -173,7 +173,7 @@ public class PosItemAddActivity extends AppCompatActivity {
                 String item_id = (String) map.get("item_id");
                 String tax1 = (String) map.get("tax");
                 quantity = (String) map.get("quantity");
-                Double sales_price_main = (Double) map.get("sales_price_main");
+                Double sales_price_main = Double.valueOf((String) map.get("sales_price_main"));
                 Double percentage = (Double) map.get(item_id);
                 if (percentage != 0) {
                     if (percentage == 12) {

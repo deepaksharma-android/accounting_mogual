@@ -20,6 +20,7 @@ import com.lkintechnology.mBilling.utils.Preferences;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
         String item_id = (String) map.get("item_id");
         String itemName = (String) map.get("item_name");
         String quantity = (String) map.get("quantity");
-        Double item_amount = (Double) map.get("sales_price_main");
+        Double item_amount = Double.valueOf((String) map.get("sales_price_main"));
         Double total = Double.valueOf((String) map.get("total"));
         String tax = (String) map.get("tax").toString();
         viewHolder.mItemName.setText(itemName);
@@ -89,24 +90,39 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                 String arr2 = viewHolder.mItemAmount.getText().toString();
                 String[] arr3 = arr2.split("₹ ");
                 Double item_amount = Double.valueOf(arr3[1]);
+                Double temp_item_amount = 0.0;
                 Map map = mListMap.get(position);
                 String tax = (String) map.get("tax");
                 // mMapPosItem.put(pos, mQuantity.getText().toString());
-                Double s = total + item_amount;
+                Double s = 0.0;
+                Double discount = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("discount").toString());
+                Double rate = 0.0;
+                if (discount == 0){
+                    Double value = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("value").toString());
+                    if (value!=0){
+                        rate = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("rate").toString());
+                        item_amount = Double.valueOf(String.format("% .2f", ((rate - (value / mInteger)))));
+                        ExpandableItemListActivity.mListMapForItemSale.get(position).put("sales_price_main", ""+item_amount);
+                        viewHolder.mItemAmount.setText("₹ " + String.format("% .2f",item_amount));
+                        temp_item_amount = rate - item_amount;
+                    }
+                }
+                s = total + item_amount + temp_item_amount;
+
                 if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
                     Double taxValue = taxSplit(tax);
                     Double item_tax = (item_amount * taxValue) / 100;
                     Double taxInclude = total + item_tax;
                     viewHolder.mItemTotal.setText("₹ " + taxInclude);
-                    setTotal(String.valueOf(item_tax), true, 0.0, 0.0, tax);
+                    setTotal(String.valueOf(item_tax + temp_item_amount), true, 0.0, 0.0, tax);
                 } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate")) {
                     Double taxValue = taxSplit(tax);
                     Double gst = item_amount * taxValue / 100;
                     viewHolder.mItemTotal.setText("₹ " + s);
-                    setTotal(String.valueOf(item_amount), true, gst, taxValue, tax);
+                    setTotal(String.valueOf(item_amount + temp_item_amount), true, gst, taxValue, tax);
                 } else {
                     viewHolder.mItemTotal.setText("₹ " + s);
-                    setTotal(String.valueOf(item_amount), true, 0.0, 0.0, tax);
+                    setTotal(String.valueOf(item_amount + temp_item_amount), true, 0.0, 0.0, tax);
                 }
                 ExpandableItemListActivity.mListMapForItemSale.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
                 mListMap.get(position).put("quantity", viewHolder.mQuantity.getText().toString());
@@ -143,25 +159,44 @@ public class PosAddItemsAdapter extends RecyclerView.Adapter<PosAddItemsAdapter.
                         String arr2 = viewHolder.mItemAmount.getText().toString();
                         String[] arr3 = arr2.split("₹ ");
                         Double item_amount = Double.valueOf(arr3[1]);
+                        Double temp_item_amount = 0.0;
+                        Double discount = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("discount").toString());
+                        Double value = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("value").toString());
+                        Double rate = Double.valueOf(ExpandableItemListActivity.mListMapForItemSale.get(position).get("rate").toString());
+                        if (mInteger==0){
+                            if (discount==0){
+                                item_amount = rate - value;
+                            }
+                        }else {
+                            if (discount == 0){
+                                if (value!=0){
+                                    item_amount = Double.valueOf(String.format("% .2f", ((rate - (value / mInteger)))));
+                                    ExpandableItemListActivity.mListMapForItemSale.get(position).put("sales_price_main", ""+item_amount);
+                                    viewHolder.mItemAmount.setText("₹ " + String.format("% .2f",item_amount));
+                                    temp_item_amount = rate - item_amount;
+                                }
+                            }
+                        }
+
 
                         Map map = mListMap.get(position);
-                        Double s = total - item_amount;
+                        Double s = total - item_amount - temp_item_amount;
                         if (Preferences.getInstance(context).getPos_sale_type().contains("GST-ItemWise") && tax.contains("GST ")) {
                             String tax = (String) map.get("tax");
                             Double taxValue = taxSplit(tax);
                             Double item_tax = (item_amount * taxValue) / 100;
                             String taxInclude = String.format("%.2f", (total - item_tax));
                             viewHolder.mItemTotal.setText("₹ " + taxInclude);
-                            setTotal(String.valueOf(item_tax), false, 0.0, 0.0, tax);
+                            setTotal(String.valueOf(item_tax + temp_item_amount), false, 0.0, 0.0, tax);
                         } else if (Preferences.getInstance(context).getPos_sale_type().contains("GST-MultiRate") && tax.contains("GST ")) {
                             String tax = (String) map.get("tax");
                             Double taxValue = taxSplit(tax);
                             Double gst = item_amount * taxValue / 100;
                             viewHolder.mItemTotal.setText("₹ " + s);
-                            setTotal(String.valueOf(item_amount), false, gst, taxValue, tax);
+                            setTotal(String.valueOf(item_amount + temp_item_amount), false, gst, taxValue, tax);
                         } else {
                             viewHolder.mItemTotal.setText("₹ " + s);
-                            setTotal(String.valueOf(item_amount), false, 0.0, 0.0, tax);
+                            setTotal(String.valueOf(item_amount + temp_item_amount), false, 0.0, 0.0, tax);
                         }
                         if (mInteger == 0) {
                             ExpandableItemListActivity.mListMapForItemSale.remove(position);

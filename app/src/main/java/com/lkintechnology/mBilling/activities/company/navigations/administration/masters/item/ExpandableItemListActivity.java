@@ -337,7 +337,7 @@ public class ExpandableItemListActivity extends AppCompatActivity {
                                                             mMap.put("item_name", itemName);
                                                             mMap.put("total", String.valueOf(total));
                                                             mMap.put("quantity", quantity);
-                                                            mMap.put("sales_price_main", sales_price_main);
+                                                            mMap.put("sales_price_main", ""+sales_price_main);
                                                             mMap.put("tax", tax);
                                                             mMap.put(itemId, multiRate);
                                                             mMap.put("description", descr);
